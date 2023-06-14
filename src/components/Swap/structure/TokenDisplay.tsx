@@ -5,6 +5,7 @@ import TokenRow from "./TokenRow";
 import React, { useState } from "react";
 import { FiSearch } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io'
+import styled from "styled-components";
 
 interface TokenDisplayProps {
     tokenOption?: TokenTypes[];
@@ -15,6 +16,43 @@ interface TokenDisplayProps {
     setDisplay: (value: boolean) => void;
     outbound: boolean;
 }
+
+const Container = styled.div<{ display: boolean }>`
+overflow: hidden; 
+padding-left: 1rem;
+padding-right: 1rem; 
+background-color: transparent; 
+transition-duration: 300ms; 
+transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); 
+flex-direction: column; 
+justify-content: flex-start; 
+align-items: flex-start; 
+width: 100%; 
+height: 100%; 
+border-radius: 2rem;
+display: ${({ display }) => (display ? 'flex' : "hidden")};
+
+&::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &.show-scrollbar {
+    overflow: auto;
+  }
+`
 
 const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToken, setInboundToken, outbound }: TokenDisplayProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
@@ -43,11 +81,7 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
     };
 
     return (
-        <div className={`${display ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[2rem] bg-transparent px-4 overflow-auto`}
-            style={{
-                scrollbarWidth: 'none'
-            }}
-        >
+        <Container display={display}>
             <div className="w-full flex items-start justify-between px-4 py-1">
                 <h1
                     className="text-xl"
@@ -56,7 +90,7 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                     }}
                 >Select Token</h1>
                 <IoMdClose className="text-3xl cursor-pointer ease-in-out duration-100"
-                    style={{ color: isExitHover ? swapTheme.tokenBalance : swapTheme.primaryText }}
+                    style={{ color: isExitHover ? swapTheme.accentText : swapTheme.primaryText }}
                     onMouseEnter={() => {
                         setIsExitHover(true)
                     }}
@@ -69,11 +103,11 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                 />
             </div>
             <div className="w-full  px-4 py-4 flex flex-row items-center justify-between">
-                <div className="w-full h-14 rounded-lg items-center flex flex-row space-x-2"
+                <div className="w-full h-14 rounded-lg items-center flex flex-row space-x-2 ease-in-out duration-300"
                     style={{
                         backgroundColor: swapTheme.streamLengthBox,
                         borderColor: isInputHover ? 'transparent' : swapTheme.borderColor,
-                        borderWidth: swapTheme.borderWidth
+                        borderWidth: swapTheme.primaryBorderWidth
                     }}
                     onMouseEnter={() => {
                         setIsInputHover(true)
@@ -117,7 +151,7 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                     />
                 ))}
             </div>
-        </div>
+        </Container>
     )
 }
 

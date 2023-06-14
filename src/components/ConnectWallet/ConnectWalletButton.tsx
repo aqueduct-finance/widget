@@ -15,7 +15,7 @@ const ConnectWalletButton = ({ theme }: ConnectWalletButtonProps) => {
 
     return (
         <ConnectKitButton.Custom>
-            {({ isConnected, isConnecting, show, hide, address, ensName, chain }) => {
+            {({ show }) => {
                 return (
                     <button onClick={show} className="font-semibold rounded-full mt-4"
                         style={{

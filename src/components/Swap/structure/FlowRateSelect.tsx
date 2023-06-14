@@ -4,6 +4,7 @@ import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from '../../../theme/theme'
 import { Theme } from "../../../theme";
+import { borderRadius } from "polished";
 
 interface SelectProps {
     dropdownValue: GenericDropdownOption | TokenOption;
@@ -32,21 +33,30 @@ const FlowRateSelect = ({
     }, [dropdownValue])
 
     return (
-        <div className="w-full flex flex-row rounded-lg py-3 cursor-pointer"
+        <div className="w-full flex flex-row py-3 cursor-pointer"
             style={{
-                backgroundColor: swapTheme.streamLengthBox
+                backgroundColor: swapTheme.streamLengthBox,
+                borderRadius: swapTheme.secondaryBorderRadius
             }}
             onClick={() => {
                 setFlowRateDropDown(!flowRateDropDown)
             }}
         >
-            <div className="w-[90%] flex justify-center rounded-xl items-center font-bold">
+            <div className="w-[90%] flex justify-center items-center font-bold"
+                style={{
+                    borderRadius: swapTheme.accentBorderRadius
+                }}
+            >
                 <h1 className="text-xl ml-9 opacity-75"
                     style={{
                         color: swapTheme.TitleColor
                     }}>{dropdownValue.label}</h1>
             </div>
-            <div className="flex items-center justify-center w-[10%] -ml-2 rounded-xl">
+            <div className="flex items-center justify-center w-[10%] -ml-2"
+                style={{
+                    borderRadius: swapTheme.accentBorderRadius
+                }}
+            >
                 <HiChevronDown
                     className={`${flowRateDropDown ? '-rotate-180' : ''} h-6 w-6 flex flex-shrink-0 ease-in-out duration-500 opacity-75`}
                     style={{

@@ -10,6 +10,14 @@ export interface AnimatedInputRef {
     setValue: (number: string) => void;
 }
 
+
+
+
+// unused code... Animated input Ref still being passed and used in main file
+// be sure to fix
+
+
+
 interface AnimatedInputProps {
     unitSign?: JSX.Element;
     setFlip?: () => void;

@@ -14,7 +14,7 @@ interface FlowRateRowProps {
     setFlowRateDropDown: (value: boolean) => void;
 }
 
-const Container = styled.div`
+const Container = styled.div<{ theme: any }>`
 display: flex; 
 overflow: auto; 
 padding-top: 10px;
@@ -25,7 +25,7 @@ margin-top: 8px;
 flex-direction: column; 
 width: 100%; 
 height: 100%; 
-border-radius: 0px 0px 20px 20px;
+border-radius: 0px 0px ${({ theme }) => theme.accentBorderRadius} ${({ theme }) => theme.accentBorderRadius};
 
 &::-webkit-scrollbar {
     width: 0.5rem;
@@ -59,6 +59,7 @@ const FlowRateRow = ({
 
     return (
         <Container
+            theme={swapTheme}
             style={{
                 backgroundColor: swapTheme.streamLengthBox
             }}

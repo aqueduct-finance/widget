@@ -7,9 +7,12 @@ export interface Theme {
     TitleColor?: string;
     bgColor?: string;
 
-    borderRadius?: string;
-    borderWidth?: string;
+    primaryBorderRadius?: string;
+    secondaryBorderRadius?: string;
+    accentBorderRadius?: string;
     borderColor?: string;
+    primaryBorderWidth?: string;
+    secondaryBorderWidth?: string;
 
     plusBg?: string;
     plusBorder?: string;
@@ -18,18 +21,43 @@ export interface Theme {
     useMaxButton?: string;
     useMaxText?: string;
 
-    tokenBalance?: string;
+    itemBorderRadius?: string;
+
+    inputDot?: string;
+
     icons?: string;
 
     streamLengthText?: string;
     streamLengthBox?: string;
     tokenBox?: string;
 
+    dataDisplayBg?: string;
+
+    swapArrowBox?: string;
+    swapArrow?: string;
+
     primaryText?: string;
     secondaryText?: string;
+    accentText?: string;
+
+    primaryFontWeight?: string;
+    secondaryFontWeight?: string;
 
     swapButton?: string;
     swapButtonText?: string;
     swapButtonFontSize?: string;
     swapButtonPadding?: string;
+
+    secondaryMain?: string;
+
+    approveBox?: string;
+
+    loaderInner?: string;
+    loaderOuter?: string;
+}
+
+export interface Animation {
+    primaryDuration?: string;
+    secondaryDuration?: string;
+    accentDuration?: string;
 }

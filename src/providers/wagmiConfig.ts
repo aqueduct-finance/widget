@@ -1,15 +1,7 @@
-import { createConfig } from "wagmi";
 import { goerli } from "wagmi/chains";
-import { getDefaultConfig } from "connectkit";
+import { createPublicClient, http } from 'viem'
 
-export const chains = [goerli];
-
-export const config = createConfig(
-    getDefaultConfig({
-        alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_KEY,
-        walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
-
-        appName: "Aqueduct",
-        chains
-    }),
-);
+export const publicClient = createPublicClient({
+    chain: goerli,
+    transport: http()
+})

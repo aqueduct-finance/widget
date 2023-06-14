@@ -1,11 +1,13 @@
 import React from "react"
-import SwapWidget from "../components/Swap"
+import TWAMMWidget from "../components/Swap"
 import { Theme } from "../theme"
 import { TokenTypes } from "../types/TokenOption"
+import { darkTheme } from "../theme/defaultThemes"
 
 // This file is for testing, actual 'index.tsx' will just export the component
 
 const theme: Theme = {
+  ...darkTheme,
   TitleColor: "#FFFFFF",
   swapButton: "#E17BF7"
 }
@@ -22,10 +24,12 @@ const tokens: TokenTypes[] = [
 ];
 
 
-export default function Home() {
+function Home() {
   return (
     <div>
-      <SwapWidget tokenOption={tokens} theme={theme} defaultTokens={true} />
+      <TWAMMWidget theme={theme} tokenOption={tokens} defaultTokens={true} Web3Key={process.env.NEXT_PUBLIC_ALCHEMY_KEY} />
     </div>
   )
 }
+
+export default Home;

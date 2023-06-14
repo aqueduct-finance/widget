@@ -44,6 +44,7 @@ module.exports = {
         },
         animation: {
             'spin-slow': 'spin 2.5s linear infinite',
+            'fade-in': 'fade-in 300ms ease-in-out', 
           }
     },
     plugins: [],

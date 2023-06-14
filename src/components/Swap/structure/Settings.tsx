@@ -10,8 +10,6 @@ interface SettingsProps {
     setDisplay: (value: boolean) => void;
     autoWrap: boolean;
     setAutoWrap: (value: boolean) => void;
-    displaySuperTokens: boolean;
-    setDisplaySuperTokens: (value: boolean) => void;
     importTokens: boolean;
     setImportTokens: (value: boolean) => void;
     schedule: boolean;
@@ -24,8 +22,6 @@ const Settings = ({
     setDisplay,
     autoWrap,
     setAutoWrap,
-    displaySuperTokens,
-    setDisplaySuperTokens,
     importTokens,
     setImportTokens,
     schedule,
@@ -35,9 +31,8 @@ const Settings = ({
 
     const options = [
         { title: 'Auto Wrap', state: autoWrap, setState: setAutoWrap },
-        { title: 'Display Super Tokens', state: displaySuperTokens, setState: setDisplaySuperTokens },
-        { title: 'Schedule Swap', state: schedule, setState: setSchedule },
         { title: 'Import Super Tokens', state: importTokens, setState: setImportTokens },
+        { title: 'Schedule Swap', state: schedule, setState: setSchedule },
     ]
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
@@ -56,7 +51,7 @@ const Settings = ({
                     onMouseLeave={() => {
                         setIsExitHover(false)
                     }}
-                    style={{ color: isExitHover ? swapTheme.tokenBalance : swapTheme.primaryText }}
+                    style={{ color: isExitHover ? swapTheme.accentText : swapTheme.primaryText }}
                     onClick={() => {
                         setDisplay(false)
                     }}

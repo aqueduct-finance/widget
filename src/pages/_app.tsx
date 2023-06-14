@@ -58,9 +58,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
     return (
         <div>
-            <WagmiConfig config={config}>
-                <ConnectKitProvider>
-                    {/*
+            {/*
                                 <DynamicTutorialProvider>
                                     <div className="w-full h-screen text-slate-500 poppins-font bg-white dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-blueBlack dark:to-black">
                                         <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
@@ -95,22 +93,20 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                                     </div>
                                 </DynamicTutorialProvider>
                             */}
-                    <div className="w-full h-screen poppins-font bg-black">
-                        <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
-                            <main
-                                className={`flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll ${isShown && " hidden md:flex "
-                                    }`}
-                            >
-                                <div className="md:h-[50%]" />
-                                <Component
-                                    {...pageProps}
-                                />
-                                <div className="md:h-[50%]" />
-                            </main>
-                        </div>
-                    </div>
-                </ConnectKitProvider>
-            </WagmiConfig>
+            <div className="w-full h-screen poppins-font bg-black">
+                <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
+                    <main
+                        className={`flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll ${isShown && " hidden md:flex "
+                            }`}
+                    >
+                        <div className="md:h-[50%]" />
+                        <Component
+                            {...pageProps}
+                        />
+                        <div className="md:h-[50%]" />
+                    </main>
+                </div>
+            </div>
         </div>
     );
 };
