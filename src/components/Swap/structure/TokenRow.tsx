@@ -28,9 +28,9 @@ const TokenRow = ({ item, index, isHover, swapTheme, handleMouseEnter, handleMou
             />
         </div>
         <div className="flex flex-col w-full items-start px-1 justify-center">
-            <h1 className="text-lg h-1/2 mt-0.5 text-white">{item.underlyingToken ? item.underlyingToken.symbol : item.symbol}</h1>
+            <h1 className="2text-lg font-semibold text-white">{item.underlyingToken ? item.underlyingToken.symbol : item.symbol}</h1>
             <p
-                className="h-1/2"
+                className=" text-xs"
                 style={{
                     color: swapTheme.accentText,
                 }}

@@ -544,7 +544,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
 
 
     return (
-        <div className="relative flex flex-col px-6 pb-6 pt-12 z-10 w-[27rem]">
+        <div className="relative flex flex-col px-7 pb-7 pt-12 z-10 w-[27rem]">
             <RealTimeBalance
                 token={store.inboundToken}
                 setBalance={setInboundTokenBalance}

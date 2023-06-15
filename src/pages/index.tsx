@@ -9,7 +9,10 @@ import { darkTheme } from "../theme/defaultThemes"
 const theme: Theme = {
   ...darkTheme,
   TitleColor: "#FFFFFF",
-  swapButton: "#E17BF7"
+  swapButton: "#E17BF7",
+  primaryBorderRadius: '3rem',
+  secondaryBorderRadius: '0.9rem',
+  swapButtonPadding: '0.75rem'
 }
 
 const tokens: TokenTypes[] = [

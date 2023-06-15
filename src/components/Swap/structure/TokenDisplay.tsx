@@ -84,7 +84,7 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
         <Container display={display}>
             <div className="w-full flex items-start justify-between px-4 py-1">
                 <h1
-                    className="text-xl"
+                    className="text-xl font-medium"
                     style={{
                         color: swapTheme.primaryText
                     }}
