@@ -28,6 +28,8 @@ import InboundBox from "./structure/InboundBox";
 import DataDisplay from "./structure/DataDisplay";
 import StreamLengthContainer from "./structure/StreamLengthContainer";
 import SwapButton from "./structure/SwapButton";
+import DynamicInput from "./structure/DynamicInput";
+import DynamicInputBox from "./structure/DynamicInputBox";
 
 
 interface SwapWidgetProps {
@@ -600,19 +602,16 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                 swapTheme={swapTheme}
                 setShowSettings={setShowSettings}
             />
-            <div className="relative w-full flex items-center justify-center h-[104px] overflow-hidden mt-8">
-                <InputBox
+            <div className="w-full h-[104px] flex items-center justify-center monospace-font font-bold mt-8">
+                <DynamicInputBox
                     swapTheme={swapTheme}
                     setShowModal={setShowModal}
                     setOutbound={setOutbound}
-                    valueLength={valueLength}
                     fontSize={fontSize}
-                    width={width}
                     swapAmount={swapAmount}
+                    paddingPercentage={0.15}
                     setSwapAmount={setSwapAmount}
                     setUseMax={setUseMax}
-                    setPreviousLength={setPreviousLength}
-                    setValueLength={setValueLength}
                 />
             </div>
             <div className="mt-6">
