@@ -3,20 +3,14 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from "react";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 
 export interface AnimatedInputRef {
     setValue: (number: string) => void;
 }
 
-
-
-
 // unused code... Animated input Ref still being passed and used in main file
 // be sure to fix
-
-
 
 interface AnimatedInputProps {
     unitSign?: JSX.Element;

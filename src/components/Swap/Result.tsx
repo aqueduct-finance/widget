@@ -1,8 +1,6 @@
 import { Theme } from "../../theme";
 import { defaultTheme } from '../../theme/theme'
 import React, { useEffect, useState } from "react";
-import { GenericDropdownOption } from "../../types/GenericDropdownOption";
-import { TokenTypes } from "../../types/TokenOption";
 import styled, { keyframes } from "styled-components";
 import { IoMdClose } from 'react-icons/io'
 import { useStore } from "../../store";
@@ -81,6 +79,7 @@ const SwapResult = ({
 
   const store = useStore()
 
+  // FIXME: remove useEffect
   useEffect(() => {
     const delayLoading = () => {
       setTimeout(() => {
@@ -95,6 +94,7 @@ const SwapResult = ({
     delayLoading();
   }, []);
 
+  // FIXME: remove useEffect
   useEffect(() => {
     const addDot = () => {
       if (dots === '...') {

@@ -8,6 +8,7 @@ import { IoMdClose } from 'react-icons/io'
 import styled from "styled-components";
 
 interface TokenDisplayProps {
+    // TODO: Remove optional props/add default values. Optional props often reduce type safety and can increase complexity
     tokenOption?: TokenTypes[];
     display: boolean;
     theme?: Theme;

@@ -18,6 +18,7 @@ interface InputBoxProps {
     setValueLength: (value: number) => void;
 }
 
+// TODO: is this component needed? Not used anywhere right now
 const InputBox = ({
     swapTheme,
     setShowModal,

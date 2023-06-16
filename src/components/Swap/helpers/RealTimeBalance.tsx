@@ -6,7 +6,6 @@ import React, {
     useEffect,
     useState,
 } from "react";
-import { getContract, parseAbi } from 'viem'
 import { useAccount } from "wagmi";
 import { publicClient } from '../../../providers/wagmiConfig';
 import { TokenTypes } from "../../../types/TokenOption";

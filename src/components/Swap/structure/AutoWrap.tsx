@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { daiABI } from "./config";
 import { Framework } from "@superfluid-finance/sdk-core";
+// TODO: Fix imports - should bootstrap be installed?
 import {
     Button,
     Form,
@@ -25,6 +26,7 @@ import { ethers } from "ethers";
 let account;
 //will be used to approve super token contract to spend DAI
 async function daiApprove(approveAmount) {
+    // TODO: add window.ethereum global type
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
 

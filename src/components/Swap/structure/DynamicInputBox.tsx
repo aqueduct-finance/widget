@@ -52,6 +52,7 @@ const DynamicInputBox = ({
         }
     };
 
+    // FIXME: remove useEffect
     useEffect(() => {
         // width computation + animation
         const numericValue = parseFloat(swapAmount?.toString().replace(/[^0-9.]|(?<=\..*)\./g, ""));
@@ -106,6 +107,7 @@ const DynamicInputBox = ({
         }
     }, [swapAmount]);
 
+    // FIXME: remove useEffect
     useEffect(() => {
         console.log(divScrollLeft)
     }, [])

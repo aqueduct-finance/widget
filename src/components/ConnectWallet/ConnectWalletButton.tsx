@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { defaultTheme } from '../../theme/theme'
 import { Theme } from "../../theme";
 import { ConnectKitButton } from "connectkit";

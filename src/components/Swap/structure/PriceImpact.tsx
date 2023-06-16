@@ -8,6 +8,7 @@ interface PriceImpactProps {
     theme?: Theme;
 }
 
+// TODO: Is this component needed? Not used anywhere right now
 const PriceImpact = ({ length, setLength, theme }: PriceImpactProps) => {
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };

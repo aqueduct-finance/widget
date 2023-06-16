@@ -1,13 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BigNumber, ethers } from "ethers";
-import { Framework } from "@superfluid-finance/sdk-core";
-import { useAccount, useBalance, useNetwork, usePublicClient } from "wagmi";
-import getPoolAddress from "./helpers/getPool";
+import { BigNumber } from "ethers";
+import { useAccount, useBalance } from "wagmi";
 import { useStore } from "../../store";
 import RealTimeBalance from "./helpers/RealTimeBalance";
-import AnimatedInputOverlay, {
-    AnimatedInputRef,
-} from "./structure/AnimatedInputOverlay"
 import { defaultTheme } from '../../theme/theme'
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
@@ -20,7 +15,6 @@ import TokenModalProvider from "./structure/TokenModal";
 import SettingsModalProvider from "./structure/SettingsModal";
 import StartSwap from "./structure/StartSwap";
 import WidgetTitle from "./structure/WidgetTitle";
-import InputBox from "./structure/InputBox";
 import FlowRateContainer from "./structure/FlowRateContainer";
 import OutboundBox from "./structure/OutboundBox";
 import ActivateSwapArrow from "./structure/ActivateSwapArrow";
@@ -38,6 +32,10 @@ interface SwapWidgetProps {
     defaultTokens?: boolean;
 }
 
+// FIXME:
+// 1. 500 lines (700 lines before removing some unused code) is a potential sign this component is doing too much/is too complex
+// 2. Overuse of useEffects. These should all be removed as they are not reacting to an external system - https://react.dev/learn/you-might-not-need-an-effect
+// 3. Too many useStates
 const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProps) => {
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
@@ -46,17 +44,10 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         [...TestTokens] : tokenOption ? [...tokenOption] : [];
 
     const store = useStore();
-    const provider = usePublicClient();
-    const { chain } = useNetwork();
     const { address, isConnected, isDisconnected } = useAccount();
 
     // user input
-    const [displayedSwapFlowRate, setDisplayedSwapFlowRate] =
-        useState<string>("");
-    const [displayedExpectedFlowRate, setDisplayedExpectedFlowRate] =
-        useState<string>("");
-    //const [swapFlowRate, setSwapFlowRate] = useState("");
-    //const [expectedFlowRate, setExpectedFlowRate] = useState("");
+    // TODO: where is state variable?
     const [, setToken0Price] = useState(0);
     const [priceMultiple, setPriceMultiple] = useState<BigNumber>(
         BigNumber.from(0)
@@ -77,7 +68,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
     const [, setMinBalance] = useState(BigNumber.from(0));
     const [, setDeposit] = useState(BigNumber.from(0));
     const [swapActive, setSwapActive] = useState(false)
-    const [swapLoading, setSwapLoading] = useState(false)
 
     // token modal open/close
     const [showModal, setShowModal] = useState(false);
@@ -141,12 +131,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
     const [inboundTokenBalance, setInboundTokenBalance] = useState(
         BigNumber.from(0)
     );
-
-    // input refs
-    const tokenSwapFlowRateRef = useRef<AnimatedInputRef>(null);
-    const tokenExpectedFlowRateRef = useRef<AnimatedInputRef>(null);
-    const usdSwapFlowRateRef = useRef<AnimatedInputRef>(null);
-    const usdExpectedFlowRateRef = useRef<AnimatedInputRef>(null);
 
     const refreshPrice = async () => {
         setRefreshingPrice(true);
@@ -214,109 +198,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         setPriceTimeout(timeout);
     };
 
-    /*
-
-    useEffect(() => {
-        // calculate expected outgoing flowrate
-        if (swapAmount !== 0 && swapAmount !== undefined) {
-            setDisplayedExpectedFlowRate(
-                ethers.utils.formatEther(
-                    BigNumber.from(swapAmount)
-                        .mul(priceMultiple)
-                        .mul(store.flowrateUnit.value)
-                        .div(BigNumber.from(2).pow(128))
-                )
-            );
-        } else {
-            setDisplayedExpectedFlowRate("");
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [priceMultiple]);
-
-*/
-    /*
-    // update vars when tokens change
-    useEffect(() => {
-        const updateFlowVars = async () => {
-            const token0Address = store.outboundToken?.address ?? "";
-            const token1Address = store.inboundToken?.address ?? "";
-
-            if (store.inboundToken && store.outboundToken) {
-                try {
-                    const poolAddress = getPoolAddress(
-                        store.inboundToken.value,
-                        store.outboundToken?.value
-                    );
-                    setPoolExists(true);
-
-                    // init sf framework
-                    const sf = await Framework.create({
-                        chainId:
-                            (provider &&
-                                provider.chains &&
-                                provider.chains[0].id) ??
-                            goerliChainId,
-                        provider, // problem with updated wagmi and usePublicClient()
-                    });
-
-                    // get flows
-                    token0Flow.current = BigNumber.from(
-                        await sf.cfaV1.getNetFlow({
-                            superToken: token0Address,
-                            account: poolAddress,
-                            providerOrSigner: provider,
-                        })
-                    );
-                    token1Flow.current = BigNumber.from(
-                        await sf.cfaV1.getNetFlow({
-                            superToken: token1Address,
-                            account: poolAddress,
-                            providerOrSigner: provider,
-                        })
-                    );
-
-                    // get existing user flows
-                    if (address) {
-                        userToken0Flow.current = BigNumber.from(
-                            (
-                                await sf.cfaV1.getFlow({
-                                    superToken: token0Address,
-                                    sender: address,
-                                    receiver: poolAddress,
-                                    providerOrSigner: provider,
-                                })
-                            ).flowRate
-                        );
-                        userToken1Flow.current = BigNumber.from(
-                            (
-                                await sf.cfaV1.getFlow({
-                                    superToken: token1Address,
-                                    sender: address,
-                                    receiver: poolAddress,
-                                    providerOrSigner: provider,
-                                })
-                            ).flowRate
-                        );
-                    }
-
-                    await refreshPrice();
-                } catch (err) {
-                    setRefreshingPrice(false);
-                    setPoolExists(false);
-                }
-            }
-        };
-
-        if (store.inboundToken && store.outboundToken) {
-            updateFlowVars();
-        }
-        // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [store.inboundToken, store.outboundToken, address, chain]);
-
-    */
-
     // refresh spot pricing upon user input
+    // FIXME: Remove useEffect
     useEffect(() => {
         const updatePrice = async () => {
             await refreshPrice();
@@ -327,89 +210,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         // TODO: Assess missing dependency array values
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [swapFlowRate]);
-
-    const calculateExpectedFlowRate = async (
-        flowRate: string
-    ) => {
-        // set new swap flow rate
-        swapFlowRate.current =
-            flowRate === ""
-                ? BigNumber.from(0)
-                : ethers.utils
-                    .parseUnits(flowRate, "ether")
-                    .div(store.flowrateUnit.value);
-
-        // clear any existing timeouts
-        if (priceTimeout) {
-            clearTimeout(priceTimeout);
-            setPriceTimeout(undefined);
-        }
-
-        // set a timeout
-        const timeout: NodeJS.Timeout = setTimeout(async () => {
-            // refresh the price
-            await refreshPrice();
-
-            // calculate the expected output
-            const output = swapFlowRate.current
-                .mul(priceMultiple)
-                .mul(store.flowrateUnit.value)
-                .div(BigNumber.from(2).pow(128));
-            const outputString = ethers.utils.formatEther(output);
-
-            expectedFlowRate.current = output;
-            if (tokenExpectedFlowRateRef.current) {
-                tokenExpectedFlowRateRef.current.setValue(outputString);
-            }
-        }, 500);
-
-        setPriceTimeout(timeout);
-    };
-
-    const calculateSwapFlowRate = (flowRate: string, isUsd?: boolean) => {
-        // set new expected flow rate and calculate needed swap flow rate
-        expectedFlowRate.current = ethers.utils
-            .parseUnits(flowRate, "ether")
-            .div(store.flowrateUnit.value);
-
-        // clear any existing timeouts
-        if (priceTimeout) {
-            clearTimeout(priceTimeout);
-            setPriceTimeout(undefined);
-        }
-
-        // set a timeout
-        const timeout: NodeJS.Timeout = setTimeout(async () => {
-            if (expectedFlowRate.current.gt(0)) {
-                swapFlowRate.current = token0Flow.current
-                    .sub(userToken0Flow.current)
-                    .mul(BigNumber.from(10).pow(18))
-                    .div(
-                        token1Flow.current
-                            .mul(BigNumber.from(10).pow(18))
-                            .div(expectedFlowRate.current)
-                            .sub(BigNumber.from(10).pow(18))
-                    );
-            } else {
-                swapFlowRate.current = BigNumber.from(0);
-            }
-
-            // refresh the price
-            refreshPrice();
-
-            // calculate the expected output
-            const outputString = ethers.utils.formatEther(
-                swapFlowRate.current.mul(store.flowrateUnit.value)
-            );
-
-            if (tokenSwapFlowRateRef.current) {
-                tokenSwapFlowRateRef.current.setValue(outputString);
-            }
-
-        }, 500);
-
-        setPriceTimeout(timeout);
-    };
 
     const calculateBuffer = ({ expectedFlow }: { expectedFlow: number }) => {
         const bufferTime = 14400;
@@ -447,6 +247,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
 
     const [outgoingFlowRate, setOutgoingFlowRate] = useState(0);
 
+    // FIXME: Remove useEffect
     useEffect(() => {
         if (valueLength >= 7 && !useMax) {
             changeSize();
@@ -463,6 +264,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         }
     }, [valueLength, previousLength, swapAmount]);
 
+    // FIXME: Remove useEffect
     useEffect(() => {
         if (isConnected && !isDisconnected) {
             setWallet(true)
@@ -471,6 +273,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         }
     }, [isConnected, isDisconnected])
 
+    // FIXME: Remove useEffect
     useEffect(() => {
         if (store.inboundToken === store.outboundToken && outbound) {
             store.setInboundToken(null)
@@ -533,6 +336,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
 
     }, [store.inboundToken, store.outboundToken, swapAmount, length, isPayOnce, store.flowrateUnit])
 
+    // FIXME: Remove useEffect
     useEffect(() => {
         if (store.inboundToken &&
             store.outboundToken &&

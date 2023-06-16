@@ -1,4 +1,3 @@
-import { TokenTypes } from "../../../types/TokenOption";
 import { useAccount, useBalance } from 'wagmi'
 
 // some bs here with not assignable because wagmi is stupid,
@@ -8,6 +7,7 @@ interface GetBalanceProps {
     tokenOption: `0x${string}` | null;
 }
 
+// TODO: This isn't used anywhere?
 export const useGetBalance = ({ tokenOption }: GetBalanceProps) => {
 
     const user = useAccount()

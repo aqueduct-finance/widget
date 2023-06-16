@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from '../../../theme/theme'

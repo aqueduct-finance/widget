@@ -17,6 +17,7 @@ const TransactionSuccess = ({
 
     const importTokens = async () => {
 
+        // TODO: Add window.ethereum global type
         const ethereum = window.ethereum as any;
 
         try {

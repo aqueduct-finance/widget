@@ -24,6 +24,7 @@ const FlowRateSelect = ({
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
+    // FIXME: remove useEffect
     useEffect(() => {
         if (dropdownValue.label === "Pay Once") {
             setIsPayOnce(true);

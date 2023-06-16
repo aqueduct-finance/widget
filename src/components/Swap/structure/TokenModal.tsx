@@ -5,6 +5,7 @@ import { useStore } from "../../../store";
 import React from "react";
 
 interface TokenModalProviderProps {
+    // TODO: Remove optional props/add default values. Optional props often reduce type safety and can increase complexity
     tokenList?: TokenTypes[];
     showModal: boolean;
     theme?: Theme;
