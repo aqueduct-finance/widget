@@ -25,6 +25,9 @@ interface StartSwapProps {
     isApproved: boolean;
     autoWrap: boolean;
     outgoingFlowRate: number;
+    buffer: number;
+    setIsSwapSuccess: (value: boolean) => void;
+    setIsSwapFinished: (value: boolean) => void;
 }
 
 const StartSwap = ({
@@ -41,14 +44,17 @@ const StartSwap = ({
     isBufferAccepted,
     isApproved,
     autoWrap,
-    outgoingFlowRate
+    outgoingFlowRate,
+    buffer,
+    setIsSwapSuccess,
+    setIsSwapFinished,
 }: StartSwapProps) => {
 
     const store = useStore()
 
     return (
         <div
-            className={`absolute bottom-0 left-0 right-0 z-50 bg-black transition-all rounded-[2rem] duration-300 overflow-hidden ${swapActive
+            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 bg-black transition-all rounded-[2rem] duration-300 overflow-hidden ${swapActive
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}
@@ -60,6 +66,8 @@ const StartSwap = ({
                     setSwapActive={setSwapActive}
                     setIsApproved={setIsApproved}
                     setIsBufferAccepted={setIsBufferAccepted}
+                    setIsSwapSuccess={setIsSwapSuccess}
+                    setIsSwapFinished={setIsSwapFinished}
                 />
             ) : (
                 <Approve
@@ -80,6 +88,7 @@ const StartSwap = ({
                     setIsBufferAccepted={setIsBufferAccepted}
                     isApproved={isApproved}
                     setIsApproved={setIsApproved}
+                    buffer={buffer}
                 />
             )}
         </div>

@@ -5,6 +5,8 @@ import { GenericDropdownOption } from "../../types/GenericDropdownOption";
 import { TokenTypes } from "../../types/TokenOption";
 import styled, { keyframes } from "styled-components";
 import { IoMdClose } from 'react-icons/io'
+import { useStore } from "../../store";
+import flowrates from "../../utils/flowrates";
 
 const rotationAnimation = keyframes`
   0% {
@@ -61,6 +63,8 @@ interface SwapResultProps {
   setSwapActive: (value: boolean) => void;
   setIsApproved: (value: boolean) => void;
   setIsBufferAccepted: (value: boolean) => void;
+  setIsSwapSuccess: (value: boolean) => void;
+  setIsSwapFinished: (value: boolean) => void;
 }
 
 const SwapResult = ({
@@ -68,10 +72,28 @@ const SwapResult = ({
   swapActive,
   setSwapActive,
   setIsApproved,
-  setIsBufferAccepted
+  setIsBufferAccepted,
+  setIsSwapSuccess,
+  setIsSwapFinished,
 }: SwapResultProps) => {
   const [dots, setDots] = useState('');
   const [isExitHover, setIsExitHover] = useState(false);
+
+  const store = useStore()
+
+  useEffect(() => {
+    const delayLoading = () => {
+      setTimeout(() => {
+        store.setFlowrateUnit(flowrates[1])
+        store.setOutboundToken(undefined)
+        store.setInboundToken(undefined)
+        setIsSwapSuccess(true)
+        setIsSwapFinished(true)
+      }, 5000);
+    };
+
+    delayLoading();
+  }, []);
 
   useEffect(() => {
     const addDot = () => {
@@ -86,7 +108,6 @@ const SwapResult = ({
 
     return () => clearInterval(interval);
   }, [dots]);
-
 
   const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -124,5 +145,3 @@ const SwapResult = ({
 }
 
 export default SwapResult;
-
-/*<StyledLoader swapTheme={swapTheme} />*/

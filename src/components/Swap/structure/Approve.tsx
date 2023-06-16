@@ -1,12 +1,13 @@
 import { Theme } from "../../../theme";
 import { defaultTheme } from '../../../theme/theme'
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { IoMdClose } from 'react-icons/io'
 import { TokenTypes } from "../../../types/TokenOption";
 import ApproveRow from "./ApproveRow";
 import { BsCheckLg } from 'react-icons/bs'
 import { SwapText } from "../../../theme/animation";
+import { useStore } from "../../../store";
 
 interface ApproveSwapProps {
     flowrateUnit: GenericDropdownOption;
@@ -26,6 +27,7 @@ interface ApproveSwapProps {
     setIsBufferAccepted: (value: boolean) => void;
     isApproved: boolean;
     setIsApproved: (value: boolean) => void;
+    buffer: number;
 }
 
 const Approve = ({
@@ -45,10 +47,13 @@ const Approve = ({
     isBufferAccepted,
     setIsBufferAccepted,
     isApproved,
-    setIsApproved
+    setIsApproved,
+    buffer,
 }: ApproveSwapProps) => {
     const [isExitHover, setIsExitHover] = useState(false);
     const [showAnimation, setShowAnimation] = useState(false)
+
+    const store = useStore()
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -83,7 +88,7 @@ const Approve = ({
     };
 
     return (
-        <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[2rem] px-4`}>
+        <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[3rem] px-4`}>
             <div className="w-full flex flex-row items-center justify-between px-3 font-bold text-2xl text-white">
                 <h1>Approve Swap</h1>
                 <IoMdClose className="text-3xl cursor-pointer ease-in-out duration-100"
@@ -100,8 +105,8 @@ const Approve = ({
                     }}
                 />
             </div>
-            <div className="w-full h-full rounded-lg flex flex-col items-center justify-center space-y-4 px-2 py-4">
-                <div className="w-full flex flex-col space-y-5 px-3 py-6 rounded-xl ease-in-out duration-200"
+            <div className="w-full h-full rounded-lg flex flex-col items-center justify-center space-y-0 px-2 py-4">
+                <div className="w-full flex flex-col space-y-8 px-3 py-6 rounded-xl ease-in-out duration-200"
                     style={{
                         backgroundColor: "transparent"
                     }}
@@ -127,7 +132,7 @@ const Approve = ({
                             style={{
                                 color: swapTheme.primaryText,
                             }}
-                        >If you do not cancel your swap before your balance reaches zero, you will lose your 0.0472222222222212 fDAIxp buffer.</p>
+                        >If you do not cancel your swap before your balance reaches zero, you will lose your {buffer.toFixed(5)} {store.outboundToken?.underlyingToken?.symbol} buffer.</p>
                         <div className="flex flex-row space-x-2 items-center font-bold">
                             <button
                                 className="w-[25px] h-[25px] rounded-md border-[1px] focus:outline-none ease-in-out duration-300"

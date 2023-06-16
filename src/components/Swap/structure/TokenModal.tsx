@@ -18,16 +18,20 @@ const TokenModalProvider = ({
     showModal,
     setShowModal,
     outbound,
+    theme
 }: TokenModalProviderProps) => {
 
     const store = useStore()
 
     return (
         <div
-            className={`absolute bottom-0 left-0 right-0 z-50 bg-black transition-all rounded-[2rem] duration-300 ${showModal
+            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] duration-300 ${showModal
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}
+            style={{
+                backgroundColor: theme.bgColor
+            }}
         >
             <TokenDisplay
                 tokenOption={tokenList}

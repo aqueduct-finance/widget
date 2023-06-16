@@ -28,6 +28,8 @@ import InboundBox from "./structure/InboundBox";
 import DataDisplay from "./structure/DataDisplay";
 import StreamLengthContainer from "./structure/StreamLengthContainer";
 import SwapButton from "./structure/SwapButton";
+import AfterTransaction from "./structure/AfterTransaction";
+import DynamicInputBox from "./structure/DynamicInputBox";
 
 
 interface SwapWidgetProps {
@@ -125,7 +127,9 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
     const [isWallet, setWallet] = useState(false)
     const [outbound, setOutbound] = useState(false)
     const [flowRateDropDown, setFlowRateDropDown] = useState(false);
+    const [buffer, setBuffer] = useState(0);
 
+    const [isSwapSuccess, setIsSwapSuccess] = useState(false)
 
     // buffer confirmation
     const [, setAcceptedBuffer] = useState(false);
@@ -407,6 +411,13 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         setPriceTimeout(timeout);
     };
 
+    const calculateBuffer = ({ expectedFlow }: { expectedFlow: number }) => {
+        const bufferTime = 14400;
+        const bufferCost = bufferTime * expectedFlow;
+
+        setBuffer(bufferCost);
+    }
+
     const outboundBalance = useBalance({
         address: address,
         token: outboundAddress,
@@ -487,11 +498,14 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         if (swapAmount !== 0 && swapAmount !== undefined) {
             if (!isPayOnce) {
                 setOutgoingFlowRate(expectedOutFlowIndefinite)
+                calculateBuffer({ expectedFlow: expectedOutFlowIndefinite })
             } else {
                 setOutgoingFlowRate(expectedOutFlow);
+                calculateBuffer({ expectedFlow: expectedOutFlow })
             }
         } else {
             setOutgoingFlowRate(0)
+            setBuffer(0)
         }
 
         const intervalId = setInterval(() => {
@@ -540,9 +554,10 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         }
     }, [outboundBalance, inboundBalance, store.outboundToken, store.inboundToken])
 
+    const [isSwapFinished, setIsSwapFinished] = useState(false)
 
     return (
-        <div className="relative flex flex-col px-6 pb-6 pt-12 z-10 w-[27rem]">
+        <div className="relative flex flex-col px-7 pb-7 pt-12 z-10 w-[27rem] overflow-hidden">
             <RealTimeBalance
                 token={store.inboundToken}
                 setBalance={setInboundTokenBalance}
@@ -557,6 +572,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                     showModal={showModal}
                     setShowModal={setShowModal}
                     outbound={outbound}
+                    theme={swapTheme}
                 />
                 <SettingsModalProvider
                     showSettings={showSettings}
@@ -587,10 +603,25 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                     isBufferAccepted={isBufferAccepted}
                     isApproved={isApproved}
                     outgoingFlowRate={outgoingFlowRate}
+                    buffer={buffer}
+                    setIsSwapSuccess={setIsSwapSuccess}
+                    setIsSwapFinished={setIsSwapFinished}
+                />
+                <AfterTransaction
+                    swapTheme={swapTheme}
+                    isSwapFinished={isSwapFinished}
+                    isSwapSuccess={isSwapSuccess}
+                    setSwapActive={setSwapActive}
+                    setIsApproved={setIsApproved}
+                    setIsBufferAccepted={setIsBufferAccepted}
+                    setIsSwapFinished={setIsSwapFinished}
+                    outgoingFlowRate={outgoingFlowRate}
+                    endDate={endDate}
+                    setSwapAmount={setSwapAmount}
                 />
             </div>
-            <div className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none" style={{
-                backgroundColor: swapTheme.bgColor,
+            <div className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none overflow-hidden" style={{
+
                 borderColor: swapTheme.borderColor,
                 borderWidth: swapTheme.primaryBorderWidth,
                 borderRadius: swapTheme.primaryBorderRadius
@@ -600,19 +631,17 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                 swapTheme={swapTheme}
                 setShowSettings={setShowSettings}
             />
-            <div className="relative w-full flex items-center justify-center h-[104px] overflow-hidden mt-8">
-                <InputBox
+            <div className="w-full h-[104px] flex items-center justify-center monospace-font font-bold mt-8">
+                <DynamicInputBox
                     swapTheme={swapTheme}
                     setShowModal={setShowModal}
                     setOutbound={setOutbound}
-                    valueLength={valueLength}
                     fontSize={fontSize}
-                    width={width}
                     swapAmount={swapAmount}
+                    paddingPercentage={0.15}
                     setSwapAmount={setSwapAmount}
                     setUseMax={setUseMax}
-                    setPreviousLength={setPreviousLength}
-                    setValueLength={setValueLength}
+                    useMax={useMax}
                 />
             </div>
             <div className="mt-6">

@@ -12,8 +12,8 @@ export const lightTheme: Theme = {
     primaryBorderWidth: "2px",
     secondaryBorderWidth: "2px",
 
-    primaryBorderRadius: "30px",
-    secondaryBorderRadius: "8px",
+    primaryBorderRadius: "3rem",
+    secondaryBorderRadius: "0.9rem",
     accentBorderRadius: "12px",
 
     borderColor: "#262626",
@@ -47,7 +47,7 @@ export const lightTheme: Theme = {
     swapButton: "#0460CE",
     swapButtonText: "#FFFFFF",
     swapButtonFontSize: "22px",
-    swapButtonPadding: "14px",
+    swapButtonPadding: "0.75rem",
 
     secondaryMain: "rgba(225, 123, 247, 0.6)",
 
@@ -65,8 +65,8 @@ export const darkTheme: Theme = {
     primaryBorderWidth: "2px",
     secondaryBorderWidth: "2px",
 
-    primaryBorderRadius: "30px",
-    secondaryBorderRadius: "8px",
+    primaryBorderRadius: "3rem",
+    secondaryBorderRadius: "0.9rem",
     accentBorderRadius: "12px",
 
     borderColor: "#262626",
@@ -100,7 +100,7 @@ export const darkTheme: Theme = {
     swapButton: "#0460CE",
     swapButtonText: "#FFFFFF",
     swapButtonFontSize: "22px",
-    swapButtonPadding: "14px",
+    swapButtonPadding: "0.75rem",
 
     secondaryMain: "rgba(225, 123, 247, 0.6)",
 

@@ -20,7 +20,6 @@ const SwapButton = ({
     setSwapActive,
     setShowAnimation
 }: SwapButtonProps) => {
-
     const store = useStore()
 
     const handleSwapClick = () => {

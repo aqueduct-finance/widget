@@ -13,13 +13,13 @@ const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
-        <div className="w-full flex flex-col space-y-2 px-5 py-2"
+        <div className="w-full flex flex-col space-y-2 px-5 py-3"
             style={{
                 backgroundColor: swapTheme.tokenBox,
                 borderRadius: swapTheme.secondaryBorderRadius
             }}
         >
-            <div className="flex flex-row space-x-2">
+            <div className="flex flex-row space-x-2 font-medium">
                 <p
                     style={{ color: swapTheme.accentText }}
                 >

@@ -19,7 +19,7 @@ const TokenRow = ({ item, index, isHover, swapTheme, handleMouseEnter, handleMou
         }}
         key={item.name}
     >
-        <div className="px-2 py-2 flex items-center justify-center">
+        <div className="px-2 py-2 flex items-center justify-center rounded-full">
             <Image
                 src={item.logoURI}
                 width={50}

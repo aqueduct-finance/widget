@@ -4,12 +4,12 @@ import { Theme } from "../theme"
 import { TokenTypes } from "../types/TokenOption"
 import { darkTheme } from "../theme/defaultThemes"
 
-// This file is for testing, actual 'index.tsx' will just export the component
+const Web3Key = process.env.NEXT_PUBLIC_ALCHEMY_KEY
 
 const theme: Theme = {
   ...darkTheme,
   TitleColor: "#FFFFFF",
-  swapButton: "#E17BF7"
+  swapButton: "#E17BF7",
 }
 
 const tokens: TokenTypes[] = [
@@ -27,7 +27,7 @@ const tokens: TokenTypes[] = [
 function Home() {
   return (
     <div>
-      <TWAMMWidget theme={theme} tokenOption={tokens} defaultTokens={true} Web3Key={process.env.NEXT_PUBLIC_ALCHEMY_KEY} />
+      <TWAMMWidget Web3Key={Web3Key} theme={theme} tokenOption={tokens} />
     </div>
   )
 }

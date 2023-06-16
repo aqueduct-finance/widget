@@ -15,7 +15,7 @@ const StreamLengthContainer = ({
     setLength,
     length,
 }: StreamLengthContainerProps) => (
-    <div className={`${isPayOnce ? 'mt-3' : 'mt-0'} w-full rounded-lg bg-transparent`}>
+    <div className={`${isPayOnce ? 'mt-2' : 'mt-0'} w-full rounded-lg bg-transparent`}>
         {isPayOnce ? (
             <div className="flex flex-row justify-between">
                 <StreamLength

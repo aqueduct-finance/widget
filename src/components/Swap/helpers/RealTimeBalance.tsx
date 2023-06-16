@@ -65,7 +65,6 @@ const RealTimeBalance = ({ token, setBalance }: RealTimeBalanceProps) => {
                         args: [address, currentTimestampBigNumber.div(1000).toString()]
                     })
 
-                    console.log(initialResult)
 
                     const initialBalance = initialResult[0];
 
