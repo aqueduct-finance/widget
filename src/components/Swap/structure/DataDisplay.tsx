@@ -25,7 +25,7 @@ const DataDisplay = ({
     const store = useStore();
 
     return (
-        <div className={`${isEntered ? 'h-[115px]' : 'h-0'} delay-200 px-4 ease-in-out duration-300 overflow-hidden`}
+        <div className={`${isEntered ? 'h-[110px]' : 'h-0'} delay-200 px-1.5 ease-in-out duration-300 overflow-hidden`}
             style={{
                 backgroundColor: swapTheme.streamLengthBox,
                 borderRadius: swapTheme.secondaryBorderRadius

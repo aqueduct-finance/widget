@@ -9,8 +9,6 @@ export type TokenOption = {
     colorHex: string;
 };
 
-// regular ERC20s no wrap 👇
-
 export type TokenTypes = {
     name: string;
     address: `0x${string}`;

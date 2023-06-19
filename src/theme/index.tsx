@@ -47,6 +47,7 @@ export interface Theme {
     swapButtonText?: string;
     swapButtonFontSize?: string;
     swapButtonPadding?: string;
+    swapButtonRadius?: string;
 
     secondaryMain?: string;
 
@@ -54,6 +55,9 @@ export interface Theme {
 
     loaderInner?: string;
     loaderOuter?: string;
+
+    textFont?: string;
+    numberFont?: string;
 }
 
 export interface Animation {

@@ -78,11 +78,10 @@ const InboundBox = ({
                 >
                     {parseFloat(
                         inboundUnwrappedBalance
-                    ) === 0 || !store.inboundToken || inboundUnwrappedBalance === undefined
+                    ) === 0 || !store.inboundToken || inboundUnwrappedBalance === undefined || inboundWrappedBalance === null
                         ? "0.0"
                         : (
-                            parseFloat(inboundUnwrappedBalance) +
-                            parseFloat(ethers.utils.formatEther(inboundWrappedBalance))
+                            parseFloat(inboundUnwrappedBalance)
                         ).toFixed(5)}
                 </p>
             </div>

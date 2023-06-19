@@ -8,67 +8,53 @@ interface DynamicInputBoxProps {
     swapTheme: Theme;
     setShowModal: (value: boolean) => void;
     setOutbound: (value: boolean) => void;
-    fontSize: number;
     swapAmount: number;
     paddingPercentage: number;
     setSwapAmount: (value: number) => void;
-    setUseMax: (value: boolean) => void;
-    useMax: boolean;
+    setDynamicInput: (value: string) => void;
+    dynamicInput: string;
 }
 
 const DynamicInputBox = ({
     swapTheme,
     setShowModal,
     setOutbound,
-    fontSize,
     swapAmount,
     paddingPercentage,
     setSwapAmount,
-    setUseMax,
-    useMax
+    setDynamicInput,
+    dynamicInput
 }: DynamicInputBoxProps) => {
     const store = useStore();
     const inputRef = useRef(null);
 
     const parentRef = useRef<HTMLDivElement>(null);
     const [divScrollLeft, setDivScrollLeft] = useState(0);
-    const [dynamicFontSize, setDynamicFontSize] = useState(fontSize); // in px
+    const [dynamicFontSize, setDynamicFontSize] = useState(72); // in px
 
     const activateInput = () => {
         inputRef.current.focus();
     };
 
-    const handleChange = (value: number) => {
-        console.log("getting called");
-        // handle input
-        if (swapAmount) {
-            const numericValue = parseFloat(swapAmount?.toString().replace(/[^0-9.]|(?<=\..*)\./g, ""));
-            setSwapAmount(numericValue);
-
-            if (parseFloat(swapAmount.toString()) !== numericValue) {
-                console.log("asdf");
-                return;
-            }
-        }
-    };
+    const regex = /\./g;
 
     // FIXME: remove useEffect
     useEffect(() => {
         // width computation + animation
-        const numericValue = parseFloat(swapAmount?.toString().replace(/[^0-9.]|(?<=\..*)\./g, ""));
-        setSwapAmount(numericValue);
+
+        const numericValue = parseFloat(dynamicInput.replace(/[^0-9.]/g, ""));
+        setSwapAmount(numericValue)
 
         if (isNaN(numericValue)) {
             console.log("Invalid input");
             return;
         }
 
-
         let computedStyle = window.getComputedStyle(inputRef.current);
 
         let getWidth = (fontSize: string) => {
             let div = document.createElement("div");
-            div.innerText = swapAmount.toString();
+            div.innerText = dynamicInput;
             div.style.fontSize = fontSize;
             div.style.fontWeight = computedStyle.fontWeight;
             div.style.fontFamily = computedStyle.fontFamily;
@@ -79,7 +65,6 @@ const DynamicInputBox = ({
             div.style.overflow = "auto";
             document.body.append(div);
             let width = div.offsetWidth;
-            console.log(width)
             div.remove();
             return width;
         };
@@ -98,19 +83,30 @@ const DynamicInputBox = ({
                 setDynamicFontSize(newFontSize)
             }
 
-            if (swapAmount === 0) {
+            if (dynamicInput === "") {
                 setDivScrollLeft(0)
             } else {
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
-            console.log(divScrollLeft)
         }
-    }, [swapAmount]);
+    }, [swapAmount, dynamicInput]);
 
-    // FIXME: remove useEffect
-    useEffect(() => {
-        console.log(divScrollLeft)
-    }, [])
+    const handleInput = (e) => {
+        const inputValue = e.target.value;
+
+        const numericValue = inputValue.replace(/[^0-9.]/g, "");
+
+        if (inputValue === "") {
+            setDivScrollLeft(0)
+        }
+
+        const periodsCount = (inputValue.match(regex) || []).length;
+        if (periodsCount > 1) {
+            return;
+        }
+
+        setDynamicInput(numericValue)
+    }
 
 
     return (
@@ -159,15 +155,8 @@ const DynamicInputBox = ({
                     }}
                     type="text"
                     className='text-white bg-black outline-none transition-all duration-200'
-                    onChange={(e) => {
-                        const inputValue = e.target.value;
-                        if (inputValue === "") {
-                            setSwapAmount(0); // or handle the empty case as per your requirement
-                        } else {
-                            setSwapAmount(parseFloat(inputValue));
-                        }
-                    }}
-                    value={swapAmount !== 0 && !isNaN(swapAmount) ? swapAmount?.toString() : ""}
+                    onChange={handleInput}
+                    value={dynamicInput}
                 />
             </div>
         </div>

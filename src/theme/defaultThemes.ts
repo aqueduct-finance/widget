@@ -6,8 +6,8 @@ import { Theme } from "./index";
 // so should be exported from index
 
 export const lightTheme: Theme = {
-    TitleColor: "#ffffff",
-    bgColor: "#000000",
+    TitleColor: "#000000",
+    bgColor: "#FFFFFF",
 
     primaryBorderWidth: "2px",
     secondaryBorderWidth: "2px",
@@ -107,5 +107,5 @@ export const darkTheme: Theme = {
     approveBox: "#121212",
 
     loaderInner: "rgb(255 255 255 / 0.5)",
-    loaderOuter: "#E17BF7"
+    loaderOuter: "#E17BF7",
 };

@@ -14,6 +14,7 @@ interface ExportedWidgetProps {
     defaultTokens?: boolean;
     Web3Key: string;
     chainName?: string;
+    width?: string;
 }
 
 const TWAMMWidget = ({
@@ -21,6 +22,7 @@ const TWAMMWidget = ({
     tokenOption,
     defaultTokens,
     Web3Key,
+    width
 }: ExportedWidgetProps) => {
 
     const config = createConfig(
@@ -33,10 +35,15 @@ const TWAMMWidget = ({
         }),
     );
 
+
     return (
         <WagmiConfig config={config}>
             <ConnectKitProvider>
-                <SwapWidget theme={theme} tokenOption={tokenOption} defaultTokens={defaultTokens} />
+                <SwapWidget
+                    theme={theme}
+                    tokenOption={tokenOption}
+                    defaultTokens={defaultTokens}
+                    width={width} />
             </ConnectKitProvider>
         </WagmiConfig>
     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useAccount, useBalance } from "wagmi";
 import { useStore } from "../../store";
 import RealTimeBalance from "./helpers/RealTimeBalance";
@@ -30,13 +30,14 @@ interface SwapWidgetProps {
     theme?: Theme;
     tokenOption?: TokenTypes[];
     defaultTokens?: boolean;
+    width: string;
 }
 
 // FIXME:
 // 1. 500 lines (700 lines before removing some unused code) is a potential sign this component is doing too much/is too complex
 // 2. Overuse of useEffects. These should all be removed as they are not reacting to an external system - https://react.dev/learn/you-might-not-need-an-effect
 // 3. Too many useStates
-const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProps) => {
+const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" }: SwapWidgetProps) => {
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -72,13 +73,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
     // token modal open/close
     const [showModal, setShowModal] = useState(false);
     const [swapAmount, setSwapAmount] = useState<number>();
-
-    // outbound token input box
-    const [width, setWidth] = useState(20)
-    const [fontSize, setFontSize] = useState(72);
-    const [previousLength, setPreviousLength] = useState(0);
-    const [valueLength, setValueLength] = useState(0)
-    const [useMax, setUseMax] = useState(false)
+    const [dynammicInput, setDynamicInput] = useState("")
 
     // track inbound and outbound token addresses for grabbing balances
     const [outboundAddress, setOutboundAddress] = useState<`0x${string}` | undefined>();
@@ -87,9 +82,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
     // check swap validity
     const [overBalance, setOverBalance] = useState(false)
     const [isEntered, setIsEntered] = useState(false)
-
-    // additional components rendered if isPayOnce is true
-    const [isPayOnce, setIsPayOnce] = useState(true)
 
     // state for stream lengths
     const [startDate, setStartDate] = useState('');
@@ -100,7 +92,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
     // settings and settings options
     const [showSettings, setShowSettings] = useState(false)
     const [autoWrap, setAutoWrap] = useState(false);
-    const [importTokens, setImportTokens] = useState(false);
     const [schedule, setSchedule] = useState(false);
 
     // Approval modal
@@ -125,11 +116,11 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
     const [, setAcceptedBuffer] = useState(false);
 
     // user vars
-    const [outboundTokenBalance, setOutboundTokenBalance] = useState(
-        BigNumber.from(0)
+    const [outboundTokenBalance, setOutboundTokenBalance] = useState<BigNumber | null>(
+        null
     );
-    const [inboundTokenBalance, setInboundTokenBalance] = useState(
-        BigNumber.from(0)
+    const [inboundTokenBalance, setInboundTokenBalance] = useState<BigNumber | null>(
+        null
     );
 
     const refreshPrice = async () => {
@@ -228,41 +219,11 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         token: inboundAddress,
     })
 
-    const changeSize = () => {
-        setFontSize((prevFontSize) => {
-            if (previousLength > valueLength) {
-                return prevFontSize * 1.13;
-            } else {
-                return prevFontSize * 0.87;
-            }
-        });
-    };
-
-    const onUseMax = () => {
-        if (valueLength >= 7) {
-            setFontSize(72 * 0.9 ** valueLength);
-        }
-        setWidth(95);
-    }
-
     const [outgoingFlowRate, setOutgoingFlowRate] = useState(0);
 
-    // FIXME: Remove useEffect
     useEffect(() => {
-        if (valueLength >= 7 && !useMax) {
-            changeSize();
-        } else if (useMax) {
-            onUseMax();
-        } else {
-            setFontSize(72);
-        }
 
-        if (previousLength < valueLength && width < 105 && width >= 0 && !useMax) {
-            setWidth((prevWidth) => prevWidth + 15);
-        } else if (previousLength > valueLength && width > 20 && valueLength <= 5) {
-            setWidth((prevWidth) => prevWidth - 15);
-        }
-    }, [valueLength, previousLength, swapAmount]);
+    }, [store.outboundToken, outboundBalance, outboundTokenBalance])
 
     // FIXME: Remove useEffect
     useEffect(() => {
@@ -299,7 +260,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         const expectedOutFlowIndefinite = swapAmount / store.flowrateUnit.value
 
         if (swapAmount !== 0 && swapAmount !== undefined) {
-            if (!isPayOnce) {
+            if (store.flowrateUnit?.label !== "Pay Once") {
                 setOutgoingFlowRate(expectedOutFlowIndefinite)
                 calculateBuffer({ expectedFlow: expectedOutFlowIndefinite })
             } else {
@@ -323,7 +284,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
             setStartDate(date);
             setStartTime(time);
 
-            if (isPayOnce) {
+            if (store.flowrateUnit?.label === "Pay Once") {
                 setEndDate(endDateFormatted);
                 setEndTime(endTimeFormatted);
             } else {
@@ -334,7 +295,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
 
         return () => clearInterval(intervalId);
 
-    }, [store.inboundToken, store.outboundToken, swapAmount, length, isPayOnce, store.flowrateUnit])
+    }, [store.inboundToken, store.outboundToken, swapAmount, length, store.flowrateUnit, store.flowrateUnit])
 
     // FIXME: Remove useEffect
     useEffect(() => {
@@ -348,7 +309,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         }
 
         if (
-            swapAmount > parseFloat(outboundBalance.data?.formatted) &&
+            parseFloat(dynammicInput) > parseFloat(outboundBalance.data?.formatted) + parseFloat(outboundTokenBalance ? ethers.utils.formatEther(outboundTokenBalance) : "0") &&
             store.outboundToken ||
             outboundBalance.data?.formatted === undefined && store.outboundToken
         ) {
@@ -356,19 +317,39 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
         } else {
             setOverBalance(false);
         }
-    }, [outboundBalance, inboundBalance, store.outboundToken, store.inboundToken])
+    }, [outboundBalance, inboundBalance, store.outboundToken, store.inboundToken, dynammicInput])
 
     const [isSwapFinished, setIsSwapFinished] = useState(false)
 
+    const [outBalance, setOutBalance] = useState<number>(0)
+
+    const [inBalance, setInBalance] = useState<number>(0)
+
+    useEffect(() => {
+        setOutBalance(0)
+    }, [store.outboundToken])
+
+    useEffect(() => {
+        setInBalance(0)
+    }, [store.inboundToken])
+
     return (
-        <div className="relative flex flex-col px-7 pb-7 pt-12 z-10 w-[27rem] overflow-hidden">
+        <div className="relative flex flex-col px-7 pb-7 pt-12 z-10 overflow-hidden"
+            style={{
+                width: width,
+            }}
+        >
             <RealTimeBalance
                 token={store.inboundToken}
                 setBalance={setInboundTokenBalance}
+                balance={inboundTokenBalance}
+                setunWrapped={setInBalance}
             />
             <RealTimeBalance
                 token={store.outboundToken}
                 setBalance={setOutboundTokenBalance}
+                balance={outboundTokenBalance}
+                setunWrapped={setOutBalance}
             />
             <div className="absolute overflow-hidden 2bg-red-500/25 top-10 left-[0.5rem] right-[0.5rem] bottom-[0.5rem] rounded-gc-3xl z-50 pointer-events-none">
                 <TokenModalProvider
@@ -384,8 +365,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                     theme={swapTheme}
                     autoWrap={autoWrap}
                     setAutoWrap={setAutoWrap}
-                    importTokens={importTokens}
-                    setImportTokens={setImportTokens}
                     schedule={schedule}
                     setSchedule={setSchedule}
                 />
@@ -425,7 +404,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                 />
             </div>
             <div className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none overflow-hidden" style={{
-
+                backgroundColor: swapTheme.bgColor,
                 borderColor: swapTheme.borderColor,
                 borderWidth: swapTheme.primaryBorderWidth,
                 borderRadius: swapTheme.primaryBorderRadius
@@ -440,25 +419,22 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                     swapTheme={swapTheme}
                     setShowModal={setShowModal}
                     setOutbound={setOutbound}
-                    fontSize={fontSize}
                     swapAmount={swapAmount}
                     paddingPercentage={0.15}
                     setSwapAmount={setSwapAmount}
-                    setUseMax={setUseMax}
-                    useMax={useMax}
+                    setDynamicInput={setDynamicInput}
+                    dynamicInput={dynammicInput}
                 />
             </div>
             <div className="mt-6">
                 <FlowRateSelect
                     dropdownValue={store.flowrateUnit}
                     theme={swapTheme}
-                    setIsPayOnce={setIsPayOnce}
                     setFlowRateDropDown={setFlowRateDropDown}
                     flowRateDropDown={flowRateDropDown}
                 />
                 <FlowRateContainer
                     swapTheme={swapTheme}
-                    isPayOnce={isPayOnce}
                     isEntered={isEntered}
                     flowRateDropDown={flowRateDropDown}
                     setFlowRateDropDown={setFlowRateDropDown}
@@ -466,15 +442,14 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
             </div>
             <OutboundBox
                 outboundWrappedBalance={outboundTokenBalance}
-                outboundUnwrappedBalance={outboundBalance.data?.formatted}
+                outboundUnwrappedBalance={outBalance.toString()}
                 swapTheme={swapTheme}
                 showMaxAnimation={showMaxAnimation}
                 setShowMaxAnimation={setShowMaxAnimation}
-                setUseMax={setUseMax}
                 setShowModal={setShowModal}
                 setOutbound={setOutbound}
                 setSwapAmount={setSwapAmount}
-                setValueLength={setValueLength}
+                setDynamicInput={setDynamicInput}
             />
             <ActivateSwapArrow
                 swapTheme={swapTheme}
@@ -490,13 +465,12 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
             >
                 <InboundBox
                     swapTheme={swapTheme}
-                    inboundUnwrappedBalance={inboundBalance.data?.formatted}
+                    inboundUnwrappedBalance={inBalance.toString()}
                     inboundWrappedBalance={inboundTokenBalance}
                     setShowModal={setShowModal}
                     setOutbound={setOutbound}
                     isEntered={isEntered}
                 />
-
                 <DataDisplay
                     swapTheme={swapTheme}
                     isEntered={isEntered}
@@ -508,7 +482,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                 />
             </div>
             <StreamLengthContainer
-                isPayOnce={isPayOnce}
                 swapTheme={swapTheme}
                 setLength={setLength}
                 length={length}

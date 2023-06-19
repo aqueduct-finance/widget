@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { Theme } from '../../../theme';
 import { useStore } from '../../../store';
@@ -13,11 +13,10 @@ interface OutboundBoxProps {
     outboundWrappedBalance: BigNumber;
     showMaxAnimation: boolean;
     setShowMaxAnimation: (value: boolean) => void;
-    setUseMax: (value: boolean) => void;
     setShowModal: (value: boolean) => void;
     setOutbound: (value: boolean) => void;
     setSwapAmount: (value: number) => void;
-    setValueLength: (value: number) => void;
+    setDynamicInput: (value: string) => void;
 }
 
 const OutboundBox = ({
@@ -28,9 +27,8 @@ const OutboundBox = ({
     setShowModal,
     setOutbound,
     setShowMaxAnimation,
-    setUseMax,
     setSwapAmount,
-    setValueLength
+    setDynamicInput
 }: OutboundBoxProps) => {
 
     const store = useStore();
@@ -43,9 +41,8 @@ const OutboundBox = ({
     const handleUseMaxClick = (e) => {
         e.stopPropagation();
         if (store.outboundToken && parseInt(outboundUnwrappedBalance) > 0) {
-            setUseMax(true);
             setSwapAmount(parseFloat(outboundUnwrappedBalance))
-            setValueLength(parseFloat(outboundUnwrappedBalance).toString().length)
+            setDynamicInput(outboundUnwrappedBalance)
         } else {
             setShowMaxAnimation(true);
             setTimeout(() => {
@@ -104,11 +101,10 @@ const OutboundBox = ({
                 >
                     {parseFloat(
                         outboundUnwrappedBalance
-                    ) === 0 || !store.outboundToken || outboundUnwrappedBalance === undefined
+                    ) === 0 || !store.outboundToken || outboundUnwrappedBalance === undefined || outboundWrappedBalance === null
                         ? "0.0"
                         : (
-                            parseFloat(outboundUnwrappedBalance) +
-                            parseFloat(ethers.utils.formatEther(outboundWrappedBalance))
+                            parseFloat(outboundUnwrappedBalance)
                         ).toFixed(5)}
                 </p>
             </div>

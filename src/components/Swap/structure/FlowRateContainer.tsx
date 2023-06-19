@@ -7,7 +7,6 @@ import FlowRateRow from './FlowRateRow';
 
 interface FlowRateContainerProps {
     swapTheme: Theme;
-    isPayOnce: boolean;
     isEntered: boolean;
     flowRateDropDown: boolean;
     setFlowRateDropDown: (value: boolean) => void;
@@ -15,16 +14,15 @@ interface FlowRateContainerProps {
 
 const FlowRateContainer = ({
     swapTheme,
-    isPayOnce,
     isEntered,
     flowRateDropDown,
-    setFlowRateDropDown
+    setFlowRateDropDown,
 }: FlowRateContainerProps) => {
 
     const store = useStore()
 
     return (
-        <div className={`${isPayOnce ? `${isEntered ? 'h-[59%]' : 'h-[51.5%]'}` : `${isEntered ? 'h-[53.5%]' : 'h-[43.5%]'}`} ${flowRateDropDown ? '' : 'hidden'} 
+        <div className={`${store.flowrateUnit?.label === "Pay Once" ? `${isEntered ? 'h-[59%]' : 'h-[51.5%]'}` : `${isEntered ? 'h-[53.5%]' : 'h-[43.5%]'}`} ${flowRateDropDown ? '' : 'hidden'} 
         absolute bottom-8 left-[1.75rem] right-[1.75rem] z-[100]`}
             style={{
                 borderRadius: swapTheme.secondaryBorderRadius,

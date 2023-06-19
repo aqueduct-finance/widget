@@ -11,7 +11,7 @@ const WidgetTitle = ({
     swapTheme,
     setShowSettings
 }: WidgetTitleProps) => (
-    <div className="flex">
+    <div className="flex font-redhat-mono">
         <p style={{
             color: swapTheme.TitleColor
         }} className={`text-2xl font-bold ml-2`}>Swap</p>

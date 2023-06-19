@@ -12,8 +12,6 @@ interface SettingsProps {
     setDisplay: (value: boolean) => void;
     autoWrap: boolean;
     setAutoWrap: (value: boolean) => void;
-    importTokens: boolean;
-    setImportTokens: (value: boolean) => void;
     schedule: boolean;
     setSchedule: (value: boolean) => void;
 }
@@ -24,8 +22,6 @@ const Settings = ({
     setDisplay,
     autoWrap,
     setAutoWrap,
-    importTokens,
-    setImportTokens,
     schedule,
     setSchedule }: SettingsProps) => {
 
@@ -34,7 +30,6 @@ const Settings = ({
 
     const options = [
         { title: 'Auto Wrap', state: autoWrap, setState: setAutoWrap },
-        { title: 'Import Super Tokens', state: importTokens, setState: setImportTokens },
         { title: 'Schedule Swap', state: schedule, setState: setSchedule },
     ]
 

@@ -1,6 +1,7 @@
 import React from "react";
-import { HiArrowDown } from "react-icons/hi";
+import { HiSwitchVertical } from "react-icons/hi";
 import { Theme } from "../../../theme";
+import { useStore } from "../../../store";
 
 interface ActivateSwapArrowProps {
     swapTheme: Theme;
@@ -11,29 +12,32 @@ interface ActivateSwapArrowProps {
 
 const ActivateSwapArrow = ({
     swapTheme,
-    overBalance,
-    isEntered,
-    setSwapActive
-}: ActivateSwapArrowProps) => (
-    <div className="flex w-full items-center justify-center -mt-3">
-        <div className="px-2 py-2 z-10 opacity-80 hover:opacity-100 cursor-pointer"
-            onClick={() => {
-                if (!overBalance && isEntered) {
-                    setSwapActive(true)
-                }
-            }}
-            style={{
-                backgroundColor: swapTheme.useMaxButton,
-                borderRadius: swapTheme.accentBorderRadius
-            }}
-        >
-            <HiArrowDown className="text-xl"
+}: ActivateSwapArrowProps) => {
+
+    const store = useStore()
+
+    const handleSwitch = () => {
+        store.setOutboundToken(store.inboundToken)
+        store.setInboundToken(store.outboundToken)
+    }
+
+    return (
+        <div className="flex w-full items-center justify-center -mt-3">
+            <div className="px-2 py-2 z-10 opacity-80 hover:opacity-100 cursor-pointer"
+                onClick={handleSwitch}
                 style={{
-                    color: swapTheme.accentText
+                    backgroundColor: swapTheme.useMaxButton,
+                    borderRadius: swapTheme.accentBorderRadius
                 }}
-            />
+            >
+                <HiSwitchVertical className="text-xl"
+                    style={{
+                        color: swapTheme.accentText
+                    }}
+                />
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
 export default ActivateSwapArrow;

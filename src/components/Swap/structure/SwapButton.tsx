@@ -34,13 +34,14 @@ const SwapButton = ({
     };
 
     return (
-        <button className={`${overBalance || !isEntered ? "opacity-75" : ""} font-semibold 2rounded-gc-2xl rounded-full mt-4`}
+        <button className={`${overBalance || !isEntered ? "opacity-75" : ""} font-semibold 2rounded-gc-2xl mt-4`}
             onClick={handleSwapClick}
             style={{
                 backgroundColor: swapTheme.swapButton,
                 color: swapTheme.swapButtonText,
                 fontSize: swapTheme.swapButtonFontSize,
-                padding: swapTheme.swapButtonPadding
+                padding: swapTheme.swapButtonPadding,
+                borderRadius: swapTheme.swapButtonRadius
             }}>
             <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>{overBalance ? `Insufficient ${store.outboundToken?.symbol} balance` : 'Swap'}</SwapText>
         </button>

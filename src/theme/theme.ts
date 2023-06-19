@@ -43,6 +43,7 @@ export const defaultTheme: Theme = {
   swapButtonText: "#FFFFFF",
   swapButtonFontSize: "22px",
   swapButtonPadding: "0.75rem",
+  swapButtonRadius: "9999px",
 
   secondaryMain: "rgba(225, 123, 247, 0.6)",
 

@@ -8,7 +8,7 @@ interface TokenModalProviderProps {
     // TODO: Remove optional props/add default values. Optional props often reduce type safety and can increase complexity
     tokenList?: TokenTypes[];
     showModal: boolean;
-    theme?: Theme;
+    theme: Theme;
     setShowModal: (value: boolean) => void;
     outbound: boolean;
 }

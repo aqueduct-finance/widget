@@ -52,7 +52,7 @@ const FlowRateRow = ({
     options,
     setDropdownValue,
     theme,
-    setFlowRateDropDown
+    setFlowRateDropDown,
 }: FlowRateRowProps) => {
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };

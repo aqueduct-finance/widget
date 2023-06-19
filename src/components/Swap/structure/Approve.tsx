@@ -105,8 +105,8 @@ const Approve = ({
                     }}
                 />
             </div>
-            <div className="w-full h-full rounded-lg flex flex-col items-center justify-center space-y-0 px-2 py-4">
-                <div className="w-full flex flex-col space-y-8 px-3 py-6 rounded-xl ease-in-out duration-200"
+            <div className="w-full h-full rounded-lg flex flex-col items-center justify-between space-y-0 px-2 pt-4 pb-5">
+                <div className="w-full flex flex-col space-y-9 px-3 pt-6 pb-0 rounded-xl ease-in-out duration-200 mt-8"
                     style={{
                         backgroundColor: "transparent"
                     }}

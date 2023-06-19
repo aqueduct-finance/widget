@@ -2,7 +2,7 @@ import React from "react"
 import TWAMMWidget from "../components/Swap"
 import { Theme } from "../theme"
 import { TokenTypes } from "../types/TokenOption"
-import { darkTheme } from "../theme/defaultThemes"
+import { darkTheme, lightTheme } from "../theme/defaultThemes"
 
 const Web3Key = process.env.NEXT_PUBLIC_ALCHEMY_KEY
 
@@ -18,7 +18,7 @@ const tokens: TokenTypes[] = [
     address: "0x6f8a06447Ff6FcF75d803135a7de15CE88C1d4ec",
     symbol: "SHIB",
     decimals: 18,
-    chainId: 137,
+    chainId: 5,
     logoURI: "/shiba.png"
   },
 ];
@@ -27,7 +27,12 @@ const tokens: TokenTypes[] = [
 function Home() {
   return (
     <div>
-      <TWAMMWidget Web3Key={Web3Key} theme={theme} tokenOption={tokens} />
+      <TWAMMWidget
+        Web3Key={Web3Key}
+        theme={theme}
+        tokenOption={tokens}
+        width="27rem"
+      />
     </div>
   )
 }

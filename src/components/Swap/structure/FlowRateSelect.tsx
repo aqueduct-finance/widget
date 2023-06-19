@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { HiChevronDown } from "react-icons/hi";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from '../../../theme/theme'
 import { Theme } from "../../../theme";
-import { borderRadius } from "polished";
 
 interface SelectProps {
     dropdownValue: GenericDropdownOption | TokenOption;
     theme?: Theme;
-    setIsPayOnce: (value: boolean) => void;
     setFlowRateDropDown: (value: boolean) => void;
     flowRateDropDown: boolean;
 }
@@ -17,21 +15,11 @@ interface SelectProps {
 const FlowRateSelect = ({
     dropdownValue,
     theme,
-    setIsPayOnce,
     setFlowRateDropDown,
     flowRateDropDown
 }: SelectProps) => {
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
-
-    // FIXME: remove useEffect
-    useEffect(() => {
-        if (dropdownValue.label === "Pay Once") {
-            setIsPayOnce(true);
-        } else {
-            setIsPayOnce(false)
-        }
-    }, [dropdownValue])
 
     return (
         <div className="w-full flex flex-row py-3 cursor-pointer"

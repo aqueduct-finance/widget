@@ -86,7 +86,7 @@ const SwapResult = ({
         store.setFlowrateUnit(flowrates[1])
         store.setOutboundToken(undefined)
         store.setInboundToken(undefined)
-        setIsSwapSuccess(true)
+        setIsSwapSuccess(false)
         setIsSwapFinished(true)
       }, 5000);
     };

@@ -8,8 +8,6 @@ interface SettingsModalProviderProps {
     setShowSettings: (value: boolean) => void;
     autoWrap: boolean;
     setAutoWrap: (value: boolean) => void;
-    importTokens: boolean;
-    setImportTokens: (value: boolean) => void;
     schedule: boolean;
     setSchedule: (value: boolean) => void;
 }
@@ -20,8 +18,6 @@ const SettingsModalProvider = ({
     setShowSettings,
     autoWrap,
     setAutoWrap,
-    importTokens,
-    setImportTokens,
     schedule,
     setSchedule
 }: SettingsModalProviderProps) => (
@@ -37,8 +33,6 @@ const SettingsModalProvider = ({
             theme={theme}
             autoWrap={autoWrap}
             setAutoWrap={setAutoWrap}
-            importTokens={importTokens}
-            setImportTokens={setImportTokens}
             schedule={schedule}
             setSchedule={setSchedule}
         />
