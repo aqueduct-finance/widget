@@ -8,8 +8,7 @@ import { BigNumber } from 'ethers';
 
 interface OutboundBoxProps {
     swapTheme: Theme;
-    inboundUnwrappedBalance: string;
-    inboundWrappedBalance: BigNumber;
+    inboundBalance: string;
     setShowModal: (value: boolean) => void;
     setOutbound: (value: boolean) => void;
     isEntered: boolean;
@@ -17,8 +16,7 @@ interface OutboundBoxProps {
 
 const InboundBox = ({
     swapTheme,
-    inboundUnwrappedBalance,
-    inboundWrappedBalance,
+    inboundBalance,
     setShowModal,
     setOutbound,
     isEntered
@@ -29,10 +27,11 @@ const InboundBox = ({
     return (
         <button
             type="button"
-            className={`${isEntered ? "" : "hover:scale-[1.02]"} flex p-3 -mt-4 items-center duration-200 transition-all`}
+            className={`${isEntered ? "" : "hover:scale-[1.02]"} flex p-3 -mt-3 items-center transition-all`}
             style={{
                 backgroundColor: swapTheme.tokenBox,
-                borderRadius: swapTheme.secondaryBorderRadius
+                borderRadius: swapTheme.secondaryBorderRadius,
+                transitionDuration: swapTheme.accentDuration
             }}
             onClick={() => {
                 setShowModal(true)
@@ -48,11 +47,13 @@ const InboundBox = ({
                         alt="token"
                     />
                 ) : (
-                    <div className="rounded-full border-2"
+                    <div
                         style={{
                             backgroundColor: swapTheme.plusBg,
                             borderColor: swapTheme.plusBorder,
+                            borderWidth: swapTheme.secondaryBorderWidth,
                             color: swapTheme.plusColor,
+                            borderRadius: swapTheme.itemBorderRadius
                         }}
                     >
                         <BsPlus className="w-full h-full" />
@@ -63,25 +64,27 @@ const InboundBox = ({
                 <p className="leading-none text-sm"
                     style={{
                         color: swapTheme.secondaryText,
-                        fontWeight: swapTheme.primaryFontWeight
+                        fontWeight: swapTheme.secondaryFontWeight,
+                        fontFamily: swapTheme.textFont
                     }}
                 >
                     {store.inboundToken
                         ? store.inboundToken.name
                         : "You receive:"}
                 </p>
-                <p className="leading-none text-xs monospace-font"
+                <p className="leading-none text-xs"
                     style={{
                         color: swapTheme.accentText,
-                        fontWeight: swapTheme.secondaryFontWeight
+                        fontWeight: swapTheme.secondaryFontWeight,
+                        fontFamily: swapTheme.numberFont
                     }}
                 >
                     {parseFloat(
-                        inboundUnwrappedBalance
-                    ) === 0 || !store.inboundToken || inboundUnwrappedBalance === undefined || inboundWrappedBalance === null
+                        inboundBalance
+                    ) === 0 || !store.inboundToken || inboundBalance === undefined || isNaN(parseFloat(inboundBalance))
                         ? "0.0"
                         : (
-                            parseFloat(inboundUnwrappedBalance)
+                            parseFloat(inboundBalance)
                         ).toFixed(5)}
                 </p>
             </div>

@@ -67,7 +67,8 @@ export const darkTheme: Theme = {
 
     primaryBorderRadius: "3rem",
     secondaryBorderRadius: "0.9rem",
-    accentBorderRadius: "12px",
+    accentBorderRadius: "8px",
+    checkBorderRadius: "6px",
 
     borderColor: "#262626",
 
@@ -94,8 +95,9 @@ export const darkTheme: Theme = {
     primaryText: "#FFFFFF",
     secondaryText: "#FFFFFF",
 
-    primaryFontWeight: "500",
+    primaryFontWeight: "700",
     secondaryFontWeight: "500",
+    accentFontWeight: "700",
 
     swapButton: "#0460CE",
     swapButtonText: "#FFFFFF",
@@ -108,4 +110,15 @@ export const darkTheme: Theme = {
 
     loaderInner: "rgb(255 255 255 / 0.5)",
     loaderOuter: "#E17BF7",
+
+    textFont: "'Poppins', sans-serif",
+    numberFont: "'Red Hat Mono', monospace",
+
+    primaryDuration: "300ms",
+    secondaryDuration: "100ms",
+    accentDuration: "200ms",
+
+    errorColor: "#EF4444",
+    successColor: "#49DE80",
+    embeddedLink: "#3B82F6"
 };

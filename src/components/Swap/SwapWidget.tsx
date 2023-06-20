@@ -109,11 +109,14 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     const [outbound, setOutbound] = useState(false)
     const [flowRateDropDown, setFlowRateDropDown] = useState(false);
     const [buffer, setBuffer] = useState(0);
-
     const [isSwapSuccess, setIsSwapSuccess] = useState(false)
 
     // buffer confirmation
     const [, setAcceptedBuffer] = useState(false);
+    const [outgoingFlowRate, setOutgoingFlowRate] = useState(0);
+    const [isSwapFinished, setIsSwapFinished] = useState(false)
+    const [outBalance, setOutBalance] = useState<number>(0)
+    const [inBalance, setInBalance] = useState<number>(0)
 
     // user vars
     const [outboundTokenBalance, setOutboundTokenBalance] = useState<BigNumber | null>(
@@ -219,21 +222,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
         token: inboundAddress,
     })
 
-    const [outgoingFlowRate, setOutgoingFlowRate] = useState(0);
-
-    useEffect(() => {
-
-    }, [store.outboundToken, outboundBalance, outboundTokenBalance])
-
-    // FIXME: Remove useEffect
-    useEffect(() => {
-        if (isConnected && !isDisconnected) {
-            setWallet(true)
-        } else {
-            setWallet(false)
-        }
-    }, [isConnected, isDisconnected])
-
     // FIXME: Remove useEffect
     useEffect(() => {
         if (store.inboundToken === store.outboundToken && outbound) {
@@ -317,13 +305,13 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
         } else {
             setOverBalance(false);
         }
-    }, [outboundBalance, inboundBalance, store.outboundToken, store.inboundToken, dynammicInput])
 
-    const [isSwapFinished, setIsSwapFinished] = useState(false)
-
-    const [outBalance, setOutBalance] = useState<number>(0)
-
-    const [inBalance, setInBalance] = useState<number>(0)
+        if (isConnected && !isDisconnected) {
+            setWallet(true)
+        } else {
+            setWallet(false)
+        }
+    }, [outboundBalance, inboundBalance, store.outboundToken, store.inboundToken, dynammicInput, isConnected, isDisconnected])
 
     useEffect(() => {
         setOutBalance(0)
@@ -441,8 +429,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 />
             </div>
             <OutboundBox
-                outboundWrappedBalance={outboundTokenBalance}
-                outboundUnwrappedBalance={outBalance.toString()}
+                outboundBalance={outBalance.toString()}
                 swapTheme={swapTheme}
                 showMaxAnimation={showMaxAnimation}
                 setShowMaxAnimation={setShowMaxAnimation}
@@ -465,8 +452,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
             >
                 <InboundBox
                     swapTheme={swapTheme}
-                    inboundUnwrappedBalance={inBalance.toString()}
-                    inboundWrappedBalance={inboundTokenBalance}
+                    inboundBalance={inBalance.toString()}
                     setShowModal={setShowModal}
                     setOutbound={setOutbound}
                     isEntered={isEntered}

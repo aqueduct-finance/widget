@@ -125,10 +125,6 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped }: RealTimeB
     }, [flowRate, setBalance, time, updateRealTimeBalanceCallback]);
 
     useEffect(() => {
-        console.log(test ? test : 0)
-    }, [test, token])
-
-    useEffect(() => {
         updateRealTimeBalanceCallback();
     }, [address, token, updateRealTimeBalanceCallback]);
 

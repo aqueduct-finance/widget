@@ -11,10 +11,11 @@ const WidgetTitle = ({
     swapTheme,
     setShowSettings
 }: WidgetTitleProps) => (
-    <div className="flex font-redhat-mono">
+    <div className="flex">
         <p style={{
-            color: swapTheme.TitleColor
-        }} className={`text-2xl font-bold ml-2`}>Swap</p>
+            color: swapTheme.TitleColor,
+            fontWeight: swapTheme.primaryFontWeight
+        }} className={`text-2xl ml-2`}>Swap</p>
         <div className="flex grow" />
         <button
             className={`hover:animate-spin-slow`}

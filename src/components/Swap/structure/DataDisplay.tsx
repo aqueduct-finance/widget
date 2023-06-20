@@ -25,17 +25,20 @@ const DataDisplay = ({
     const store = useStore();
 
     return (
-        <div className={`${isEntered ? 'h-[110px]' : 'h-0'} delay-200 px-1.5 ease-in-out duration-300 overflow-hidden`}
+        <div className={`${isEntered ? 'h-[110px]' : 'h-0'} delay-200 px-1.5 ease-in-out overflow-hidden`}
             style={{
                 backgroundColor: swapTheme.streamLengthBox,
-                borderRadius: swapTheme.secondaryBorderRadius
+                borderRadius: swapTheme.secondaryBorderRadius,
+                transitionDuration: swapTheme.primaryDuration,
+                fontFamily: swapTheme.textFont
             }}
         >
-            <div className={`${isEntered ? 'flex flex-col h-[105px]' : 'h-0'} delay-200 ease-in-out duration-300 w-full px-6 py-4 items-start text-xs space-y-3`}
+            <div className={`${isEntered ? 'flex flex-col h-[105px]' : 'h-0'} delay-200 ease-in-out w-full px-6 py-4 items-start text-xs space-y-3`}
                 style={{
                     backgroundColor: swapTheme.dataDisplayBg,
                     color: swapTheme.accentText,
-                    borderRadius: swapTheme.secondaryBorderRadius
+                    borderRadius: swapTheme.secondaryBorderRadius,
+                    transitionDuration: swapTheme.primaryDuration
                 }}
             >
                 <div className="flex flex-row space-x-5">

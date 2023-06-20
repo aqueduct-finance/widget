@@ -17,24 +17,47 @@ const TransactionFailed = ({
     setIsBufferAccepted,
     setIsSwapFinished
 }: TransactionFailedProps) => (
-    <div className="w-full flex flex-col space-y-3 items-center justify-center">
+    <div className="w-full flex flex-col space-y-3 items-center justify-center"
+        style={{
+            fontFamily: swapTheme.textFont
+        }}
+    >
         <div className="flex items-center justify-center h-[40%] w-full">
-            <BiMessageAltError className="w-2/3 h-2/3 text-red-500" />
+            <BiMessageAltError
+                className="w-2/3 h-2/3"
+                style={{
+                    color: swapTheme.errorColor
+                }}
+            />
         </div>
-        <div className="w-full text-white font-bold flex items-center justify-center">
+        <div className="w-full flex items-center justify-center"
+            style={{
+                color: swapTheme.primaryText,
+                fontWeight: swapTheme.primaryFontWeight
+            }}
+        >
             <h1 className="text-2xl">Something went wrong.</h1>
         </div>
         <div className="flex items-center text-center justify-center w-full py-2">
-            <p className="text-white">
+            <p
+                style={{
+                    color: swapTheme.secondaryText
+                }}
+            >
                 Ensure you have enough super tokens to fulfill the buffer period.
                 Learn more about buffers and super tokens{" "}
                 <a href="https://docs.aqueduct.fi/docs/superfluid-concepts/super-tokens" target="_blank" rel="noopener noreferrer">
-                    <span className="text-blue-500 hover:underline">here.</span>
+                    <span
+                        className="hover:underline"
+                        style={{
+                            color: swapTheme.embeddedLink
+                        }}
+                    >here.</span>
                 </a>
             </p>
         </div>
 
-        <button className={`font-semibold 2rounded-gc-2xl bg-red-500 w-full rounded-full ease-in-out duration-300`}
+        <button className={`w-full rounded-full ease-in-out`}
             onClick={() => {
                 setSwapActive(false)
                 setIsBufferAccepted(false)
@@ -42,10 +65,13 @@ const TransactionFailed = ({
                 setIsSwapFinished(false)
             }}
             style={{
-                // backgroundColor: swapTheme.swapButton,
+                backgroundColor: swapTheme.errorColor,
                 color: swapTheme.swapButtonText,
                 fontSize: swapTheme.swapButtonFontSize,
-                padding: swapTheme.swapButtonPadding
+                padding: swapTheme.swapButtonPadding,
+                fontWeight: swapTheme.primaryFontWeight,
+                borderRadius: swapTheme.itemBorderRadius,
+                transitionDuration: swapTheme.primaryDuration
             }}>
             Dismiss
         </button>

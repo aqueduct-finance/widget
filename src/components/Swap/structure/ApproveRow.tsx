@@ -3,11 +3,15 @@ import React from 'react'
 const ApproveRow = ({ item, index, swapTheme }) => {
 
     return (
-        <div className='w-full flex flex-row items-start justify-start text-white space-x-5' key={index}>
+        <div className='w-full flex flex-row items-start justify-start space-x-5' key={index}
+            style={{
+                color: swapTheme.secondaryText
+            }}
+        >
             <h1
-                className='font-bold'
                 style={{
-                    color: swapTheme.tokenBalance
+                    color: swapTheme.tokenBalance,
+                    fontWeight: swapTheme.accentFontWeight
                 }}
             >{item.title}:</h1>
             <h1 className='opacity-80'>{item.data}</h1>

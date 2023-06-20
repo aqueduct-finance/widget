@@ -9,8 +9,7 @@ import { BigNumber } from 'ethers';
 
 interface OutboundBoxProps {
     swapTheme: Theme;
-    outboundUnwrappedBalance: string;
-    outboundWrappedBalance: BigNumber;
+    outboundBalance: string;
     showMaxAnimation: boolean;
     setShowMaxAnimation: (value: boolean) => void;
     setShowModal: (value: boolean) => void;
@@ -21,8 +20,7 @@ interface OutboundBoxProps {
 
 const OutboundBox = ({
     swapTheme,
-    outboundUnwrappedBalance,
-    outboundWrappedBalance,
+    outboundBalance,
     showMaxAnimation,
     setShowModal,
     setOutbound,
@@ -40,9 +38,9 @@ const OutboundBox = ({
 
     const handleUseMaxClick = (e) => {
         e.stopPropagation();
-        if (store.outboundToken && parseInt(outboundUnwrappedBalance) > 0) {
-            setSwapAmount(parseFloat(outboundUnwrappedBalance))
-            setDynamicInput(outboundUnwrappedBalance)
+        if (store.outboundToken && parseInt(outboundBalance) > 0) {
+            setSwapAmount(parseFloat(outboundBalance))
+            setDynamicInput(outboundBalance)
         } else {
             setShowMaxAnimation(true);
             setTimeout(() => {
@@ -54,10 +52,12 @@ const OutboundBox = ({
     return (
         <button
             type="button"
-            className="flex p-3 mt-2 items-center hover:scale-[1.02] duration-200 transition-all"
+            className="flex p-3 mt-2 items-center hover:scale-[1.02] transition-all"
             style={{
                 backgroundColor: swapTheme.tokenBox,
-                borderRadius: swapTheme.secondaryBorderRadius
+                borderRadius: swapTheme.secondaryBorderRadius,
+                transitionDuration: swapTheme.accentDuration,
+                fontFamily: swapTheme.textFont
             }}
             onClick={handleButtonClick}
         >
@@ -70,12 +70,13 @@ const OutboundBox = ({
                         alt="Token"
                     />
                 ) : (
-                    <div className="rounded-full"
+                    <div
                         style={{
                             backgroundColor: swapTheme.plusBg,
                             borderColor: swapTheme.plusBorder,
                             color: swapTheme.plusColor,
-                            borderWidth: swapTheme.secondaryBorderWidth
+                            borderWidth: swapTheme.secondaryBorderWidth,
+                            borderRadius: swapTheme.itemBorderRadius
                         }}
                     >
                         <BsPlus className="w-full h-full" />
@@ -86,39 +87,43 @@ const OutboundBox = ({
                 <p className="leading-none text-sm"
                     style={{
                         color: swapTheme.secondaryText,
-                        fontWeight: swapTheme.primaryFontWeight
+                        fontWeight: swapTheme.secondaryFontWeight,
+                        fontFamily: swapTheme.textFont
                     }}
                 >
                     {store.outboundToken
                         ? store.outboundToken.name
                         : "You pay with:"}
                 </p>
-                <p className="leading-none text-xs monospace-font"
+                <p className="leading-none text-xs"
                     style={{
                         color: swapTheme.accentText,
-                        fontWeight: swapTheme.secondaryFontWeight
+                        fontWeight: swapTheme.secondaryFontWeight,
+                        fontFamily: swapTheme.numberFont
                     }}
                 >
                     {parseFloat(
-                        outboundUnwrappedBalance
-                    ) === 0 || !store.outboundToken || outboundUnwrappedBalance === undefined || outboundWrappedBalance === null
+                        outboundBalance
+                    ) === 0 || !store.outboundToken || outboundBalance === undefined || isNaN(parseFloat(outboundBalance))
                         ? "0.0"
                         : (
-                            parseFloat(outboundUnwrappedBalance)
+                            parseFloat(outboundBalance)
                         ).toFixed(5)}
                 </p>
             </div>
             <div
-                className="text-xs h-8 px-4 hover:scale-110 hover:-translate-x-1 duration-200 transition-all flex items-center justify-center"
+                className="text-xs h-8 px-4 hover:scale-110 hover:-translate-x-1 transition-all flex items-center justify-center"
                 style={{
                     backgroundColor: swapTheme.useMaxButton,
                     color: swapTheme.useMaxText,
                     fontWeight: swapTheme.primaryFontWeight,
-                    borderRadius: swapTheme.itemBorderRadius
+                    borderRadius: swapTheme.itemBorderRadius,
+                    transitionDuration: swapTheme.accentDuration
                 }}
                 onClick={handleUseMaxClick}
             >
-                <UseMaxText swapTheme={swapTheme} showMaxAnimation={showMaxAnimation}>Use Max</UseMaxText>
+                <UseMaxText swapTheme={swapTheme} showMaxAnimation={showMaxAnimation}
+                >Use Max</UseMaxText>
             </div>
         </button>
     )

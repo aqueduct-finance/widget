@@ -65,7 +65,7 @@ const FlowRateRow = ({
             }}
         >
             {options.map((option) => (
-                <div className="w-full rounded-xl px-3 py-3 flex items-center justify-center mt-3 text-lg font-bold cursor-pointer"
+                <div className="w-full px-3 py-3 flex items-center justify-center mt-3 text-lg cursor-pointer"
                     key={option.value}
                     onClick={() => {
                         setDropdownValue(option)
@@ -73,7 +73,10 @@ const FlowRateRow = ({
                     }}
                     style={{
                         backgroundColor: swapTheme.useMaxButton,
-                        color: swapTheme.primaryText
+                        color: swapTheme.primaryText,
+                        borderRadius: swapTheme.accentBorderRadius,
+                        fontWeight: swapTheme.accentFontWeight,
+                        fontFamily: swapTheme.textFont
                     }}
                 >
                     <h1 className="opacity-75">{option.label}</h1>

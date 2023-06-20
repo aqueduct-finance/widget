@@ -19,9 +19,13 @@ const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
                 borderRadius: swapTheme.secondaryBorderRadius
             }}
         >
-            <div className="flex flex-row space-x-2 font-medium">
+            <div className="flex flex-row space-x-2">
                 <p
-                    style={{ color: swapTheme.accentText }}
+                    style={{
+                        color: swapTheme.accentText,
+                        fontWeight: swapTheme.secondaryFontWeight,
+                        fontFamily: swapTheme.textFont
+                    }}
                 >
                     Duration:
                 </p>
@@ -29,10 +33,20 @@ const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
                     style={{
                         backgroundColor: swapTheme.useMaxButton,
                         color: swapTheme.streamLengthText,
-                        borderRadius: swapTheme.itemBorderRadius
+                        borderRadius: swapTheme.itemBorderRadius,
+
                     }}
                 >
-                    <p>{length} hours</p>
+                    <p
+                        style={{
+                            fontFamily: swapTheme.numberFont
+                        }}
+                    >{length}</p>
+                    <p
+                        style={{
+                            fontFamily: swapTheme.textFont
+                        }}
+                    >hours</p>
                 </div>
             </div>
             <div className="w-full">
@@ -41,7 +55,7 @@ const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
                     style={{
                         backgroundColor: swapTheme.primaryText,
                         accentColor: swapTheme.inputDot,
-                        borderRadius: swapTheme.accentBorderRadius
+                        borderRadius: swapTheme.accentBorderRadius,
                     }}
                     type="range"
                     min={1}

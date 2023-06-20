@@ -46,7 +46,7 @@ const DynamicInputBox = ({
         setSwapAmount(numericValue)
 
         if (isNaN(numericValue)) {
-            console.log("Invalid input");
+            setDivScrollLeft(0)
             return;
         }
 
@@ -85,11 +85,12 @@ const DynamicInputBox = ({
 
             if (dynamicInput === "") {
                 setDivScrollLeft(0)
+                setDynamicFontSize(72)
             } else {
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
         }
-    }, [swapAmount, dynamicInput]);
+    }, [swapAmount, dynamicInput, divScrollLeft]);
 
     const handleInput = (e) => {
         const inputValue = e.target.value;
@@ -98,9 +99,11 @@ const DynamicInputBox = ({
 
         if (inputValue === "") {
             setDivScrollLeft(0)
+            setDynamicFontSize(72)
         }
 
         const periodsCount = (inputValue.match(regex) || []).length;
+
         if (periodsCount > 1) {
             return;
         }
@@ -132,12 +135,13 @@ const DynamicInputBox = ({
                             }}
                         />
                     ) : (
-                        <div className="rounded-full"
+                        <div
                             style={{
                                 backgroundColor: swapTheme.plusBg,
                                 borderColor: swapTheme.plusBorder,
                                 borderWidth: swapTheme.secondaryBorderWidth,
-                                color: swapTheme.plusColor
+                                color: swapTheme.plusColor,
+                                borderRadius: swapTheme.itemBorderRadius
                             }}
                         >
                             <BsPlus className="w-full h-full" onClick={() => {
@@ -151,10 +155,15 @@ const DynamicInputBox = ({
                     ref={inputRef}
                     style={{
                         width: `calc(50% + ${divScrollLeft}px)`,
-                        fontSize: `${dynamicFontSize}px`
+                        fontSize: `${dynamicFontSize}px`,
+                        fontFamily: swapTheme.numberFont,
+                        fontWeight: swapTheme.primaryFontWeight,
+                        backgroundColor: "transparent",
+                        color: swapTheme.primaryText,
+                        transitionDuration: swapTheme.accentDuration
                     }}
                     type="text"
-                    className='text-white bg-black outline-none transition-all duration-200'
+                    className='outline-none transition-all'
                     onChange={handleInput}
                     value={dynamicInput}
                 />

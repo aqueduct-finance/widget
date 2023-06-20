@@ -5,8 +5,7 @@ import { useStore } from "../../../store";
 import React from "react";
 
 interface TokenModalProviderProps {
-    // TODO: Remove optional props/add default values. Optional props often reduce type safety and can increase complexity
-    tokenList?: TokenTypes[];
+    tokenList: TokenTypes[];
     showModal: boolean;
     theme: Theme;
     setShowModal: (value: boolean) => void;
@@ -26,16 +25,18 @@ const TokenModalProvider = ({
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] duration-300 ${showModal
+            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] ${showModal
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}
             style={{
-                backgroundColor: theme.bgColor
+                backgroundColor: theme.bgColor,
+                transitionDuration: theme.primaryDuration
             }}
         >
             <TokenDisplay
                 tokenOption={tokenList}
+                theme={theme}
                 display={showModal}
                 setDisplay={setShowModal}
                 setOutboundToken={store.setOutboundToken}

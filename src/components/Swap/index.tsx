@@ -2,9 +2,12 @@ import SwapWidget from "./SwapWidget";
 import { goerli } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
-import React from "react";
+import { useStore } from "../../store";
+import React, { useEffect, useRef } from "react";
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
+import { TestTokens } from "../../utils/erc20s";
+import Head from "next/head";
 
 const chains = [goerli];
 
@@ -15,6 +18,9 @@ interface ExportedWidgetProps {
     Web3Key: string;
     chainName?: string;
     width?: string;
+    outboundToken?: string;
+    inboundToken?: string;
+    fontUrl?: string;
 }
 
 const TWAMMWidget = ({
@@ -22,8 +28,13 @@ const TWAMMWidget = ({
     tokenOption,
     defaultTokens,
     Web3Key,
-    width
+    width,
+    outboundToken,
+    inboundToken,
+    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@500&display=swap"
 }: ExportedWidgetProps) => {
+
+    const store = useStore()
 
     const config = createConfig(
         getDefaultConfig({
@@ -35,10 +46,36 @@ const TWAMMWidget = ({
         }),
     );
 
+    const outboundTokenWithAddress = TestTokens.find(
+        token => token.address === outboundToken
+    ) || tokenOption.find(
+        token => token.address === outboundToken
+    );
+
+    const inboundTokenWithAddress = TestTokens.find(
+        token => token.address === inboundToken
+    ) || tokenOption.find(
+        token => token.address === inboundToken
+    );
+
+    useEffect(() => {
+        if (outboundTokenWithAddress) {
+            store.setOutboundToken(outboundTokenWithAddress);
+        }
+        if (inboundTokenWithAddress) {
+            store.setInboundToken(inboundTokenWithAddress);
+        }
+    }, [outboundTokenWithAddress, inboundTokenWithAddress]);
+
 
     return (
         <WagmiConfig config={config}>
             <ConnectKitProvider>
+                <Head>
+                    <style>
+                        @import url({fontUrl});
+                    </style>
+                </Head>
                 <SwapWidget
                     theme={theme}
                     tokenOption={tokenOption}

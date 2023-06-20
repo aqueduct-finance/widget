@@ -54,10 +54,14 @@ const StartSwap = ({
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 bg-black transition-all rounded-[2rem] duration-300 overflow-hidden ${swapActive
+            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] overflow-hidden ${swapActive
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}
+            style={{
+                backgroundColor: theme.bgColor,
+                transitionDuration: theme.primaryDuration
+            }}
         >
             {isApproved ? (
                 <SwapResult

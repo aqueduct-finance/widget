@@ -32,21 +32,36 @@ const AfterTransaction = ({
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 bg-black transition-all rounded-[2rem] duration-300 overflow-hidden ${isSwapFinished
+            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 bg-black transition-all rounded-[2rem] overflow-hidden ${isSwapFinished
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}
+            style={{
+                transitionDuration: swapTheme.primaryDuration
+            }}
         >
-            <div className={`${isSwapFinished ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-center ease-in-out duration-300 rounded-[2rem] px-4`}>
-                <div className="w-full flex flex-row items-center justify-end px-3 font-bold text-2xl text-white">
-                    <IoMdClose className="text-3xl mt-3 cursor-pointer ease-in-out duration-100"
+            <div className={`${isSwapFinished ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-center ease-in-out rounded-[2rem] px-4`}
+                style={{
+                    transitionDuration: swapTheme.primaryDuration
+                }}
+            >
+                <div className="w-full flex flex-row items-center justify-end px-3 text-2xl"
+                    style={{
+                        color: swapTheme.icons,
+                        fontWeight: swapTheme.accentFontWeight
+                    }}
+                >
+                    <IoMdClose className="text-3xl mt-3 cursor-pointer ease-in-out"
                         onMouseEnter={() => {
                             setIsExitHover(true)
                         }}
                         onMouseLeave={() => {
                             setIsExitHover(false)
                         }}
-                        style={{ color: isExitHover ? swapTheme.accentText : swapTheme.primaryText }}
+                        style={{
+                            color: isExitHover ? swapTheme.accentText : swapTheme.primaryText,
+                            transitionDuration: swapTheme.secondaryDuration
+                        }}
                         onClick={() => {
                             setSwapActive(false)
                             setIsBufferAccepted(false)

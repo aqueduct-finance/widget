@@ -1,9 +1,10 @@
 import { Theme } from "../../theme";
 import { defaultTheme } from '../../theme/theme'
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { IoMdClose } from 'react-icons/io'
 import { useStore } from "../../store";
+import { GridCircleLoader, NinjaLoader, DefaultLoader } from "../../theme/loaders";
 import flowrates from "../../utils/flowrates";
 
 const rotationAnimation = keyframes`
@@ -74,7 +75,6 @@ const SwapResult = ({
   setIsSwapSuccess,
   setIsSwapFinished,
 }: SwapResultProps) => {
-  const [dots, setDots] = useState('');
   const [isExitHover, setIsExitHover] = useState(false);
 
   const store = useStore()
@@ -86,28 +86,13 @@ const SwapResult = ({
         store.setFlowrateUnit(flowrates[1])
         store.setOutboundToken(undefined)
         store.setInboundToken(undefined)
-        setIsSwapSuccess(false)
+        setIsSwapSuccess(true)
         setIsSwapFinished(true)
       }, 5000);
     };
 
     delayLoading();
   }, []);
-
-  // FIXME: remove useEffect
-  useEffect(() => {
-    const addDot = () => {
-      if (dots === '...') {
-        setDots('');
-      } else {
-        setDots(prevDots => prevDots + '.');
-      }
-    };
-
-    const interval = setInterval(addDot, 300);
-
-    return () => clearInterval(interval);
-  }, [dots]);
 
   const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -134,11 +119,12 @@ const SwapResult = ({
         />
       </div>
       <div className="w-full flex items-center justify-center px-3 py-3 mt-[35%]">
-        <StyledLoader swapTheme={swapTheme} />
+        {/*<StyledLoader swapTheme={swapTheme} />*/}
+        <GridCircleLoader swapTheme={swapTheme} />
+        {/*<NinjaLoader swapTheme={swapTheme} />*/}
       </div>
       <div className="w-full text-white text-2xl flex justify-center items-center font-bold mt-12">
         <h1 className="ml-2">Processing transaction</h1>
-        <div className="w-[10px]">{dots}</div>
       </div>
     </div>
   )

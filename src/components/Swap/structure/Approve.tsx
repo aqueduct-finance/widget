@@ -58,8 +58,8 @@ const Approve = ({
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     const options = [
-        { title: "Spending", data: swapAmount + " " + outboundToken?.name },
-        { title: "Receiving", data: inboundToken?.name },
+        { title: "Spending", data: swapAmount + " " + outboundToken?.symbol },
+        { title: "Receiving", data: inboundToken?.symbol },
         { title: "Flowrate", data: flowrate.toFixed(8) + " / " + flowrateUnit.sublabel },
         { title: "Start Date", data: startDate },
         { title: "Start Time", data: startTime },
@@ -88,30 +88,50 @@ const Approve = ({
     };
 
     return (
-        <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[3rem] px-4`}>
-            <div className="w-full flex flex-row items-center justify-between px-3 font-bold text-2xl text-white">
+        <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out rounded-[3rem] px-4`}
+            style={{
+                transitionDuration: swapTheme.primaryDuration
+            }}
+        >
+            <div className="w-full flex flex-row items-center justify-between px-3 text-2xl"
+                style={{
+                    color: swapTheme.TitleColor,
+                    fontWeight: swapTheme.accentFontWeight
+                }}
+            >
                 <h1>Approve Swap</h1>
-                <IoMdClose className="text-3xl cursor-pointer ease-in-out duration-100"
+                <IoMdClose className="text-3xl cursor-pointer ease-in-out"
                     onMouseEnter={() => {
                         setIsExitHover(true)
                     }}
                     onMouseLeave={() => {
                         setIsExitHover(false)
                     }}
-                    style={{ color: isExitHover ? swapTheme.accentText : swapTheme.primaryText }}
+                    style={{
+                        color: isExitHover ? swapTheme.accentText : swapTheme.primaryText,
+                        transitionDuration: swapTheme.secondaryDuration
+                    }}
                     onClick={() => {
                         setSwapActive(false)
                         setIsBufferAccepted(false)
                     }}
                 />
             </div>
-            <div className="w-full h-full rounded-lg flex flex-col items-center justify-between space-y-0 px-2 pt-4 pb-5">
-                <div className="w-full flex flex-col space-y-9 px-3 pt-6 pb-0 rounded-xl ease-in-out duration-200 mt-8"
+            <div className="w-full h-full flex flex-col items-center justify-between space-y-0 px-2 pt-4 pb-5"
+                style={{
+                    borderRadius: swapTheme.accentBorderRadius
+                }}
+            >
+                <div className="w-full flex flex-col space-y-9 px-3 pt-6 pb-0 ease-in-out duration-200 mt-8"
                     style={{
-                        backgroundColor: "transparent"
+                        backgroundColor: "transparent",
+                        borderRadius: swapTheme.accentBorderRadius
                     }}
                 >
-                    <div className="w-full flex flex-col space-y-3 px-3 py-0 rounded-xl"
+                    <div className="w-full flex flex-col space-y-3 px-3 py-0"
+                        style={{
+                            borderRadius: swapTheme.accentBorderRadius
+                        }}
                     >
                         {filteredOptions.map((option, index) => (
                             <ApproveRow
@@ -122,9 +142,10 @@ const Approve = ({
                             />
                         ))}
                     </div>
-                    <div className="w-full flex flex-col justify-start items-start py-4 px-4 rounded-xl space-y-4 leading-relaxed"
+                    <div className="w-full flex flex-col justify-start items-start py-4 px-4 space-y-4 leading-relaxed"
                         style={{
                             backgroundColor: isBufferAccepted ? swapTheme.secondaryMain : swapTheme.useMaxButton,
+                            borderRadius: swapTheme.accentBorderRadius
                         }}
                     >
                         <p
@@ -135,10 +156,12 @@ const Approve = ({
                         >If you do not cancel your swap before your balance reaches zero, you will lose your {buffer.toFixed(5)} {store.outboundToken?.underlyingToken?.symbol} buffer.</p>
                         <div className="flex flex-row space-x-2 items-center font-bold">
                             <button
-                                className="w-[25px] h-[25px] rounded-md border-[1px] focus:outline-none ease-in-out duration-300"
+                                className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
                                 style={{
                                     backgroundColor: isBufferAccepted ? "white" : "transparent",
-                                    borderColor: "white"
+                                    borderColor: "white",
+                                    borderRadius: swapTheme.checkBorderRadius,
+                                    transitionDuration: swapTheme.primaryDuration
                                 }}
                                 onClick={() => {
                                     setIsBufferAccepted(!isBufferAccepted)
@@ -147,21 +170,25 @@ const Approve = ({
                                 {isBufferAccepted && <BsCheckLg style={{ color: swapTheme.swapButton }} className="w-full h-full" />}
                             </button>
                             <p
-                                className="font-bold opacity-80"
+                                className="opacity-80"
                                 style={{
-                                    color: swapTheme.primaryText
+                                    color: swapTheme.primaryText,
+                                    fontWeight: swapTheme.accentFontWeight
                                 }}
                             >Yes, I understand the risk.</p>
                         </div>
                     </div>
                 </div>
-                <button className={`${isBufferAccepted ? '' : 'opacity-60'} font-semibold 2rounded-gc-2xl w-full rounded-full mt-4 ease-in-out duration-300`}
+                <button className={`${isBufferAccepted ? '' : 'opacity-60'} w-full mt-4 ease-in-out`}
                     onClick={handleApproveClick}
                     style={{
                         backgroundColor: swapTheme.swapButton,
                         color: swapTheme.swapButtonText,
                         fontSize: swapTheme.swapButtonFontSize,
-                        padding: swapTheme.swapButtonPadding
+                        padding: swapTheme.swapButtonPadding,
+                        fontWeight: swapTheme.secondaryFontWeight,
+                        borderRadius: swapTheme.itemBorderRadius,
+                        transitionDuration: swapTheme.primaryDuration
                     }}>
                     <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Approve</SwapText>
                 </button>

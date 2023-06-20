@@ -8,10 +8,9 @@ import { IoMdClose } from 'react-icons/io'
 import styled from "styled-components";
 
 interface TokenDisplayProps {
-    // TODO: Remove optional props/add default values. Optional props often reduce type safety and can increase complexity
-    tokenOption?: TokenTypes[];
+    tokenOption: TokenTypes[];
     display: boolean;
-    theme?: Theme;
+    theme: Theme;
     setOutboundToken: (token: TokenTypes) => void;
     setInboundToken: (token: TokenTypes) => void;
     setDisplay: (value: boolean) => void;
@@ -87,11 +86,16 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                 <h1
                     className="text-xl"
                     style={{
-                        color: swapTheme.primaryText
+                        color: swapTheme.TitleColor,
+                        fontWeight: swapTheme.primaryFontWeight,
+                        fontFamily: swapTheme.textFont
                     }}
                 >Select Token</h1>
-                <IoMdClose className="text-3xl cursor-pointer ease-in-out duration-100"
-                    style={{ color: isExitHover ? swapTheme.accentText : swapTheme.primaryText }}
+                <IoMdClose className="text-3xl cursor-pointer ease-in-out"
+                    style={{
+                        color: isExitHover ? swapTheme.accentText : swapTheme.primaryText,
+                        transitionDuration: swapTheme.secondaryDuration
+                    }}
                     onMouseEnter={() => {
                         setIsExitHover(true)
                     }}
@@ -103,12 +107,14 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                     }}
                 />
             </div>
-            <div className="w-full  px-4 py-4 flex flex-row items-center justify-between">
-                <div className="w-full h-14 rounded-lg items-center flex flex-row space-x-2 ease-in-out duration-300"
+            <div className="w-full px-4 py-4 flex flex-row items-center justify-between">
+                <div className="w-full h-14 items-center flex flex-row space-x-2 ease-in-out"
                     style={{
                         backgroundColor: swapTheme.streamLengthBox,
                         borderColor: isInputHover ? 'transparent' : swapTheme.borderColor,
-                        borderWidth: swapTheme.primaryBorderWidth
+                        borderWidth: swapTheme.primaryBorderWidth,
+                        borderRadius: swapTheme.accentBorderRadius,
+                        transitionDuration: swapTheme.primaryDuration
                     }}
                     onMouseEnter={() => {
                         setIsInputHover(true)
@@ -123,10 +129,11 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                         }}
                     />
                     <input
-                        className="w-full h-full rounded-lg focus:outline-none border-transparent"
+                        className="w-full h-full focus:outline-none border-transparent"
                         style={{
                             backgroundColor: swapTheme.streamLengthBox,
                             color: swapTheme.primaryText,
+                            borderRadius: swapTheme.accentBorderRadius,
                         }}
                         type="text"
                         placeholder="Search tokens..."
@@ -135,7 +142,12 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                     />
                 </div>
             </div>
-            <div className="w-full bg-transparent space-y-0">
+            <div
+                className="w-full space-y-0"
+                style={{
+                    backgroundColor: "transparent"
+                }}
+            >
                 {tokensToRender.map((item, index) => (
                     <TokenRow
                         item={item}

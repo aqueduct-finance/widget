@@ -22,10 +22,14 @@ const SettingsModalProvider = ({
     setSchedule
 }: SettingsModalProviderProps) => (
     <div
-        className={`absolute bottom-[0.2rem] left-0 right-0 z-50 bg-black transition-all rounded-[2rem] duration-300 ${showSettings
+        className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] ${showSettings
             ? "top-0 pointer-events-auto"
             : "top-full pointer-events-none"
             }`}
+        style={{
+            backgroundColor: theme.bgColor,
+            transitionDuration: theme.primaryDuration,
+        }}
     >
         <Settings
             display={showSettings}

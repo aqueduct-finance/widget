@@ -17,7 +17,11 @@ const StreamLengthContainer = ({
     const store = useStore()
 
     return (
-        <div className={`${store.flowrateUnit?.label === "Pay Once" ? 'mt-2' : 'mt-0'} w-full rounded-lg bg-transparent`}>
+        <div className={`${store.flowrateUnit?.label === "Pay Once" ? 'mt-2' : 'mt-0'} w-full bg-transparent`}
+            style={{
+                borderRadius: swapTheme.accentBorderRadius
+            }}
+        >
             {store.flowrateUnit?.label === "Pay Once" ? (
                 <div className="flex flex-row justify-between">
                     <StreamLength

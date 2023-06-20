@@ -25,15 +25,18 @@ const FlowRateSelect = ({
         <div className="w-full flex flex-row py-3 cursor-pointer"
             style={{
                 backgroundColor: swapTheme.streamLengthBox,
-                borderRadius: swapTheme.secondaryBorderRadius
+                borderRadius: swapTheme.secondaryBorderRadius,
+                fontFamily: swapTheme.textFont,
+                fontWeight: swapTheme.accentFontWeight
             }}
             onClick={() => {
                 setFlowRateDropDown(!flowRateDropDown)
             }}
         >
-            <div className="w-[90%] flex justify-center items-center font-bold"
+            <div className="w-[90%] flex justify-center items-center"
                 style={{
-                    borderRadius: swapTheme.accentBorderRadius
+                    borderRadius: swapTheme.accentBorderRadius,
+                    fontWeight: swapTheme.accentFontWeight
                 }}
             >
                 <h1 className="text-xl ml-9 opacity-75"
@@ -47,9 +50,10 @@ const FlowRateSelect = ({
                 }}
             >
                 <HiChevronDown
-                    className={`${flowRateDropDown ? '-rotate-180' : ''} h-6 w-6 flex flex-shrink-0 ease-in-out duration-500 opacity-75`}
+                    className={`${flowRateDropDown ? '-rotate-180' : ''} h-6 w-6 flex flex-shrink-0 ease-in-out opacity-75`}
                     style={{
-                        color: swapTheme.TitleColor
+                        color: swapTheme.TitleColor,
+                        transitionDuration: swapTheme.primaryDuration
                     }}
                 />
             </div>

@@ -10,6 +10,7 @@ export interface Theme {
     primaryBorderRadius?: string;
     secondaryBorderRadius?: string;
     accentBorderRadius?: string;
+    checkBorderRadius?: string;
     borderColor?: string;
     primaryBorderWidth?: string;
     secondaryBorderWidth?: string;
@@ -42,6 +43,7 @@ export interface Theme {
 
     primaryFontWeight?: string;
     secondaryFontWeight?: string;
+    accentFontWeight?: string;
 
     swapButton?: string;
     swapButtonText?: string;
@@ -58,6 +60,14 @@ export interface Theme {
 
     textFont?: string;
     numberFont?: string;
+
+    primaryDuration?: string;
+    secondaryDuration?: string;
+    accentDuration?: string;
+
+    errorColor?: string;
+    successColor?: string;
+    embeddedLink?: string;
 }
 
 export interface Animation {
