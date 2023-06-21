@@ -23,7 +23,7 @@ const FlowRateContainer = ({
 
     return (
         <div className={`${store.flowrateUnit?.label === "Pay Once" ? `${isEntered ? 'h-[59%]' : 'h-[51.5%]'}` : `${isEntered ? 'h-[53.5%]' : 'h-[43.5%]'}`} ${flowRateDropDown ? '' : 'hidden'} 
-        absolute bottom-8 left-[1.75rem] right-[1.75rem] z-[100]`}
+        absolute bottom-8 left-[1.75rem] right-[1.75rem] z-[40]`}
             style={{
                 borderRadius: swapTheme.secondaryBorderRadius,
             }}

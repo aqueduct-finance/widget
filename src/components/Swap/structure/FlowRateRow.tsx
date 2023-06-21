@@ -25,7 +25,7 @@ margin-top: 8px;
 flex-direction: column; 
 width: 100%; 
 height: 100%; 
-border-radius: 0px 0px ${({ theme }) => theme.accentBorderRadius} ${({ theme }) => theme.accentBorderRadius};
+border-radius: 0px 0px ${({ theme }) => theme.secondaryBorderRadius} ${({ theme }) => theme.secondaryBorderRadius};
 
 &::-webkit-scrollbar {
     width: 0.5rem;
