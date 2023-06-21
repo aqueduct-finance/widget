@@ -31,7 +31,7 @@ const TWAMMWidget = ({
     width,
     outboundToken,
     inboundToken,
-    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@500&display=swap"
+    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap"
 }: ExportedWidgetProps) => {
 
     const store = useStore()
