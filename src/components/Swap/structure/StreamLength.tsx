@@ -53,7 +53,7 @@ const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
                 <input
                     className="appearance-none h-[5px] w-full cursor-pointer"
                     style={{
-                        backgroundColor: swapTheme.primaryText,
+                        backgroundColor: swapTheme.plusBg, // TODO: probably should be its own theme color, or could combine into e.g. 'light accent color'
                         accentColor: swapTheme.inputDot,
                         borderRadius: swapTheme.accentBorderRadius,
                     }}
