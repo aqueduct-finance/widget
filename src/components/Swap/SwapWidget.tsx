@@ -325,6 +325,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
         <div className="relative flex flex-col px-7 pb-7 pt-12 z-10 overflow-hidden"
             style={{
                 width: width,
+                fontFamily: swapTheme.textFont
             }}
         >
             <RealTimeBalance
