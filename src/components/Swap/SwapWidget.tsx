@@ -25,7 +25,6 @@ import SwapButton from "./structure/SwapButton";
 import AfterTransaction from "./structure/AfterTransaction";
 import DynamicInputBox from "./structure/DynamicInputBox";
 
-
 interface SwapWidgetProps {
     theme?: Theme;
     tokenOption?: TokenTypes[];
@@ -408,7 +407,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     swapTheme={swapTheme}
                     setShowModal={setShowModal}
                     setOutbound={setOutbound}
-                    swapAmount={swapAmount}
                     paddingPercentage={0.15}
                     setSwapAmount={setSwapAmount}
                     setDynamicInput={setDynamicInput}

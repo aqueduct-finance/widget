@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
@@ -8,7 +8,6 @@ interface DynamicInputBoxProps {
     swapTheme: Theme;
     setShowModal: (value: boolean) => void;
     setOutbound: (value: boolean) => void;
-    swapAmount: number;
     paddingPercentage: number;
     setSwapAmount: (value: number) => void;
     setDynamicInput: (value: string) => void;
@@ -19,7 +18,6 @@ const DynamicInputBox = ({
     swapTheme,
     setShowModal,
     setOutbound,
-    swapAmount,
     paddingPercentage,
     setSwapAmount,
     setDynamicInput,
@@ -40,10 +38,7 @@ const DynamicInputBox = ({
 
     const regex = /\./g;
 
-    // FIXME: remove useEffect
-    useEffect(() => {
-        // width computation + animation
-
+    const computeWidthAndAnimation = () => {
         const numericValue = parseFloat(dynamicInput.replace(/[^0-9.]/g, ""));
         setSwapAmount(numericValue)
 
@@ -92,7 +87,7 @@ const DynamicInputBox = ({
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
         }
-    }, [swapAmount, dynamicInput, divScrollLeft]);
+    }
 
     const handleInput = (e) => {
         const inputValue = e.target.value;
@@ -101,6 +96,7 @@ const DynamicInputBox = ({
 
         if (inputValue === "") {
             setDivScrollLeft(PLACEHOLDER_SCROLL_LEFT)
+            computeWidthAndAnimation();
             setDynamicFontSize(72)
         }
 
@@ -110,7 +106,8 @@ const DynamicInputBox = ({
             return;
         }
 
-        setDynamicInput(numericValue)
+        setDynamicInput(numericValue);
+        computeWidthAndAnimation();
     }
 
 
