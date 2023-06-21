@@ -32,7 +32,7 @@ const AfterTransaction = ({
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 bg-black transition-all rounded-[2rem] overflow-hidden ${isSwapFinished
+            className={`absolute bottom-0 left-0 right-0 z-50 bg-black transition-all rounded-[3rem] overflow-hidden ${isSwapFinished
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}
@@ -40,7 +40,7 @@ const AfterTransaction = ({
                 transitionDuration: swapTheme.primaryDuration
             }}
         >
-            <div className={`${isSwapFinished ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-center ease-in-out rounded-[2rem] px-4`}
+            <div className={`${isSwapFinished ? ' flex' : 'hidden'} flex-col w-full h-full items-center justify-start ease-in-out rounded-[2rem] p-5`}
                 style={{
                     transitionDuration: swapTheme.primaryDuration
                 }}

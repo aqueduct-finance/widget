@@ -17,12 +17,12 @@ const TransactionFailed = ({
     setIsBufferAccepted,
     setIsSwapFinished
 }: TransactionFailedProps) => (
-    <div className="w-full flex flex-col space-y-3 items-center justify-center"
+    <div className="w-full h-full flex flex-col items-center justify-end"
         style={{
             fontFamily: swapTheme.textFont
         }}
     >
-        <div className="flex items-center justify-center h-[40%] w-full">
+        <div className="flex items-center justify-center h-48 w-full">
             <BiMessageAltError
                 className="w-2/3 h-2/3"
                 style={{
@@ -38,7 +38,7 @@ const TransactionFailed = ({
         >
             <h1 className="text-2xl">Something went wrong.</h1>
         </div>
-        <div className="flex items-center text-center justify-center w-full py-2">
+        <div className="flex items-center text-center justify-center w-full py-4">
             <p
                 style={{
                     color: swapTheme.secondaryText
@@ -56,7 +56,7 @@ const TransactionFailed = ({
                 </a>
             </p>
         </div>
-
+        <div className='flex grow' />
         <button className={`w-full rounded-full ease-in-out`}
             onClick={() => {
                 setSwapActive(false)

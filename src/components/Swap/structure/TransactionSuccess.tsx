@@ -40,14 +40,14 @@ const TransactionSuccess = ({
 
     return (
         <div
-            className="w-full flex flex-col items-center justify-center"
+            className="w-full h-full flex flex-col items-center justify-center"
             style={{
                 fontFamily: swapTheme.textFont
             }}
         >
-            <div className="flex items-center justify-center h-[40%] w-full">
+            <div className="flex items-center justify-center h-40 w-full 2bg-red-500">
                 <HiCheckCircle
-                    className="w-2/3 h-2/3"
+                    className="w-2/3 h-3/4"
                     style={{
                         color: swapTheme.successColor
                     }}
@@ -61,7 +61,7 @@ const TransactionSuccess = ({
             >
                 <h1 className="text-2xl">Transaction Submitted</h1>
             </div>
-            <div className="flex items-center justify-center w-full py-2">
+            <div className="flex items-center justify-center w-full pt-2">
                 <a href="https://www.aqueduct.fi" target="_blank" rel="noopener noreferrer">
                     <p className="hover:underline"
                         style={{
@@ -70,7 +70,8 @@ const TransactionSuccess = ({
                     >View on Etherscan</p>
                 </a>
             </div>
-            <div className="w-full flex flex-row justify-between py-3 mt-8"
+            <div className='flex grow' />
+            <div className="w-full flex flex-row justify-between py-3 mt-4"
                 style={{
                     borderTopColor: swapTheme.borderColor,
                     borderTopWidth: swapTheme.primaryBorderWidth,
