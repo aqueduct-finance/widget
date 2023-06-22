@@ -7,13 +7,11 @@ import { Theme } from '../../../theme';
 interface TransactionSuccessProps {
     swapTheme: Theme;
     outgoingFlowRate: number;
-    endFlow: string
 }
 
 const TransactionSuccess = ({
     swapTheme,
     outgoingFlowRate,
-    endFlow
 }: TransactionSuccessProps) => {
     const store = useStore()
 
