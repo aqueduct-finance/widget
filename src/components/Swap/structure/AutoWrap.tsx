@@ -1,3 +1,4 @@
+/*
 import React, { useState, useEffect } from "react";
 import { daiABI } from "./config";
 import { Framework } from "@superfluid-finance/sdk-core";
@@ -13,12 +14,6 @@ import {
 import "./batchCall.css";
 import { ethers } from "ethers";
 
-
-
-
-/*
- This is an example provided by Superfluid
-*/
 
 
 
@@ -343,3 +338,5 @@ export const BatchCall = () => {
         </div>
     );
 };
+
+*/
