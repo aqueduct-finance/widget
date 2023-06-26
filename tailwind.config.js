@@ -1,4 +1,3 @@
-
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
@@ -20,9 +19,9 @@ module.exports = {
                 usdcBlue: "#2775CA",
                 ethBlue: "#00ABEE",
                 ethPink: "#E7018A",
-                highlightGray: '#262626',
-                lightGray: '#808080',
-                darkGray: '#121212',
+                highlightGray: "#262626",
+                lightGray: "#808080",
+                darkGray: "#121212",
             },
             screens: {
                 xs: "475px",
@@ -31,21 +30,21 @@ module.exports = {
             },
             scrollbar: {
                 // The width of the scrollbar
-                width: '6px',
+                width: "6px",
                 // The color of the scrollbar track
-                track: 'transparent',
+                track: "transparent",
                 // The color of the scrollbar thumb
-                thumb: '#4B5563',
+                thumb: "#4B5563",
             },
         },
         fontFamily: {
-            'poppins' : ['Poppins', 'sans-serif'],
-            'redhat-mono': ['"Red Hat Mono"', 'monospace']
+            poppins: ["Poppins", "sans-serif"],
+            "redhat-mono": ['"Red Hat Mono"', "monospace"],
         },
         animation: {
-            'spin-slow': 'spin 2.5s linear infinite',
-            'fade-in': 'fade-in 300ms ease-in-out', 
-          }
+            "spin-slow": "spin 2.5s linear infinite",
+            "fade-in": "fade-in 300ms ease-in-out",
+        },
     },
     plugins: [],
 };

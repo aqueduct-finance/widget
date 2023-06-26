@@ -19,59 +19,73 @@ const DataDisplay = ({
     startTime,
     endDate,
     endTime,
-    outgoingFlowRate
+    outgoingFlowRate,
 }: DataDisplayProps) => {
-
     const store = useStore();
 
     return (
-        <div className={`${isEntered ? 'h-[110px]' : 'h-0'} delay-200 px-1.5 ease-in-out overflow-hidden`}
+        <div
+            className={`${
+                isEntered ? "h-[110px]" : "h-0"
+            } delay-200 px-1.5 ease-in-out overflow-hidden`}
             style={{
                 backgroundColor: swapTheme.streamLengthBox,
                 borderRadius: swapTheme.secondaryBorderRadius,
                 transitionDuration: swapTheme.primaryDuration,
-                fontFamily: swapTheme.textFont
+                fontFamily: swapTheme.textFont,
             }}
         >
-            <div className={`${isEntered ? 'flex flex-col h-[105px]' : 'h-0'} delay-200 ease-in-out w-full px-6 py-4 items-start text-xs space-y-3`}
+            <div
+                className={`${
+                    isEntered ? "flex flex-col h-[105px]" : "h-0"
+                } delay-200 ease-in-out w-full px-6 py-4 items-start text-xs space-y-3`}
                 style={{
                     backgroundColor: swapTheme.dataDisplayBg,
                     color: swapTheme.accentText,
                     borderRadius: swapTheme.secondaryBorderRadius,
-                    transitionDuration: swapTheme.primaryDuration
+                    transitionDuration: swapTheme.primaryDuration,
                 }}
             >
                 <div className="flex flex-row space-x-5">
                     <p>Start Date:</p>
-                    <p className="opacity-75"
+                    <p
+                        className="opacity-75"
                         style={{
-                            color: swapTheme.primaryText
+                            color: swapTheme.primaryText,
                         }}
-                    >{startDate}
-                        <span style={{ marginRight: '10px' }}></span>
-                        {startTime}</p>
+                    >
+                        {startDate}
+                        <span style={{ marginRight: "10px" }}></span>
+                        {startTime}
+                    </p>
                 </div>
                 <div className="flex flex-row space-x-5">
                     <p>End Date:</p>
-                    <p className="opacity-75"
+                    <p
+                        className="opacity-75"
                         style={{
-                            color: swapTheme.primaryText
+                            color: swapTheme.primaryText,
                         }}
-                    >{endDate}
-                        <span style={{ marginRight: '10px' }}></span>
-                        {endTime}</p>
+                    >
+                        {endDate}
+                        <span style={{ marginRight: "10px" }}></span>
+                        {endTime}
+                    </p>
                 </div>
                 <div className="flex flex-row space-x-5">
                     <p>{store.outboundToken?.symbol} Flowrate: </p>
-                    <p className="opacity-75"
+                    <p
+                        className="opacity-75"
                         style={{
-                            color: swapTheme.primaryText
+                            color: swapTheme.primaryText,
                         }}
-                    >-{outgoingFlowRate.toFixed(8)} / sec</p>
+                    >
+                        -{outgoingFlowRate.toFixed(8)} / sec
+                    </p>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default DataDisplay;

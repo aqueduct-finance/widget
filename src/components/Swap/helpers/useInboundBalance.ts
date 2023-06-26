@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useBalance } from "wagmi"
+import { useBalance } from "wagmi";
 
 interface UseOutboundBalanceProps {
     address: `0x${string}`;
@@ -7,12 +7,11 @@ interface UseOutboundBalanceProps {
 }
 
 const useInboundBalance = ({ address, token }: UseOutboundBalanceProps) => {
-    const [outboundBalance, setOutboundBalance] = useState<number>(
-    );
+    const [outboundBalance, setOutboundBalance] = useState<number>();
 
     const balanceQuery = useBalance({
         address: address,
-        token: token
+        token: token,
     });
 
     useEffect(() => {

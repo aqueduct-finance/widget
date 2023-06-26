@@ -31,10 +31,9 @@ const TWAMMWidget = ({
     width,
     outboundToken,
     inboundToken,
-    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap"
+    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap",
 }: ExportedWidgetProps) => {
-
-    const store = useStore()
+    const store = useStore();
 
     const config = createConfig(
         getDefaultConfig({
@@ -42,21 +41,17 @@ const TWAMMWidget = ({
             walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
 
             appName: "Aqueduct",
-            chains
-        }),
+            chains,
+        })
     );
 
-    const outboundTokenWithAddress = TestTokens.find(
-        token => token.address === outboundToken
-    ) || tokenOption.find(
-        token => token.address === outboundToken
-    );
+    const outboundTokenWithAddress =
+        TestTokens.find((token) => token.address === outboundToken) ||
+        tokenOption.find((token) => token.address === outboundToken);
 
-    const inboundTokenWithAddress = TestTokens.find(
-        token => token.address === inboundToken
-    ) || tokenOption.find(
-        token => token.address === inboundToken
-    );
+    const inboundTokenWithAddress =
+        TestTokens.find((token) => token.address === inboundToken) ||
+        tokenOption.find((token) => token.address === inboundToken);
 
     useEffect(() => {
         if (outboundTokenWithAddress) {
@@ -67,23 +62,21 @@ const TWAMMWidget = ({
         }
     }, [outboundTokenWithAddress, inboundTokenWithAddress]);
 
-
     return (
         <WagmiConfig config={config}>
             <ConnectKitProvider>
                 <Head>
-                    <style>
-                        @import url({fontUrl});
-                    </style>
+                    <style>@import url({fontUrl});</style>
                 </Head>
                 <SwapWidget
                     theme={theme}
                     tokenOption={tokenOption}
                     defaultTokens={defaultTokens}
-                    width={width} />
+                    width={width}
+                />
             </ConnectKitProvider>
         </WagmiConfig>
-    )
-}
+    );
+};
 
 export default TWAMMWidget;

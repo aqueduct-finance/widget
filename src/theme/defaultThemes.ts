@@ -54,9 +54,8 @@ export const lightTheme: Theme = {
     approveBox: "#121212",
 
     loaderInner: "rgb(255 255 255 / 0.5)",
-    loaderOuter: "#E17BF7"
+    loaderOuter: "#E17BF7",
 };
-
 
 export const darkTheme: Theme = {
     TitleColor: "#ffffff",
@@ -120,5 +119,5 @@ export const darkTheme: Theme = {
 
     errorColor: "#EF4444",
     successColor: "#49DE80",
-    embeddedLink: "#3B82F6"
+    embeddedLink: "#3B82F6",
 };

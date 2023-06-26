@@ -1,10 +1,10 @@
 import { Theme } from "../../../theme";
-import { defaultTheme } from '../../../theme/theme'
+import { defaultTheme } from "../../../theme/theme";
 import React, { useState } from "react";
-import { IoMdClose } from 'react-icons/io'
+import { IoMdClose } from "react-icons/io";
 import SettingsOption from "./SettingsOption";
-import { AiOutlinePoweroff } from "react-icons/ai"
-import { disconnect } from "@wagmi/core"
+import { AiOutlinePoweroff } from "react-icons/ai";
+import { disconnect } from "@wagmi/core";
 
 interface SettingsProps {
     theme?: Theme;
@@ -23,65 +23,73 @@ const Settings = ({
     autoWrap,
     setAutoWrap,
     schedule,
-    setSchedule }: SettingsProps) => {
-
+    setSchedule,
+}: SettingsProps) => {
     const [isExitHover, setIsExitHover] = useState(false);
-    const [isPower, setIsPower] = useState(false)
+    const [isPower, setIsPower] = useState(false);
 
     const options = [
-        { title: 'Auto Wrap', state: autoWrap, setState: setAutoWrap },
-        { title: 'Schedule Swap', state: schedule, setState: setSchedule },
-    ]
+        { title: "Auto Wrap", state: autoWrap, setState: setAutoWrap },
+        { title: "Schedule Swap", state: schedule, setState: setSchedule },
+    ];
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     const disconnectWallet = async () => {
         await disconnect();
-        setDisplay(false)
-    }
+        setDisplay(false);
+    };
 
     return (
-        <div className={`${display ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out px-4`}
+        <div
+            className={`${
+                display ? " flex" : "hidden"
+            } flex-col w-full h-full items-start justify-start ease-in-out px-4`}
             style={{
-                scrollbarWidth: 'none',
+                scrollbarWidth: "none",
                 transitionDuration: swapTheme.primaryDuration,
                 borderRadius: swapTheme.secondaryBorderRadius,
-                backgroundColor: "transparent"
+                backgroundColor: "transparent",
             }}
         >
             <div className="w-full flex items-center justify-between px-4 py-1">
-                <AiOutlinePoweroff className="text-2xl cursor-pointer ease-in-out"
+                <AiOutlinePoweroff
+                    className="text-2xl cursor-pointer ease-in-out"
                     onMouseEnter={() => {
-                        setIsPower(true)
+                        setIsPower(true);
                     }}
                     onMouseLeave={() => {
-                        setIsPower(false)
+                        setIsPower(false);
                     }}
                     style={{
                         color: isPower ? swapTheme.accentText : swapTheme.icons,
-                        transitionDuration: swapTheme.secondaryDuration
+                        transitionDuration: swapTheme.secondaryDuration,
                     }}
                     onClick={disconnectWallet}
                 />
-                <IoMdClose className="text-3xl cursor-pointer ease-in-out"
+                <IoMdClose
+                    className="text-3xl cursor-pointer ease-in-out"
                     onMouseEnter={() => {
-                        setIsExitHover(true)
+                        setIsExitHover(true);
                     }}
                     onMouseLeave={() => {
-                        setIsExitHover(false)
+                        setIsExitHover(false);
                     }}
                     style={{
-                        color: isExitHover ? swapTheme.accentText : swapTheme.icons,
-                        transitionDuration: swapTheme.secondaryDuration
+                        color: isExitHover
+                            ? swapTheme.accentText
+                            : swapTheme.icons,
+                        transitionDuration: swapTheme.secondaryDuration,
                     }}
                     onClick={() => {
-                        setDisplay(false)
+                        setDisplay(false);
                     }}
                 />
             </div>
-            <div className="w-full space-y-0"
+            <div
+                className="w-full space-y-0"
                 style={{
-                    backgroundColor: "transparent"
+                    backgroundColor: "transparent",
                 }}
             >
                 {options.map((option, index) => (
@@ -94,7 +102,7 @@ const Settings = ({
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Settings;
