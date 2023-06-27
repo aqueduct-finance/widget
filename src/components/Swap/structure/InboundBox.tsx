@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
 import { BsPlus } from "react-icons/bs";
-import { ethers } from "ethers";
-import { BigNumber } from "ethers";
 
 interface OutboundBoxProps {
     swapTheme: Theme;

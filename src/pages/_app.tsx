@@ -1,27 +1,26 @@
 import type { AppProps } from "next/app";
 import React from "react";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultConfig } from "connectkit";
-import { createConfig } from "wagmi";
-import { goerli } from "wagmi/chains";
-
-// we will not be using _app.tsx for swap widget. This is strictly for testing.
+import "../styles/globals.css";
+// import { getDefaultConfig } from "connectkit";
+// import { createConfig } from "wagmi";
+// import { goerli } from "wagmi/chains";
 
 // prOs@agOtOfritre5HA66fi?OCHo8athixAz#d7fRastlh*ca1u=Odr!dreW7
 
-const chains = [goerli];
+// const chains = [goerli];
 
-const config = createConfig(
-    getDefaultConfig({
-        // Required API Keys
-        alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_KEY, // or infuraId
-        walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
+// const config = createConfig(
+//     getDefaultConfig({
+//         // Required API Keys
+//         alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_KEY, // or infuraId
+//         walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
 
-        // Required
-        appName: "Your App Name",
-        chains,
-    })
-);
+//         // Required
+//         appName: "Your App Name",
+//         chains,
+//     })
+// );
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (

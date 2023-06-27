@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { ExplicitAny } from "../types/ExplicitAny";
 
 const rotationAnimation = keyframes`
   0% {
@@ -18,7 +19,7 @@ const rotationBackAnimation = keyframes`
   }
 `;
 
-export const DefaultLoader = styled.div<{ swapTheme: any }>`
+export const DefaultLoader = styled.div<{ swapTheme: ExplicitAny }>`
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -61,7 +62,7 @@ const GridCircleKey = keyframes`
 100% {transform: translate(0) rotate(calc(var(--s,1)*180deg))}
 `;
 
-export const GridCircleLoader = styled.div<{ swapTheme: any }>`
+export const GridCircleLoader = styled.div<{ swapTheme: ExplicitAny }>`
     width: 100px;
     height: 100px;
     display: grid;
@@ -88,7 +89,7 @@ const NinjaLoaderKey = keyframes`
 100% {inset:0    ;transform: rotate(90deg)}
 `;
 
-export const NinjaLoader = styled.div<{ swapTheme: any }>`
+export const NinjaLoader = styled.div<{ swapTheme: ExplicitAny }>`
     width: 100px;
     height: 100px;
     color: ${({ swapTheme }) => swapTheme.swapButton};

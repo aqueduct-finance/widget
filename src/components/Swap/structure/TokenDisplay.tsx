@@ -68,6 +68,7 @@ const TokenDisplay = ({
     const [searchQuery, setSearchQuery] = useState("");
     const [isExitHover, setIsExitHover] = useState(false);
     const [isInputHover, setIsInputHover] = useState(false);
+    console.log("display", display);
 
     const filteredTokens = tokenOption.filter(
         (token) =>
@@ -77,7 +78,7 @@ const TokenDisplay = ({
 
     const tokensToRender = searchQuery ? filteredTokens : tokenOption;
 
-    const handleMouseEnter = (index) => {
+    const handleMouseEnter = (index: number) => {
         setIsHover((prevStates) =>
             prevStates.map((state, i) => (i === index ? true : state))
         );
@@ -90,7 +91,7 @@ const TokenDisplay = ({
     };
 
     return (
-        <Container display={display}>
+        <Container display={display ? display : undefined}>
             <div className="w-full flex items-start justify-between px-4 py-1">
                 <h1
                     className="text-xl"

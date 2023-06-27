@@ -30,8 +30,6 @@ const RealTimeBalance = ({
         ethers.BigNumber.from(0)
     );
 
-    const [test, setTest] = useState<number>(0);
-
     const { address } = useAccount();
 
     const outboundBalance = useBalance({

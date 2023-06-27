@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import SettingsOption from "./SettingsOption";
 import { AiOutlinePoweroff } from "react-icons/ai";
-import { disconnect } from "@wagmi/core";
+import { useDisconnect } from "wagmi";
 
 interface SettingsProps {
     theme?: Theme;
@@ -25,6 +25,7 @@ const Settings = ({
     schedule,
     setSchedule,
 }: SettingsProps) => {
+    const { disconnect } = useDisconnect();
     const [isExitHover, setIsExitHover] = useState(false);
     const [isPower, setIsPower] = useState(false);
 
@@ -36,7 +37,7 @@ const Settings = ({
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     const disconnectWallet = async () => {
-        await disconnect();
+        disconnect();
         setDisplay(false);
     };
 

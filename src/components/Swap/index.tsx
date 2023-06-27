@@ -3,7 +3,7 @@ import { goerli } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
 import { useStore } from "../../store";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";

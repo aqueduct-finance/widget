@@ -2,7 +2,7 @@ import React from "react";
 import TWAMMWidget from "../components/Swap";
 import { Theme } from "../theme";
 import { TokenTypes } from "../types/TokenOption";
-import { darkTheme, lightTheme } from "../theme/defaultThemes";
+import { darkTheme } from "../theme/defaultThemes";
 
 const Web3Key = process.env.NEXT_PUBLIC_ALCHEMY_KEY;
 

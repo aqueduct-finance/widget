@@ -4,6 +4,7 @@ import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
 import styled from "styled-components";
+import { ExplicitAny } from "../../../types/ExplicitAny";
 
 interface FlowRateRowProps {
     options: GenericDropdownOption[] | TokenOption[];
@@ -14,7 +15,7 @@ interface FlowRateRowProps {
     setFlowRateDropDown: (value: boolean) => void;
 }
 
-const Container = styled.div<{ theme: any }>`
+const Container = styled.div<{ theme: ExplicitAny }>`
     display: flex;
     overflow: auto;
     padding-top: 10px;

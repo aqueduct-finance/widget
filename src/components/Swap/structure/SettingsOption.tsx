@@ -1,7 +1,18 @@
 import React from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import { Theme } from "../../../theme";
 
-const SettingsOption = ({ item, index, swapTheme }) => {
+interface SettingsOptionProps {
+    item: {
+        title: string;
+        state: boolean;
+        setState: (value: boolean) => void;
+    };
+    index: number;
+    swapTheme: Theme;
+}
+
+const SettingsOption = ({ item, index, swapTheme }: SettingsOptionProps) => {
     return (
         <div
             className={`flex flex-row ease-in-out px-4 py-4 mt-5`}

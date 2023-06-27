@@ -1,6 +1,16 @@
 import React from "react";
+import { Theme } from "../../../theme";
 
-const ApproveRow = ({ item, index, swapTheme }) => {
+interface ApproveRowProps {
+    item: {
+        title: string;
+        data: string;
+    };
+    index: number;
+    swapTheme: Theme;
+}
+
+const ApproveRow = ({ item, index, swapTheme }: ApproveRowProps) => {
     return (
         <div
             className="w-full flex flex-row items-start justify-start space-x-5"
@@ -11,7 +21,7 @@ const ApproveRow = ({ item, index, swapTheme }) => {
         >
             <h1
                 style={{
-                    color: swapTheme.tokenBalance,
+                    color: swapTheme.TitleColor,
                     fontWeight: swapTheme.accentFontWeight,
                 }}
             >

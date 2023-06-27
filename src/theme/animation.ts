@@ -1,4 +1,5 @@
 import styled, { keyframes, css } from "styled-components";
+import { ExplicitAny } from "../types/ExplicitAny";
 
 export const shakeanimation = keyframes`
 0% { transform: translateX(0) }
@@ -21,7 +22,7 @@ const verticleAnimationCss = css`
 `;
 
 export const UseMaxText = styled.p<{
-    swapTheme: any;
+    swapTheme: ExplicitAny;
     showMaxAnimation: boolean;
 }>`
     color: ${({ swapTheme }) => swapTheme.useMaxText};
@@ -32,7 +33,10 @@ const shakeAnimationCss = css`
     animation: ${shakeanimation} 0.3s linear 1.65;
 `;
 
-export const SwapText = styled.p<{ swapTheme: any; showAnimation: boolean }>`
+export const SwapText = styled.p<{
+    swapTheme: ExplicitAny;
+    showAnimation: boolean;
+}>`
     color: ${({ swapTheme }) => swapTheme.primaryText};
     ${({ showAnimation }) => (showAnimation ? shakeAnimationCss : "")}
 `;

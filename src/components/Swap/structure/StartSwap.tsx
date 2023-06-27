@@ -89,7 +89,6 @@ const StartSwap = ({
                     setSwapActive={setSwapActive}
                     isBufferAccepted={isBufferAccepted}
                     setIsBufferAccepted={setIsBufferAccepted}
-                    isApproved={isApproved}
                     setIsApproved={setIsApproved}
                     buffer={buffer}
                 />

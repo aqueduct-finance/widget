@@ -7,7 +7,6 @@ import { defaultTheme } from "../../theme/theme";
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
-import "tailwindcss/tailwind.css";
 import ConnectWalletButton from "../ConnectWallet/ConnectWalletButton";
 import FlowRateSelect from "./structure/FlowRateSelect";
 import "../../styles/SwapWidget.module.css";
@@ -58,6 +57,7 @@ const SwapWidget = ({
     // user input
     // TODO: where is state variable?
     const [, setToken0Price] = useState(0);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [priceMultiple, setPriceMultiple] = useState<BigNumber>(
         BigNumber.from(0)
     );
@@ -70,6 +70,7 @@ const SwapWidget = ({
 
     // stream vars
     const swapFlowRate = useRef(BigNumber.from(0));
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const expectedFlowRate = useRef(BigNumber.from(0));
     const token0Flow = useRef(BigNumber.from(0));
     const token1Flow = useRef(BigNumber.from(0));
@@ -210,9 +211,6 @@ const SwapWidget = ({
         };
 
         updatePrice();
-
-        // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [swapFlowRate]);
 
     const calculateBuffer = ({ expectedFlow }: { expectedFlow: number }) => {

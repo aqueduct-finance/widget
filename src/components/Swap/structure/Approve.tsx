@@ -25,7 +25,6 @@ interface ApproveSwapProps {
     setSwapActive: (value: boolean) => void;
     isBufferAccepted: boolean;
     setIsBufferAccepted: (value: boolean) => void;
-    isApproved: boolean;
     setIsApproved: (value: boolean) => void;
     buffer: number;
 }
@@ -46,7 +45,6 @@ const Approve = ({
     setSwapActive,
     isBufferAccepted,
     setIsBufferAccepted,
-    isApproved,
     setIsApproved,
     buffer,
 }: ApproveSwapProps) => {

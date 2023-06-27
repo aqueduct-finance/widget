@@ -1,15 +1,12 @@
 import { Theme } from "../../theme";
 import { defaultTheme } from "../../theme/theme";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { useStore } from "../../store";
-import {
-    GridCircleLoader,
-    NinjaLoader,
-    DefaultLoader,
-} from "../../theme/loaders";
+import { GridCircleLoader } from "../../theme/loaders";
 import flowrates from "../../utils/flowrates";
+import { ExplicitAny } from "../../types/ExplicitAny";
 
 const rotationAnimation = keyframes`
   0% {
@@ -29,7 +26,8 @@ const rotationBackAnimation = keyframes`
   }
 `;
 
-const StyledLoader = styled.div<{ swapTheme: any }>`
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const StyledLoader = styled.div<{ swapTheme: ExplicitAny }>`
   width: 150px;
   height: 150px;
   border-radius: 50%;

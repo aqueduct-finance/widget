@@ -1,18 +1,33 @@
 import React from "react";
 import Image from "next/image";
+import { TokenTypes } from "../../../types/TokenOption";
+import { Theme } from "../../../theme";
+
+interface TokenRowProps {
+    item: TokenTypes;
+    index: number;
+    isHover: Array<boolean>;
+    swapTheme: Theme;
+    setOutboundToken: (token: TokenTypes) => void;
+    setInboundToken: (token: TokenTypes) => void;
+    outbound: boolean;
+    setDisplay: (value: boolean) => void;
+    handleMouseEnter: (index: number) => void;
+    handleMouseLeave: (index: number) => void;
+}
 
 const TokenRow = ({
     item,
     index,
     isHover,
     swapTheme,
-    handleMouseEnter,
-    handleMouseLeave,
     setOutboundToken,
     setInboundToken,
-    setDisplay,
     outbound,
-}) => (
+    setDisplay,
+    handleMouseEnter,
+    handleMouseLeave,
+}: TokenRowProps) => (
     <div
         className={`flex flex-row ease-in-out px-1 py-2 cursor-pointer`}
         onMouseEnter={() => handleMouseEnter(index)}
