@@ -17,18 +17,18 @@ interface RealTimeBalanceProps {
     token: TokenTypes;
     setBalance: Dispatch<SetStateAction<BigNumber>>;
     balance: BigNumber | null;
-    setunWrapped: (value: number) => void;
+    setunWrapped: Dispatch<SetStateAction<number>>;
+    setIsNew: (value: boolean) => void;
+    isNew: boolean;
 }
 
-const RealTimeBalance = ({ token, setBalance, balance, setunWrapped }: RealTimeBalanceProps) => {
+const RealTimeBalance = ({ token, setBalance, balance, setunWrapped, setIsNew, isNew }: RealTimeBalanceProps) => {
 
     const [flowRate, setFlowRate] = useState<BigNumber>(
         ethers.BigNumber.from(0)
     );
 
-    const [test, setTest] = useState<number>(
-        0
-    );
+    const [isNotSuper, setIsNotSuper] = useState(false)
 
     const { address } = useAccount();
 
@@ -89,19 +89,34 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped }: RealTimeB
 
                     const futureBalanceBN = ethers.BigNumber.from(futureBalance);
 
+                    setIsNotSuper(false)
                     setBalance(initialBalance);
                     setunWrapped(parseFloat(ethers.utils.formatEther(initialBalance)) + parseFloat(outboundBalance.data?.formatted))
                     setFlowRate(
                         futureBalanceBN.sub(initialBalance).div(REFRESH_INTERVAL)
                     );
+                    setIsNew(false)
                 }
             } catch (err) {
+                setIsNotSuper(true)
+                setBalance(null)
                 console.log(err)
             }
         }
 
         updateRealTimeBalance();
     }, [address, publicClient, setBalance, token?.address]);
+
+    const updateRealTime = () => {
+        const checkBalance = balance ? parseFloat(ethers.utils.formatEther(balance)) : 0;
+
+        if (isNotSuper) {
+            setunWrapped(parseFloat(outboundBalance.data?.formatted) || 0);
+        } else {
+            setunWrapped(checkBalance + parseFloat(outboundBalance.data?.formatted));
+        }
+    };
+
 
     // REFRESH(in milliseconds) = REFRESH_INTERVAL * ANIMATION_MINIMUM_STEP_TIME
     const [time, setTime] = useState(REFRESH_INTERVAL);
@@ -113,16 +128,20 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped }: RealTimeB
                 updateRealTimeBalanceCallback();
             }
 
-            // animate frame
-            if (balance !== null) {
-                setBalance((c) => (c ? ethers.BigNumber.from(c).add(flowRate) : flowRate));
+            if (isNew) {
+                setunWrapped(0)
+                return;
             }
+
+            // animate frame
+            setBalance((c) => (c ? ethers.BigNumber.from(c).add(flowRate) : flowRate));
+            updateRealTime()
 
         }, ANIMATION_MINIMUM_STEP_TIME);
         return () => {
             clearTimeout(timer);
         };
-    }, [flowRate, setBalance, time, updateRealTimeBalanceCallback]);
+    }, [flowRate, setBalance, time, updateRealTimeBalanceCallback, isNew]);
 
     useEffect(() => {
         updateRealTimeBalanceCallback();

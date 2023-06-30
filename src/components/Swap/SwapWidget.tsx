@@ -24,7 +24,7 @@ import StreamLengthContainer from "./structure/StreamLengthContainer";
 import SwapButton from "./structure/SwapButton";
 import AfterTransaction from "./structure/AfterTransaction";
 import DynamicInputBox from "./structure/DynamicInputBox";
-
+import { GenericDropdownOption } from "../../types/GenericDropdownOption";
 
 interface SwapWidgetProps {
     theme?: Theme;
@@ -48,26 +48,11 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     const { address, isConnected, isDisconnected } = useAccount();
 
     // user input
-    // TODO: where is state variable?
-    const [, setToken0Price] = useState(0);
-    const [priceMultiple, setPriceMultiple] = useState<BigNumber>(
-        BigNumber.from(0)
-    );
-
-    const [, setRefreshingPrice] = useState(false);
-    const [priceTimeout, setPriceTimeout] = useState<
-        NodeJS.Timeout | undefined
-    >(undefined);
-    const [, setPriceImpact] = useState<number>(0);
+    // TODO: where is state variable
 
     // stream vars
-    const swapFlowRate = useRef(BigNumber.from(0));
-    const expectedFlowRate = useRef(BigNumber.from(0));
-    const token0Flow = useRef(BigNumber.from(0));
-    const token1Flow = useRef(BigNumber.from(0));
-    const userToken0Flow = useRef(BigNumber.from(0));
-    const [, setMinBalance] = useState(BigNumber.from(0));
-    const [, setDeposit] = useState(BigNumber.from(0));
+    const [endFlow, setEndFlow] = useState<GenericDropdownOption>()
+    const [swapFlowRate, setSwapFlowRate] = useState("");
     const [swapActive, setSwapActive] = useState(false)
 
     // token modal open/close
@@ -102,9 +87,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     const [showAnimation, setShowAnimation] = useState(false)
     const [showMaxAnimation, setShowMaxAnimation] = useState(false)
 
-    // length of 'pay once' swap
-    const [length, setLength] = useState(24);
-
     const [isWallet, setWallet] = useState(false)
     const [outbound, setOutbound] = useState(false)
     const [flowRateDropDown, setFlowRateDropDown] = useState(false);
@@ -112,11 +94,11 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     const [isSwapSuccess, setIsSwapSuccess] = useState(false)
 
     // buffer confirmation
-    const [, setAcceptedBuffer] = useState(false);
     const [outgoingFlowRate, setOutgoingFlowRate] = useState(0);
     const [isSwapFinished, setIsSwapFinished] = useState(false)
     const [outBalance, setOutBalance] = useState<number>(0)
     const [inBalance, setInBalance] = useState<number>(0)
+    const [tx, setTx] = useState("");
 
     // user vars
     const [outboundTokenBalance, setOutboundTokenBalance] = useState<BigNumber | null>(
@@ -125,85 +107,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     const [inboundTokenBalance, setInboundTokenBalance] = useState<BigNumber | null>(
         null
     );
-
-    const refreshPrice = async () => {
-        setRefreshingPrice(true);
-        // clear any existing timeouts
-        if (priceTimeout) {
-            clearTimeout(priceTimeout);
-            setPriceTimeout(undefined);
-        }
-
-        // set a timeout
-        const timeout: NodeJS.Timeout = setTimeout(async () => {
-            // calculate new flows
-            let calculatedToken0Flow = BigNumber.from(token0Flow.current);
-            calculatedToken0Flow = token0Flow.current
-                .add(swapFlowRate.current)
-                .sub(userToken0Flow.current);
-
-            // calculate token 0 price
-            if (token1Flow.current.gt(0)) {
-                setToken0Price(
-                    parseFloat(calculatedToken0Flow.toString()) /
-                    parseFloat(token1Flow.current.toString())
-                );
-            } else {
-                setToken0Price(0);
-            }
-
-            if (calculatedToken0Flow.gt(0)) {
-                // calculate price multiple
-                setPriceMultiple(
-                    token1Flow.current
-                        .mul(BigNumber.from(2).pow(128))
-                        .div(calculatedToken0Flow)
-                );
-
-                // calculate price impact
-                setPriceImpact(
-                    1 -
-                    parseFloat(token0Flow.current.toString()) /
-                    parseFloat(calculatedToken0Flow.toString())
-                );
-            } else {
-                setPriceMultiple(BigNumber.from(0));
-                setPriceImpact(0);
-            }
-
-            // calculate deposit
-            // assume 1 hr length for deposit // TODO: mainnet is 4 hrs, detect network and adjust deposit period
-            const oneHourStream = BigNumber.from(swapFlowRate.current).mul(
-                3600
-            );
-            setDeposit(oneHourStream);
-
-            // had hard time determining min balance, default to 2 hours of streaming for now // TODO: detect network and adjust
-            setMinBalance(oneHourStream.mul(2));
-
-            // reset deposit agreement
-            setAcceptedBuffer(false);
-
-            // eslint-disable-next-line no-promise-executor-return
-            await new Promise((res) => setTimeout(res, 900));
-            setRefreshingPrice(false);
-        }, 500);
-
-        setPriceTimeout(timeout);
-    };
-
-    // refresh spot pricing upon user input
-    // FIXME: Remove useEffect
-    useEffect(() => {
-        const updatePrice = async () => {
-            await refreshPrice();
-        };
-
-        updatePrice();
-
-        // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [swapFlowRate]);
 
     const calculateBuffer = ({ expectedFlow }: { expectedFlow: number }) => {
         const bufferTime = 14400;
@@ -241,7 +144,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
             setOutboundAddress("0x");
         }
 
-        const lengthInSeconds = length * 3600;
+        const lengthInSeconds = store.payOnceLength * 3600;
 
         const expectedOutFlow = swapAmount / lengthInSeconds;
 
@@ -283,14 +186,14 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
 
         return () => clearInterval(intervalId);
 
-    }, [store.inboundToken, store.outboundToken, swapAmount, length, store.flowrateUnit, store.flowrateUnit])
+    }, [store.inboundToken, store.outboundToken, swapAmount, store.payOnceLength, store.flowrateUnit, store.flowrateUnit])
 
     // FIXME: Remove useEffect
     useEffect(() => {
         if (store.inboundToken &&
             store.outboundToken &&
             swapAmount > 0 &&
-            parseInt(outboundBalance.data?.formatted) > 0) {
+            outBalance > 0) {
             setIsEntered(true)
         } else {
             setIsEntered(false)
@@ -313,11 +216,16 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
         }
     }, [outboundBalance, inboundBalance, store.outboundToken, store.inboundToken, dynammicInput, isConnected, isDisconnected])
 
+    const [newOut, setNewOut] = useState(false)
+    const [newIn, setNewIn] = useState(false)
+
     useEffect(() => {
+        setNewOut(true)
         setOutBalance(0)
     }, [store.outboundToken])
 
     useEffect(() => {
+        setNewIn(true)
         setInBalance(0)
     }, [store.inboundToken])
 
@@ -333,12 +241,17 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 setBalance={setInboundTokenBalance}
                 balance={inboundTokenBalance}
                 setunWrapped={setInBalance}
+                setIsNew={setNewIn}
+                isNew={newIn}
+
             />
             <RealTimeBalance
                 token={store.outboundToken}
                 setBalance={setOutboundTokenBalance}
                 balance={outboundTokenBalance}
                 setunWrapped={setOutBalance}
+                setIsNew={setNewOut}
+                isNew={newOut}
             />
             <div className="absolute overflow-hidden 2bg-red-500/25 top-10 left-[0.5rem] right-[0.5rem] bottom-[0.5rem] rounded-gc-3xl z-50 pointer-events-none">
                 <TokenModalProvider
@@ -367,6 +280,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     outboundToken={store.outboundToken}
                     inboundToken={store.inboundToken}
                     swapAmount={swapAmount}
+                    setIsEntered={setIsEntered}
                     startDate={startDate}
                     startTime={startTime}
                     endDate={endDate}
@@ -378,6 +292,10 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     buffer={buffer}
                     setIsSwapSuccess={setIsSwapSuccess}
                     setIsSwapFinished={setIsSwapFinished}
+                    swapFlowRate={swapFlowRate}
+                    setTx={setTx}
+                    outBalance={outBalance}
+                    setEndFlow={setEndFlow}
                 />
                 <AfterTransaction
                     swapTheme={swapTheme}
@@ -390,6 +308,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     outgoingFlowRate={outgoingFlowRate}
                     endDate={endDate}
                     setSwapAmount={setSwapAmount}
+                    tx={tx}
+                    endFlow={endFlow}
                 />
             </div>
             <div className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none overflow-hidden" style={{
@@ -413,6 +333,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     setSwapAmount={setSwapAmount}
                     setDynamicInput={setDynamicInput}
                     dynamicInput={dynammicInput}
+                    setSwapFlowRate={setSwapFlowRate}
                 />
             </div>
             <div className="mt-6">
@@ -470,8 +391,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
             </div>
             <StreamLengthContainer
                 swapTheme={swapTheme}
-                setLength={setLength}
-                length={length}
             />
             {isWallet ? (
                 <SwapButton

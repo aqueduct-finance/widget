@@ -6,6 +6,7 @@ import { IoMdClose } from 'react-icons/io'
 import { useStore } from "../../store";
 import { GridCircleLoader, NinjaLoader, DefaultLoader } from "../../theme/loaders";
 import flowrates from "../../utils/flowrates";
+import { GenericDropdownOption } from "../../types/GenericDropdownOption";
 
 const rotationAnimation = keyframes`
   0% {
@@ -62,8 +63,6 @@ interface SwapResultProps {
   setSwapActive: (value: boolean) => void;
   setIsApproved: (value: boolean) => void;
   setIsBufferAccepted: (value: boolean) => void;
-  setIsSwapSuccess: (value: boolean) => void;
-  setIsSwapFinished: (value: boolean) => void;
 }
 
 const SwapResult = ({
@@ -72,8 +71,6 @@ const SwapResult = ({
   setSwapActive,
   setIsApproved,
   setIsBufferAccepted,
-  setIsSwapSuccess,
-  setIsSwapFinished,
 }: SwapResultProps) => {
   const [isExitHover, setIsExitHover] = useState(false);
 
@@ -81,18 +78,10 @@ const SwapResult = ({
 
   // FIXME: remove useEffect
   useEffect(() => {
-    const delayLoading = () => {
-      setTimeout(() => {
-        store.setFlowrateUnit(flowrates[1])
-        store.setOutboundToken(undefined)
-        store.setInboundToken(undefined)
-        setIsSwapSuccess(true)
-        setIsSwapFinished(true)
-      }, 5000);
-    };
-
-    delayLoading();
-  }, []);
+    if (!swapActive) {
+      store.setFlowrateUnit(flowrates[1])
+    }
+  }, [swapActive]);
 
   const swapTheme: Theme = { ...defaultTheme, ...theme };
 

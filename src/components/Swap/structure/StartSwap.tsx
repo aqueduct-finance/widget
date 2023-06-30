@@ -4,7 +4,7 @@ import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenTypes } from "../../../types/TokenOption";
 import SwapResult from "../Result";
 import Approve from "./Approve";
-import React from "react";
+import React, { useState } from "react";
 
 
 interface StartSwapProps {
@@ -13,6 +13,7 @@ interface StartSwapProps {
     outboundToken: TokenTypes | undefined;
     inboundToken: TokenTypes | undefined;
     swapAmount: number;
+    setIsEntered: (value: boolean) => void;
     startDate: string;
     startTime: string;
     endDate: string;
@@ -28,11 +29,16 @@ interface StartSwapProps {
     buffer: number;
     setIsSwapSuccess: (value: boolean) => void;
     setIsSwapFinished: (value: boolean) => void;
+    swapFlowRate: string;
+    setTx: (value: string) => void;
+    outBalance: number;
+    setEndFlow: (value: GenericDropdownOption) => void;
 }
 
 const StartSwap = ({
     theme,
     swapAmount,
+    setIsEntered,
     startDate,
     startTime,
     endDate,
@@ -48,6 +54,10 @@ const StartSwap = ({
     buffer,
     setIsSwapSuccess,
     setIsSwapFinished,
+    swapFlowRate,
+    setTx,
+    outBalance,
+    setEndFlow
 }: StartSwapProps) => {
 
     const store = useStore()
@@ -70,8 +80,6 @@ const StartSwap = ({
                     setSwapActive={setSwapActive}
                     setIsApproved={setIsApproved}
                     setIsBufferAccepted={setIsBufferAccepted}
-                    setIsSwapSuccess={setIsSwapSuccess}
-                    setIsSwapFinished={setIsSwapFinished}
                 />
             ) : (
                 <Approve
@@ -81,6 +89,8 @@ const StartSwap = ({
                     outboundToken={store.outboundToken}
                     inboundToken={store.inboundToken}
                     swapAmount={swapAmount}
+                    setIsEntered={setIsEntered}
+                    setFlow={setEndFlow}
                     startDate={startDate}
                     startTime={startTime}
                     endDate={endDate}
@@ -93,6 +103,11 @@ const StartSwap = ({
                     isApproved={isApproved}
                     setIsApproved={setIsApproved}
                     buffer={buffer}
+                    swapFlowRate={swapFlowRate}
+                    setIsSwapFinished={setIsSwapFinished}
+                    setIsSwapSuccess={setIsSwapSuccess}
+                    setTx={setTx}
+                    outBalance={outBalance}
                 />
             )}
         </div>

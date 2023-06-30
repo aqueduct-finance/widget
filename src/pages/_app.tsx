@@ -1,6 +1,5 @@
 import type { AppProps } from "next/app";
 import React from "react";
-import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig } from "connectkit";
 import { createConfig } from "wagmi";
 import { goerli } from "wagmi/chains";

@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
 import { BsPlus } from "react-icons/bs";
+import { BigNumber, ethers } from "ethers";
 
 interface DynamicInputBoxProps {
     swapTheme: Theme;
@@ -13,6 +14,7 @@ interface DynamicInputBoxProps {
     setSwapAmount: (value: number) => void;
     setDynamicInput: (value: string) => void;
     dynamicInput: string;
+    setSwapFlowRate: (value: string) => void;
 }
 
 const DynamicInputBox = ({
@@ -23,7 +25,8 @@ const DynamicInputBox = ({
     paddingPercentage,
     setSwapAmount,
     setDynamicInput,
-    dynamicInput
+    dynamicInput,
+    setSwapFlowRate
 }: DynamicInputBoxProps) => {
     const store = useStore();
     const inputRef = useRef(null);
@@ -110,6 +113,38 @@ const DynamicInputBox = ({
 
         setDynamicInput(numericValue)
     }
+
+    const setFormattedNumberCallback = useCallback(
+        async (newValue: string) => {
+            function setFormattedNumber() {
+                if (newValue === "") {
+                    setSwapFlowRate("");
+                    return;
+                }
+
+                if (
+                    newValue.match("^[0-9]*[.]?[0-9]*$") != null &&
+                    newValue !== "."
+                ) {
+
+                    let formattedValue = ethers.utils.parseUnits(newValue, "ether")
+
+                    formattedValue = formattedValue.div(
+                        store.flowrateUnit.value
+                    );
+
+                    setSwapFlowRate(formattedValue.toString());
+                }
+            }
+
+            setFormattedNumber();
+        },
+        [setSwapFlowRate, store.flowrateUnit.value]
+    );
+
+    useEffect(() => {
+        setFormattedNumberCallback(dynamicInput);
+    }, [dynamicInput, setFormattedNumberCallback]);
 
 
     return (

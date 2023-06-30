@@ -1,24 +1,24 @@
-import Token from "../../../types/Token";
+import Address from "../../../types/Address";
 import {
     ETHxpfDAIxpPool,
     fDAIxpETHxpPool,
     fDAIxpfUSDCxpPool,
 } from "../../../utils/constants";
 
-const getPoolAddress = (outboundToken: Token, inboundToken: Token) => {
+const getPoolAddress = (outboundToken: string, inboundToken: string) => {
     let pool: string;
 
     switch (true) {
-        case inboundToken === Token.ETHxp && outboundToken === Token.fDAIxp:
+        case inboundToken === Address.ETHxp && outboundToken === Address.fDAIxp:
             pool = ETHxpfDAIxpPool;
             break;
-        case inboundToken === Token.fDAIxp && outboundToken === Token.ETHxp:
+        case inboundToken === Address.fDAIxp && outboundToken === Address.ETHxp:
             pool = fDAIxpETHxpPool;
             break;
-        case inboundToken === Token.fDAIxp && outboundToken === Token.fUSDCxp:
+        case inboundToken === Address.fDAIxp && outboundToken === Address.fUSDCxp:
             pool = fDAIxpfUSDCxpPool;
             break;
-        case inboundToken === Token.fUSDCxp && outboundToken === Token.fDAIxp:
+        case inboundToken === Address.fUSDCxp && outboundToken === Address.fDAIxp:
             pool = fDAIxpfUSDCxpPool;
             break;
         default:

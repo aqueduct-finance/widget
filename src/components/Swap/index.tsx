@@ -23,6 +23,8 @@ interface ExportedWidgetProps {
     fontUrl?: string;
 }
 
+// Buy back programs
+
 const TWAMMWidget = ({
     theme,
     tokenOption,

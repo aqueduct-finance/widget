@@ -3,17 +3,25 @@ import { useStore } from '../../../store';
 import { HiCheckCircle } from 'react-icons/hi';
 import { BiTime } from 'react-icons/bi';
 import { Theme } from '../../../theme';
+import { GenericDropdownOption } from '../../../types/GenericDropdownOption';
+import { useAccount } from 'wagmi';
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
     outgoingFlowRate: number;
+    tx: string;
+    endFlow: GenericDropdownOption;
 }
 
 const TransactionSuccess = ({
     swapTheme,
     outgoingFlowRate,
+    tx,
+    endFlow
 }: TransactionSuccessProps) => {
     const store = useStore()
+
+    const { address } = useAccount()
 
     const importTokens = async () => {
 
@@ -38,6 +46,12 @@ const TransactionSuccess = ({
         }
     }
 
+    const etherScanBaseUrl = 'https://goerli.etherscan.io/tx';
+
+    const userTX = `${etherScanBaseUrl}/${tx}`
+
+    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`
+
     return (
         <div
             className="w-full h-full flex flex-col items-center justify-center"
@@ -45,9 +59,9 @@ const TransactionSuccess = ({
                 fontFamily: swapTheme.textFont
             }}
         >
-            <div className="flex items-center justify-center h-40 w-full 2bg-red-500">
+            <div className="flex items-center justify-center h-44 w-full mt-[70px]">
                 <HiCheckCircle
-                    className="w-2/3 h-3/4"
+                    className="w-5/6 h-5/6"
                     style={{
                         color: swapTheme.successColor
                     }}
@@ -62,7 +76,7 @@ const TransactionSuccess = ({
                 <h1 className="text-2xl">Transaction Submitted</h1>
             </div>
             <div className="flex items-center justify-center w-full pt-2">
-                <a href="https://www.aqueduct.fi" target="_blank" rel="noopener noreferrer">
+                <a href={userTX} target="_blank" rel="noopener noreferrer">
                     <p className="hover:underline"
                         style={{
                             color: swapTheme.embeddedLink
@@ -88,10 +102,10 @@ const TransactionSuccess = ({
                             style={{
                                 color: swapTheme.accentText
                             }}
-                        >Swapping {outgoingFlowRate.toFixed(5)} {store.outboundToken?.symbol} / {store.flowrateUnit.sublabel}</p>
+                        >Swapping {outgoingFlowRate.toFixed(5)} {store.outboundToken?.symbol} / {endFlow?.sublabel}</p>
                     </div>
                     <div className="flex items-center justify-center">
-                        <a href="https://www.aqueduct.fi" target="_blank" rel="noopener noreferrer">
+                        <a href={aqueductUrl} target="_blank" rel="noopener noreferrer">
                             <p
                                 className="hover:underline"
                                 style={{

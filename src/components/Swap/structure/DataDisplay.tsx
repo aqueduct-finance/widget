@@ -67,7 +67,7 @@ const DataDisplay = ({
                         style={{
                             color: swapTheme.primaryText
                         }}
-                    >-{outgoingFlowRate.toFixed(8)} / sec</p>
+                    >-{isNaN(outgoingFlowRate) ? "0.0" : outgoingFlowRate.toFixed(8)} / sec</p>
                 </div>
             </div>
         </div>

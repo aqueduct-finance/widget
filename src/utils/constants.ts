@@ -22,3 +22,5 @@ export const deleteFlowResolverTaskCreator =
     "0x84CB8098e82dd16B21866f69A2406E60FE64F98b";
 
 export const goerliChainId = 5;
+
+export const DEFAULT_PAY_ONCE = 24;

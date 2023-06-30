@@ -5,14 +5,10 @@ import { useStore } from "../../../store";
 
 interface StreamLengthContainerProps {
     swapTheme: Theme;
-    length: number;
-    setLength: (value: number) => void;
 }
 
 const StreamLengthContainer = ({
     swapTheme,
-    setLength,
-    length,
 }: StreamLengthContainerProps) => {
     const store = useStore()
 
@@ -26,8 +22,6 @@ const StreamLengthContainer = ({
                 <div className="flex flex-row justify-between">
                     <StreamLength
                         theme={swapTheme}
-                        setLength={setLength}
-                        length={length}
                     />
                 </div>
             ) : (
