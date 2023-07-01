@@ -7,11 +7,12 @@ module.exports = {
         es2021: true,
     },
     extends: [
-        "plugin:@typescript-eslint/recommended",
         "eslint:recommended",
-        "plugin:import/recommended",
-        "plugin:react/recommended",
+        "airbnb",
         "airbnb-typescript",
+        "airbnb/hooks",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
         "plugin:@next/next/recommended",
         "prettier",
     ],
@@ -26,5 +27,12 @@ module.exports = {
     rules: {
         "@typescript-eslint/no-explicit-any": "error",
         "react/jsx-max-depth": ["error", { max: 5 }],
+        "react/function-component-definition": [
+            "error",
+            {
+                namedComponents: "arrow-function",
+                unnamedComponents: "arrow-function",
+            },
+        ],
     },
 };
