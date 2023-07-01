@@ -1,7 +1,7 @@
+import React from "react";
 import { Theme } from "../../../theme";
 import { defaultTheme } from "../../../theme/theme";
 import { useStore } from "../../../store";
-import React from "react";
 
 interface StreamLengthProps {
     theme?: Theme;

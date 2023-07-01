@@ -1,8 +1,8 @@
+import React from "react";
 import TokenDisplay from "./TokenDisplay";
 import { Theme } from "../../../theme";
 import { TokenTypes } from "../../../types/TokenOption";
 import { useStore } from "../../../store";
-import React from "react";
 
 interface TokenModalProviderProps {
     tokenList: TokenTypes[];

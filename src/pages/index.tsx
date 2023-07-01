@@ -38,20 +38,18 @@ const inboundToken = "0x322a06447Ff6FcF75d803135a7de15CE88C1d4ec";
 const fontUrl =
     "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap";
 
-function Home() {
-    return (
-        <div>
-            <TWAMMWidget
-                Web3Key={Web3Key}
-                theme={theme}
-                tokenOption={tokens}
-                width="27rem"
-                outboundToken={outboundToken}
-                inboundToken={inboundToken}
-                fontUrl={fontUrl}
-            />
-        </div>
-    );
-}
+const Home = () => (
+    <div>
+        <TWAMMWidget
+            Web3Key={Web3Key}
+            theme={theme}
+            tokenOption={tokens}
+            width="27rem"
+            outboundToken={outboundToken}
+            inboundToken={inboundToken}
+            fontUrl={fontUrl}
+        />
+    </div>
+);
 
 export default Home;

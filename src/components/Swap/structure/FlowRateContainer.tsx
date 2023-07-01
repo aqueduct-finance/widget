@@ -1,7 +1,7 @@
 import React from "react";
+import { CSSTransition } from "react-transition-group";
 import { Theme } from "../../../theme";
 import flowrates from "../../../utils/flowrates";
-import { CSSTransition } from "react-transition-group";
 import { useStore } from "../../../store";
 import FlowRateRow from "./FlowRateRow";
 
@@ -34,7 +34,7 @@ const FlowRateContainer = ({
         >
             <CSSTransition
                 in={flowRateDropDown}
-                appear={true}
+                appear
                 timeout={300}
                 classNames={{
                     enter: "opacity-0",

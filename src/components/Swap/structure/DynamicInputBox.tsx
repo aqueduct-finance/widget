@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useStore } from "../../../store";
-import { Theme } from "../../../theme";
 import { BsPlus } from "react-icons/bs";
 import { ethers } from "ethers";
+import { useStore } from "../../../store";
+import { Theme } from "../../../theme";
 
 interface DynamicInputBoxProps {
     swapTheme: Theme;
@@ -149,7 +149,7 @@ const DynamicInputBox = ({
 
     return (
         <div
-            className={`w-full h-full`}
+            className="w-full h-full"
             style={{ color: swapTheme.primaryText }}
             onClick={activateInput}
         >

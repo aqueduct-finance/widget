@@ -55,7 +55,7 @@ const DataDisplay = ({
                         }}
                     >
                         {startDate}
-                        <span style={{ marginRight: "10px" }}></span>
+                        <span style={{ marginRight: "10px" }} />
                         {startTime}
                     </p>
                 </div>
@@ -68,7 +68,7 @@ const DataDisplay = ({
                         }}
                     >
                         {endDate}
-                        <span style={{ marginRight: "10px" }}></span>
+                        <span style={{ marginRight: "10px" }} />
                         {endTime}
                     </p>
                 </div>

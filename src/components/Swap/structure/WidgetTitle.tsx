@@ -1,6 +1,6 @@
 import React from "react";
-import { Theme } from "../../../theme";
 import { TbSettings } from "react-icons/tb";
+import { Theme } from "../../../theme";
 
 interface WidgetTitleProps {
     swapTheme: Theme;
@@ -14,13 +14,13 @@ const WidgetTitle = ({ swapTheme, setShowSettings }: WidgetTitleProps) => (
                 color: swapTheme.TitleColor,
                 fontWeight: swapTheme.primaryFontWeight,
             }}
-            className={`text-2xl ml-2`}
+            className="text-2xl ml-2"
         >
             Swap
         </p>
         <div className="flex grow" />
         <button
-            className={`hover:animate-spin-slow`}
+            className="hover:animate-spin-slow"
             style={{ color: swapTheme.icons }}
             type="button"
         >

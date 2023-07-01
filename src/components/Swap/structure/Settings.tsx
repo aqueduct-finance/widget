@@ -1,10 +1,10 @@
-import { Theme } from "../../../theme";
-import { defaultTheme } from "../../../theme/theme";
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import SettingsOption from "./SettingsOption";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { useDisconnect } from "wagmi";
+import SettingsOption from "./SettingsOption";
+import { defaultTheme } from "../../../theme/theme";
+import { Theme } from "../../../theme";
 
 interface SettingsProps {
     theme?: Theme;

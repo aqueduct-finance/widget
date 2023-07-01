@@ -1,11 +1,11 @@
-import { TokenTypes } from "../../../types/TokenOption";
-import { Theme } from "../../../theme";
-import { defaultTheme } from "../../../theme/theme";
-import TokenRow from "./TokenRow";
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import styled from "styled-components";
+import { TokenTypes } from "../../../types/TokenOption";
+import { Theme } from "../../../theme";
+import { defaultTheme } from "../../../theme/theme";
+import TokenRow from "./TokenRow";
 
 interface TokenDisplayProps {
     tokenOption: TokenTypes[];
@@ -91,7 +91,7 @@ const TokenDisplay = ({
     };
 
     return (
-        <Container display={display ? display : undefined}>
+        <Container display={display || undefined}>
             <div className="w-full flex items-start justify-between px-4 py-1">
                 <h1
                     className="text-xl"

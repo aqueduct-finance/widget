@@ -21,20 +21,18 @@ import "../styles/globals.css";
 //     })
 // );
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
-    return (
-        <div>
-            <div className="w-full h-screen poppins-font bg-black">
-                <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
-                    <main className="flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll">
-                        <div className="md:h-[50%]" />
-                        <Component {...pageProps} />
-                        <div className="md:h-[50%]" />
-                    </main>
-                </div>
+const MyApp = ({ Component, pageProps }: AppProps) => (
+    <div>
+        <div className="w-full h-screen poppins-font bg-black">
+            <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
+                <main className="flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll">
+                    <div className="md:h-[50%]" />
+                    <Component {...pageProps} />
+                    <div className="md:h-[50%]" />
+                </main>
             </div>
         </div>
-    );
-};
+    </div>
+);
 
 export default MyApp;

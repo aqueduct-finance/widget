@@ -1,13 +1,13 @@
-import SwapWidget from "./SwapWidget";
 import { goerli } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
-import { useStore } from "../../store";
 import React, { useEffect } from "react";
+import Head from "next/head";
+import SwapWidget from "./SwapWidget";
+import { useStore } from "../../store";
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
-import Head from "next/head";
 
 const chains = [goerli];
 

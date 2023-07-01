@@ -126,12 +126,12 @@ const SwapWidget = ({
     };
 
     const outboundBalance = useBalance({
-        address: address,
+        address,
         token: outboundAddress,
     });
 
     const inboundBalance = useBalance({
-        address: address,
+        address,
         token: inboundAddress,
     });
 
@@ -266,7 +266,7 @@ const SwapWidget = ({
         <div
             className="relative flex flex-col px-7 pb-7 pt-12 z-10 overflow-hidden"
             style={{
-                width: width,
+                width,
                 fontFamily: swapTheme.textFont,
             }}
         >

@@ -39,7 +39,7 @@ const RealTimeBalance = ({
     const { address } = useAccount();
 
     const outboundBalance = useBalance({
-        address: address,
+        address,
         token: token?.underlyingToken?.address,
     });
 

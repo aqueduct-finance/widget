@@ -10,8 +10,8 @@ const useInboundBalance = ({ address, token }: UseOutboundBalanceProps) => {
     const [outboundBalance, setOutboundBalance] = useState<number>();
 
     const balanceQuery = useBalance({
-        address: address,
-        token: token,
+        address,
+        token,
     });
 
     useEffect(() => {

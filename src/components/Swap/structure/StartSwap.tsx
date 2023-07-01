@@ -1,10 +1,10 @@
+import React from "react";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenTypes } from "../../../types/TokenOption";
 import SwapResult from "../Result";
 import Approve from "./Approve";
-import React from "react";
 
 interface StartSwapProps {
     flowrateUnit: GenericDropdownOption;

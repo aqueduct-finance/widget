@@ -1,8 +1,8 @@
-import { Theme } from "../../theme";
-import { defaultTheme } from "../../theme/theme";
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { IoMdClose } from "react-icons/io";
+import { defaultTheme } from "../../theme/theme";
+import { Theme } from "../../theme";
 import { useStore } from "../../store";
 import { GridCircleLoader } from "../../theme/loaders";
 import flowrates from "../../utils/flowrates";
@@ -120,9 +120,9 @@ const SwapResult = ({
                 />
             </div>
             <div className="w-full flex items-center justify-center px-3 py-3 mt-[35%]">
-                {/*<StyledLoader swapTheme={swapTheme} />*/}
+                {/* <StyledLoader swapTheme={swapTheme} /> */}
                 <GridCircleLoader swapTheme={swapTheme} />
-                {/*<NinjaLoader swapTheme={swapTheme} />*/}
+                {/* <NinjaLoader swapTheme={swapTheme} /> */}
             </div>
             <div className="w-full text-white text-2xl flex justify-center items-center font-bold mt-12">
                 <h1 className="ml-2">Processing transaction</h1>

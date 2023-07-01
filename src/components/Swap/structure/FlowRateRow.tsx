@@ -1,9 +1,9 @@
 import React from "react";
+import styled from "styled-components";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
-import styled from "styled-components";
 import { ExplicitAny } from "../../../types/ExplicitAny";
 
 interface FlowRateRowProps {

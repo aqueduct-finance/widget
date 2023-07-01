@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import { BsPlus } from "react-icons/bs";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
-import { BsPlus } from "react-icons/bs";
 
 interface OutboundBoxProps {
     swapTheme: Theme;

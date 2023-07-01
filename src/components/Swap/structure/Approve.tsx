@@ -1,20 +1,20 @@
+import React, { useEffect, useRef, useState } from "react";
+import { IoMdClose } from "react-icons/io";
+import { BsCheckLg } from "react-icons/bs";
+import { BigNumber, ethers } from "ethers";
+import { Framework } from "@superfluid-finance/sdk-core";
+import { useAccount, useNetwork } from "wagmi";
 import { Theme } from "../../../theme";
 import { defaultTheme } from "../../../theme/theme";
-import React, { useEffect, useRef, useState } from "react";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { IoMdClose } from "react-icons/io";
 import { TokenTypes } from "../../../types/TokenOption";
 import ApproveRow from "./ApproveRow";
-import { BsCheckLg } from "react-icons/bs";
 import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
 import { useEthersProvider } from "../../../providers/provider";
 import { useEthersSigner } from "../../../providers/signer";
-import { BigNumber, ethers } from "ethers";
 import getPoolAddress from "../helpers/getPool";
-import { Framework } from "@superfluid-finance/sdk-core";
 import { goerliChainId } from "../../../utils/constants";
-import { useAccount, useNetwork } from "wagmi";
 import flowrates from "../../../utils/flowrates";
 
 interface ApproveSwapProps {
@@ -107,21 +107,19 @@ const Approve = ({
     const options = [
         {
             title: "Spending",
-            data: swapAmount?.toFixed(5) + " " + outboundToken?.symbol,
+            data: `${swapAmount?.toFixed(5)} ${outboundToken?.symbol}`,
         },
         {
             title: "Receiving",
-            data:
-                parseFloat(displayedExpectedFlowRate).toFixed(5) +
-                " " +
-                inboundToken?.symbol,
+            data: `${parseFloat(displayedExpectedFlowRate).toFixed(5)} ${
+                inboundToken?.symbol
+            }`,
         },
         {
             title: "Flowrate",
-            data:
-                (flowrate * flowrateUnit.value).toFixed(8) +
-                " / " +
-                flowrateUnit.sublabel,
+            data: `${(flowrate * flowrateUnit.value).toFixed(8)} / ${
+                flowrateUnit.sublabel
+            }`,
         },
         { title: "Start Date", data: startDate },
         { title: "Start Time", data: startTime },
@@ -160,7 +158,7 @@ const Approve = ({
         try {
             const superfluid = await Framework.create({
                 chainId: goerliChainId,
-                provider: provider,
+                provider,
             });
 
             const sender = await signer.getAddress();

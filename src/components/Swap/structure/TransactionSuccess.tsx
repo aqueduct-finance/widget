@@ -1,10 +1,10 @@
 import React from "react";
-import { useStore } from "../../../store";
 import { HiCheckCircle } from "react-icons/hi";
 import { BiTime } from "react-icons/bi";
+import { useAccount } from "wagmi";
+import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { useAccount } from "wagmi";
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
@@ -24,7 +24,7 @@ const TransactionSuccess = ({
     const { address } = useAccount();
 
     const importTokens = async () => {
-        const ethereum = window.ethereum;
+        const { ethereum } = window;
 
         try {
             ethereum.request({
@@ -130,7 +130,7 @@ const TransactionSuccess = ({
                 </div>
             </div>
             <button
-                className={`w-full ease-in-out`}
+                className="w-full ease-in-out"
                 onClick={importTokens}
                 style={{
                     backgroundColor: swapTheme.swapButton,
