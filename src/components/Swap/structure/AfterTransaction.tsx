@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { Theme } from "../../../theme";
 import TransactionSuccess from "./TransactionSuccess";
 import TransactionFailed from "./TransactionFailed";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 
 interface AfterTransactionProps {
     swapTheme: Theme;
@@ -16,7 +16,7 @@ interface AfterTransactionProps {
     outgoingFlowRate: number;
     setSwapAmount: (value: number) => void;
     tx: string;
-    endFlow: GenericDropdownOption;
+    endFlow: FlowRateOption;
 }
 
 const AfterTransaction = ({

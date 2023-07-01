@@ -6,7 +6,6 @@ import { TokenTypes } from "../../../types/TokenOption";
 import { Theme } from "../../../theme";
 import { defaultTheme } from "../../../theme/theme";
 import TokenRow from "./TokenRow";
-import { useStore } from "../../../store";
 
 interface TokenDisplayProps {
     tokenOption: TokenTypes[];

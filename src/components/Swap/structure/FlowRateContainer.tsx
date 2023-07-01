@@ -48,7 +48,7 @@ const FlowRateContainer = ({
             >
                 <FlowRateRow
                     theme={swapTheme}
-                    options={flowrates}
+                    flowRateUnit={flowrates}
                     setFlowRateDropDown={setFlowRateDropDown}
                 />
             </CSSTransition>

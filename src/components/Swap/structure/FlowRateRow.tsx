@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { TokenOption } from "../../../types/TokenOption";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
 import { ExplicitAny } from "../../../types/ExplicitAny";
 import { useStore } from "../../../store";
 
 interface FlowRateRowProps {
-    options: GenericDropdownOption[] | TokenOption[];
+    flowRateUnit: FlowRateOption[];
     theme: Theme;
     setFlowRateDropDown: (value: boolean) => void;
 }
@@ -49,7 +48,7 @@ const Container = styled.div<{ theme: ExplicitAny }>`
 `;
 
 const FlowRateRow = ({
-    options,
+    flowRateUnit,
     theme,
     setFlowRateDropDown,
 }: FlowRateRowProps) => {
@@ -63,7 +62,7 @@ const FlowRateRow = ({
                 backgroundColor: swapTheme.streamLengthBox,
             }}
         >
-            {options.map((option) => (
+            {flowRateUnit.map((option) => (
                 <button
                     type="button"
                     className="w-full px-3 py-3 flex items-center justify-center mt-3 text-lg cursor-pointer"

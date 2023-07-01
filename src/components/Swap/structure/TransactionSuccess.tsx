@@ -4,13 +4,13 @@ import { BiTime } from "react-icons/bi";
 import { useAccount } from "wagmi";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
     outgoingFlowRate: number;
     tx: string;
-    endFlow: GenericDropdownOption;
+    endFlow: FlowRateOption;
 }
 
 const TransactionSuccess = ({

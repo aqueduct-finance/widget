@@ -1,7 +1,7 @@
 import React from "react";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 import SwapResult from "../Result";
 import Approve from "./Approve";
 
@@ -25,7 +25,7 @@ interface StartSwapProps {
     swapFlowRate: string;
     setTx: (value: string) => void;
     outBalance: number;
-    setEndFlow: (value: GenericDropdownOption) => void;
+    setEndFlow: (value: FlowRateOption) => void;
 }
 
 const StartSwap = ({

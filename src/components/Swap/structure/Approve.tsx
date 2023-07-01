@@ -6,7 +6,7 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import { useAccount, useNetwork } from "wagmi";
 import { Theme } from "../../../theme";
 import { defaultTheme } from "../../../theme/theme";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 import ApproveRow from "./ApproveRow";
 import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
@@ -35,7 +35,7 @@ interface ApproveSwapProps {
     setIsSwapSuccess: (value: boolean) => void;
     setTx: (value: string) => void;
     outBalance: number;
-    setFlow: (value: GenericDropdownOption) => void;
+    setFlow: (value: FlowRateOption) => void;
 }
 
 const Approve = ({

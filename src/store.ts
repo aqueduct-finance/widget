@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { GenericDropdownOption } from "./types/GenericDropdownOption";
+import { FlowRateOption } from "./types/FlowRateOption";
 import Token from "./types/Token";
 import { TokenOption, TokenTypes } from "./types/TokenOption";
 import flowrates from "./utils/flowrates";
@@ -11,13 +11,13 @@ interface StoreState {
     inboundToken: TokenTypes | undefined;
     upgradeDowngradeToken: TokenOption;
     selectedToken: Token;
-    flowrateUnit: GenericDropdownOption;
+    flowrateUnit: FlowRateOption;
     payOnceLength: number;
     setOutboundToken: (token: TokenTypes) => void;
     setInboundToken: (token: TokenTypes) => void;
     setUpgradeDowngradeToken: (token: TokenOption) => void;
     setSelectedToken: (token: Token) => void;
-    setFlowrateUnit: (flowrateUnit: GenericDropdownOption) => void;
+    setFlowrateUnit: (flowrateUnit: FlowRateOption) => void;
     setPayOnceLength: (value: number) => void;
 }
 
@@ -37,7 +37,7 @@ export const useStore = create<StoreState>()((set) => ({
         set((state) => ({ ...state, upgradeDowngradeToken })),
     setSelectedToken: (selectedToken: Token) =>
         set((state) => ({ ...state, selectedToken })),
-    setFlowrateUnit: (flowrateUnit: GenericDropdownOption) =>
+    setFlowrateUnit: (flowrateUnit: FlowRateOption) =>
         set((state) => ({ ...state, flowrateUnit })),
     setPayOnceLength: (payOnceLength: number) =>
         set((state) => ({ ...state, payOnceLength })),

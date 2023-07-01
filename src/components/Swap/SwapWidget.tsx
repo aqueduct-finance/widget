@@ -23,7 +23,7 @@ import StreamLengthContainer from "./structure/StreamLengthContainer";
 import SwapButton from "./structure/SwapButton";
 import AfterTransaction from "./structure/AfterTransaction";
 import DynamicInputBox from "./structure/DynamicInputBox";
-import { GenericDropdownOption } from "../../types/GenericDropdownOption";
+import { FlowRateOption } from "../../types/FlowRateOption";
 
 interface SwapWidgetProps {
     theme: Theme;
@@ -55,7 +55,7 @@ const SwapWidget = ({
     const { address, isConnected, isDisconnected } = useAccount();
 
     // stream vars
-    const [endFlow, setEndFlow] = useState<GenericDropdownOption>();
+    const [endFlow, setEndFlow] = useState<FlowRateOption>();
     const [swapFlowRate, setSwapFlowRate] = useState("");
     const [swapActive, setSwapActive] = useState(false);
 

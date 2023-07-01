@@ -1,6 +1,6 @@
-import { GenericDropdownOption } from "../types/GenericDropdownOption";
+import { FlowRateOption } from "../types/FlowRateOption";
 
-const flowrates: GenericDropdownOption[] = [
+const flowrates: FlowRateOption[] = [
     { label: "Pay Once", value: 3600, sublabel: "hour" },
     { label: "Every Second", value: 1, sublabel: "sec" },
     { label: "Every Minute", value: 60, sublabel: "min" },
