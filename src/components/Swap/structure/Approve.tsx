@@ -24,7 +24,6 @@ interface ApproveSwapProps {
     outboundToken: TokenTypes | undefined;
     inboundToken: TokenTypes | undefined;
     swapAmount: number;
-    setIsEntered: (value: boolean) => void;
     startDate: string;
     startTime: string;
     endDate: string;
@@ -35,7 +34,6 @@ interface ApproveSwapProps {
     isBufferAccepted: boolean;
     setIsBufferAccepted: (value: boolean) => void;
     setIsApproved: (value: boolean) => void;
-    buffer: number;
     swapFlowRate: string;
     setIsSwapFinished: (value: boolean) => void;
     setIsSwapSuccess: (value: boolean) => void;
@@ -280,6 +278,7 @@ const Approve = ({
         updatePrice();
 
         // TODO: Assess missing dependency array values
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [swapFlowRate]);
 
     // update vars when tokens change
@@ -350,6 +349,7 @@ const Approve = ({
 
         updateFlowVars();
         // TODO: Assess missing dependency array values
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [store.inboundToken, store.outboundToken, address, chain, swapFlowRate]);
 
     useEffect(() => {
@@ -367,9 +367,10 @@ const Approve = ({
             setDisplayedExpectedFlowRate("");
         }
         // TODO: Assess missing dependency array values
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [priceMultiple]);
 
-    const formattedOutBalance = isNaN(outBalance)
+    const formattedOutBalance = Number.isNaN(outBalance)
         ? ethers.BigNumber.from(0)
         : ethers.utils.parseUnits(outBalance.toString());
 
@@ -390,6 +391,17 @@ const Approve = ({
     // todo saturday - Fix FlowRate for pay once... etc
     // - Test swap functionality and the animations within it
     // Write down bugs, fix at night
+
+    let bufferMessageBackgroundColor: string;
+    if (enoughBuffer) {
+        if (isBufferAccepted) {
+            bufferMessageBackgroundColor = swapTheme.secondaryMain;
+        } else {
+            bufferMessageBackgroundColor = swapTheme.useMaxButton;
+        }
+    } else {
+        bufferMessageBackgroundColor = swapTheme.errorColor;
+    }
 
     return (
         <div
@@ -452,6 +464,7 @@ const Approve = ({
                                 item={option}
                                 index={index}
                                 swapTheme={swapTheme}
+                                // eslint-disable-next-line react/no-array-index-key
                                 key={index}
                             />
                         ))}
@@ -459,11 +472,7 @@ const Approve = ({
                     <div
                         className="w-full flex flex-col justify-start items-start py-4 px-4 space-y-4 leading-relaxed"
                         style={{
-                            backgroundColor: enoughBuffer
-                                ? isBufferAccepted
-                                    ? swapTheme.secondaryMain
-                                    : swapTheme.useMaxButton
-                                : swapTheme.errorColor,
+                            backgroundColor: bufferMessageBackgroundColor,
                             borderRadius: swapTheme.accentBorderRadius,
                         }}
                     >
@@ -500,6 +509,7 @@ const Approve = ({
                             } flex-row space-x-2 items-center font-bold`}
                         >
                             <button
+                                type="button"
                                 className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
                                 style={{
                                     backgroundColor: isBufferAccepted
@@ -534,6 +544,7 @@ const Approve = ({
                     </div>
                 </div>
                 <button
+                    type="button"
                     className={`${
                         isBufferAccepted ? "" : "opacity-60"
                     } w-full mt-4 ease-in-out`}

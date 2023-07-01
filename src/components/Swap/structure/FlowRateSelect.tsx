@@ -7,7 +7,7 @@ import { Theme } from "../../../theme";
 
 interface SelectProps {
     dropdownValue: GenericDropdownOption | TokenOption;
-    theme?: Theme;
+    theme: Theme;
     setFlowRateDropDown: (value: boolean) => void;
     flowRateDropDown: boolean;
 }
@@ -21,7 +21,8 @@ const FlowRateSelect = ({
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
-        <div
+        <button
+            type="button"
             className="w-full flex flex-row py-3 cursor-pointer"
             style={{
                 backgroundColor: swapTheme.streamLengthBox,
@@ -65,7 +66,7 @@ const FlowRateSelect = ({
                     }}
                 />
             </div>
-        </div>
+        </button>
     );
 };
 

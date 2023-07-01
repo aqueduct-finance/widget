@@ -27,6 +27,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
             <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
                 <main className="flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll">
                     <div className="md:h-[50%]" />
+                    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                     <Component {...pageProps} />
                     <div className="md:h-[50%]" />
                 </main>

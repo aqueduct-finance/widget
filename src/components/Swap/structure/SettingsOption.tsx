@@ -42,7 +42,8 @@ const SettingsOption = ({ item, index, swapTheme }: SettingsOptionProps) => (
                 }}
             />
         </div>
-        <div
+        <button
+            type="button"
             className="w-[80px] h-[35px] px-1 py-1 items-start flex rounded-2xl ease-in-out cursor-pointer"
             style={{
                 backgroundColor: item.state
@@ -65,7 +66,7 @@ const SettingsOption = ({ item, index, swapTheme }: SettingsOptionProps) => (
                     transitionDuration: swapTheme.primaryDuration,
                 }}
             />
-        </div>
+        </button>
     </div>
 );
 

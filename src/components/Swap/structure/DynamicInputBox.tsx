@@ -48,7 +48,7 @@ const DynamicInputBox = ({
         const numericValue = parseFloat(dynamicInput.replace(/[^0-9.]/g, ""));
         setSwapAmount(numericValue);
 
-        if (isNaN(numericValue)) {
+        if (Number.isNaN(numericValue)) {
             setDivScrollLeft(0);
             return;
         }
@@ -92,6 +92,7 @@ const DynamicInputBox = ({
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [swapAmount, dynamicInput, divScrollLeft]);
 
     const handleInput = (e) => {
@@ -148,7 +149,8 @@ const DynamicInputBox = ({
     }, [dynamicInput, setFormattedNumberCallback]);
 
     return (
-        <div
+        <button
+            type="button"
             className="w-full h-full"
             style={{ color: swapTheme.primaryText }}
             onClick={activateInput}
@@ -206,7 +208,7 @@ const DynamicInputBox = ({
                     value={dynamicInput}
                 />
             </div>
-        </div>
+        </button>
     );
 };
 

@@ -5,9 +5,6 @@ import { useStore } from "../../../store";
 
 interface ActivateSwapArrowProps {
     swapTheme: Theme;
-    overBalance: boolean;
-    isEntered: boolean;
-    setSwapActive: (value: boolean) => void;
 }
 
 const ActivateSwapArrow = ({ swapTheme }: ActivateSwapArrowProps) => {
@@ -20,7 +17,8 @@ const ActivateSwapArrow = ({ swapTheme }: ActivateSwapArrowProps) => {
 
     return (
         <div className="flex w-full items-center justify-center -mt-3">
-            <div
+            <button
+                type="button"
                 className="px-1.5 py-1.5 z-10 opacity-80 hover:opacity-100 cursor-pointer"
                 onClick={handleSwitch}
                 style={{
@@ -34,7 +32,7 @@ const ActivateSwapArrow = ({ swapTheme }: ActivateSwapArrowProps) => {
                         color: swapTheme.accentText,
                     }}
                 />
-            </div>
+            </button>
         </div>
     );
 };

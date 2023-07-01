@@ -11,7 +11,7 @@ interface FlowRateRowProps {
     setDropdownValue:
         | ((value: GenericDropdownOption) => void)
         | ((token: TokenOption) => void);
-    theme?: Theme;
+    theme: Theme;
     setFlowRateDropDown: (value: boolean) => void;
 }
 
@@ -66,7 +66,8 @@ const FlowRateRow = ({
             }}
         >
             {options.map((option) => (
-                <div
+                <button
+                    type="button"
                     className="w-full px-3 py-3 flex items-center justify-center mt-3 text-lg cursor-pointer"
                     key={option.value}
                     onClick={() => {
@@ -82,7 +83,7 @@ const FlowRateRow = ({
                     }}
                 >
                     <h1 className="opacity-75">{option.label}</h1>
-                </div>
+                </button>
             ))}
         </Container>
     );

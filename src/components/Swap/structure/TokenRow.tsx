@@ -28,7 +28,8 @@ const TokenRow = ({
     handleMouseEnter,
     handleMouseLeave,
 }: TokenRowProps) => (
-    <div
+    <button
+        type="button"
         className="flex flex-row ease-in-out px-1 py-2 cursor-pointer"
         onMouseEnter={() => handleMouseEnter(index)}
         onMouseLeave={() => handleMouseLeave(index)}
@@ -82,7 +83,7 @@ const TokenRow = ({
                 {item.underlyingToken ? item.underlyingToken.name : item.name}
             </p>
         </div>
-    </div>
+    </button>
 );
 
 export default TokenRow;

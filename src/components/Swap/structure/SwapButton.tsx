@@ -49,6 +49,7 @@ const SwapButton = ({
 
     return (
         <button
+            type="button"
             className={`${
                 overBalance || !isEntered || !poolExists ? "opacity-75" : ""
             } mt-4`}

@@ -14,7 +14,6 @@ interface AfterTransactionProps {
     setIsBufferAccepted: (value: boolean) => void;
     setIsSwapFinished: (value: boolean) => void;
     outgoingFlowRate: number;
-    endDate: string;
     setSwapAmount: (value: number) => void;
     tx: string;
     endFlow: GenericDropdownOption;

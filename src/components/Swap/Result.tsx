@@ -85,12 +85,14 @@ const SwapResult = ({
         if (!swapActive) {
             store.setFlowrateUnit(flowrates[1]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [swapActive]);
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
-        <div
+        <button
+            type="button"
             className={`${
                 swapActive ? " flex" : "hidden"
             } flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[2rem] px-4`}
@@ -127,7 +129,7 @@ const SwapResult = ({
             <div className="w-full text-white text-2xl flex justify-center items-center font-bold mt-12">
                 <h1 className="ml-2">Processing transaction</h1>
             </div>
-        </div>
+        </button>
     );
 };
 

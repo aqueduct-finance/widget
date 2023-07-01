@@ -129,6 +129,7 @@ const RealTimeBalance = ({
         }
 
         updateRealTimeBalance();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [address, publicClient, setBalance, token?.address]);
 
     const updateRealTime = () => {
@@ -169,6 +170,7 @@ const RealTimeBalance = ({
         return () => {
             clearTimeout(timer);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [flowRate, setBalance, time, updateRealTimeBalanceCallback, isNew]);
 
     useEffect(() => {

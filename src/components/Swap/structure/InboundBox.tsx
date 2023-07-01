@@ -83,7 +83,7 @@ const InboundBox = ({
                     {parseFloat(inboundBalance) === 0 ||
                     !store.inboundToken ||
                     inboundBalance === undefined ||
-                    isNaN(parseFloat(inboundBalance))
+                    Number.isNaN(parseFloat(inboundBalance))
                         ? "0.0"
                         : parseFloat(inboundBalance).toFixed(5)}
                 </p>

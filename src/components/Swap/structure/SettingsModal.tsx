@@ -3,7 +3,7 @@ import Settings from "./Settings";
 import { Theme } from "../../../theme";
 
 interface SettingsModalProviderProps {
-    theme?: Theme;
+    theme: Theme;
     showSettings: boolean;
     setShowSettings: (value: boolean) => void;
     autoWrap: boolean;

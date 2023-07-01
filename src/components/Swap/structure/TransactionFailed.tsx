@@ -66,6 +66,7 @@ const TransactionFailed = ({
         </div>
         <div className="flex grow" />
         <button
+            type="button"
             className="w-full rounded-full ease-in-out"
             onClick={() => {
                 setSwapActive(false);

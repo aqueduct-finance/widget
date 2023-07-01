@@ -4,7 +4,7 @@ import { defaultTheme } from "../../theme/theme";
 import { Theme } from "../../theme";
 
 interface ConnectWalletButtonProps {
-    theme?: Theme;
+    theme: Theme;
 }
 
 const ConnectWalletButton = ({ theme }: ConnectWalletButtonProps) => {
@@ -14,6 +14,7 @@ const ConnectWalletButton = ({ theme }: ConnectWalletButtonProps) => {
         <ConnectKitButton.Custom>
             {({ show }) => (
                 <button
+                    type="button"
                     onClick={show}
                     className="font-semibold rounded-full mt-4"
                     style={{

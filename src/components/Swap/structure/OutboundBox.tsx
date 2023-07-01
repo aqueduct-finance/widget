@@ -35,7 +35,7 @@ const OutboundBox = ({
 
     const handleUseMaxClick = (e) => {
         e.stopPropagation();
-        if (store.outboundToken && parseInt(outboundBalance) > 0) {
+        if (store.outboundToken && parseInt(outboundBalance, 10) > 0) {
             setSwapAmount(parseFloat(outboundBalance));
             setDynamicInput(outboundBalance);
         } else {
@@ -104,12 +104,13 @@ const OutboundBox = ({
                     {parseFloat(outboundBalance) === 0 ||
                     !store.outboundToken ||
                     outboundBalance === undefined ||
-                    isNaN(parseFloat(outboundBalance))
+                    Number.isNaN(parseFloat(outboundBalance))
                         ? "0.0"
                         : parseFloat(outboundBalance).toFixed(5)}
                 </p>
             </div>
-            <div
+            <button
+                type="button"
                 className="text-xs h-8 px-4 hover:scale-110 hover:-translate-x-1 transition-all flex items-center justify-center"
                 style={{
                     backgroundColor: swapTheme.useMaxButton,
@@ -126,7 +127,7 @@ const OutboundBox = ({
                 >
                     Use Max
                 </UseMaxText>
-            </div>
+            </button>
         </button>
     );
 };

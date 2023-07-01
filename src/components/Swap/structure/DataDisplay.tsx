@@ -81,7 +81,7 @@ const DataDisplay = ({
                         }}
                     >
                         -
-                        {isNaN(outgoingFlowRate)
+                        {Number.isNaN(outgoingFlowRate)
                             ? "0.0"
                             : outgoingFlowRate.toFixed(8)}{" "}
                         / sec

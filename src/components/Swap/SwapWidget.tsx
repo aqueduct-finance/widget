@@ -26,9 +26,8 @@ import DynamicInputBox from "./structure/DynamicInputBox";
 import { GenericDropdownOption } from "../../types/GenericDropdownOption";
 
 interface SwapWidgetProps {
-    theme?: Theme;
-    tokenOption?: TokenTypes[];
-    defaultTokens?: boolean;
+    theme: Theme;
+    tokenOption: TokenTypes[];
     width: string;
 }
 
@@ -39,24 +38,14 @@ interface SwapWidgetProps {
 const SwapWidget = ({
     theme,
     tokenOption,
-    defaultTokens = true,
     width = "27rem",
 }: SwapWidgetProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
-    const tokenList: TokenTypes[] = defaultTokens
-        ? tokenOption
-            ? [...TestTokens, ...tokenOption]
-            : [...TestTokens]
-        : tokenOption
-        ? [...tokenOption]
-        : [];
+    const tokenList: TokenTypes[] = [...TestTokens, ...tokenOption];
 
     const store = useStore();
     const { address, isConnected, isDisconnected } = useAccount();
-
-    // user input
-    // TODO: where is state variable
 
     // stream vars
     const [endFlow, setEndFlow] = useState<GenericDropdownOption>();
@@ -195,6 +184,7 @@ const SwapWidget = ({
         }, 1000);
 
         return () => clearInterval(intervalId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         store.inboundToken,
         store.outboundToken,
@@ -239,6 +229,7 @@ const SwapWidget = ({
         } else {
             setWallet(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         outboundBalance,
         inboundBalance,
@@ -309,11 +300,7 @@ const SwapWidget = ({
                     setSwapActive={setSwapActive}
                     setIsApproved={setIsApproved}
                     setIsBufferAccepted={setIsBufferAccepted}
-                    flowrateUnit={store.flowrateUnit}
-                    outboundToken={store.outboundToken}
-                    inboundToken={store.inboundToken}
                     swapAmount={swapAmount}
-                    setIsEntered={setIsEntered}
                     startDate={startDate}
                     startTime={startTime}
                     endDate={endDate}
@@ -322,7 +309,6 @@ const SwapWidget = ({
                     isBufferAccepted={isBufferAccepted}
                     isApproved={isApproved}
                     outgoingFlowRate={outgoingFlowRate}
-                    buffer={buffer}
                     setIsSwapSuccess={setIsSwapSuccess}
                     setIsSwapFinished={setIsSwapFinished}
                     swapFlowRate={swapFlowRate}
@@ -339,7 +325,6 @@ const SwapWidget = ({
                     setIsBufferAccepted={setIsBufferAccepted}
                     setIsSwapFinished={setIsSwapFinished}
                     outgoingFlowRate={outgoingFlowRate}
-                    endDate={endDate}
                     setSwapAmount={setSwapAmount}
                     tx={tx}
                     endFlow={endFlow}
@@ -395,12 +380,7 @@ const SwapWidget = ({
                 setSwapAmount={setSwapAmount}
                 setDynamicInput={setDynamicInput}
             />
-            <ActivateSwapArrow
-                swapTheme={swapTheme}
-                overBalance={overBalance}
-                isEntered={isEntered}
-                setSwapActive={setSwapActive}
-            />
+            <ActivateSwapArrow swapTheme={swapTheme} />
             <div
                 className="flex flex-col ease-in-out duration-300 transition-all"
                 style={{

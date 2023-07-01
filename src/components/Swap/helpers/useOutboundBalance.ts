@@ -17,7 +17,7 @@ const useOutboundBalance = ({ address, token }: UseOutboundBalanceProps) => {
     useEffect(() => {
         if (balanceQuery.isSuccess && balanceQuery.data) {
             const balance = balanceQuery.data?.formatted;
-            setOutboundBalance(parseInt(balance));
+            setOutboundBalance(parseInt(balance, 10));
         }
     }, [balanceQuery.isSuccess, balanceQuery.data]);
 

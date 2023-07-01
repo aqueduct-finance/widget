@@ -2,17 +2,12 @@ import React from "react";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { TokenTypes } from "../../../types/TokenOption";
 import SwapResult from "../Result";
 import Approve from "./Approve";
 
 interface StartSwapProps {
-    flowrateUnit: GenericDropdownOption;
     theme: Theme;
-    outboundToken: TokenTypes | undefined;
-    inboundToken: TokenTypes | undefined;
     swapAmount: number;
-    setIsEntered: (value: boolean) => void;
     startDate: string;
     startTime: string;
     endDate: string;
@@ -25,7 +20,6 @@ interface StartSwapProps {
     isApproved: boolean;
     autoWrap: boolean;
     outgoingFlowRate: number;
-    buffer: number;
     setIsSwapSuccess: (value: boolean) => void;
     setIsSwapFinished: (value: boolean) => void;
     swapFlowRate: string;
@@ -37,7 +31,6 @@ interface StartSwapProps {
 const StartSwap = ({
     theme,
     swapAmount,
-    setIsEntered,
     startDate,
     startTime,
     endDate,
@@ -50,7 +43,6 @@ const StartSwap = ({
     isApproved,
     autoWrap,
     outgoingFlowRate,
-    buffer,
     setIsSwapSuccess,
     setIsSwapFinished,
     swapFlowRate,
@@ -88,7 +80,6 @@ const StartSwap = ({
                     outboundToken={store.outboundToken}
                     inboundToken={store.inboundToken}
                     swapAmount={swapAmount}
-                    setIsEntered={setIsEntered}
                     setFlow={setEndFlow}
                     startDate={startDate}
                     startTime={startTime}
@@ -100,7 +91,6 @@ const StartSwap = ({
                     isBufferAccepted={isBufferAccepted}
                     setIsBufferAccepted={setIsBufferAccepted}
                     setIsApproved={setIsApproved}
-                    buffer={buffer}
                     swapFlowRate={swapFlowRate}
                     setIsSwapFinished={setIsSwapFinished}
                     setIsSwapSuccess={setIsSwapSuccess}

@@ -130,6 +130,7 @@ const TransactionSuccess = ({
                 </div>
             </div>
             <button
+                type="button"
                 className="w-full ease-in-out"
                 onClick={importTokens}
                 style={{

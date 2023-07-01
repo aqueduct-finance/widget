@@ -12,15 +12,13 @@ import { TestTokens } from "../../utils/erc20s";
 const chains = [goerli];
 
 interface ExportedWidgetProps {
-    theme?: Theme;
-    tokenOption?: TokenTypes[];
-    defaultTokens?: boolean;
+    theme: Theme;
+    tokenOption: TokenTypes[];
     Web3Key: string;
-    chainName?: string;
-    width?: string;
-    outboundToken?: string;
-    inboundToken?: string;
-    fontUrl?: string;
+    width: string;
+    outboundToken: string;
+    inboundToken: string;
+    fontUrl: string;
 }
 
 // Buy back programs
@@ -28,7 +26,6 @@ interface ExportedWidgetProps {
 const TWAMMWidget = ({
     theme,
     tokenOption,
-    defaultTokens,
     Web3Key,
     width,
     outboundToken,
@@ -62,6 +59,7 @@ const TWAMMWidget = ({
         if (inboundTokenWithAddress) {
             store.setInboundToken(inboundTokenWithAddress);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [outboundTokenWithAddress, inboundTokenWithAddress]);
 
     return (
@@ -73,7 +71,6 @@ const TWAMMWidget = ({
                 <SwapWidget
                     theme={theme}
                     tokenOption={tokenOption}
-                    defaultTokens={defaultTokens}
                     width={width}
                 />
             </ConnectKitProvider>

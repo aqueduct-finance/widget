@@ -4,7 +4,7 @@ import { defaultTheme } from "../../../theme/theme";
 import { useStore } from "../../../store";
 
 interface StreamLengthProps {
-    theme?: Theme;
+    theme: Theme;
 }
 
 const StreamLength = ({ theme }: StreamLengthProps) => {
@@ -67,7 +67,7 @@ const StreamLength = ({ theme }: StreamLengthProps) => {
                     max={720}
                     value={store.payOnceLength}
                     onChange={(e) => {
-                        store.setPayOnceLength(parseInt(e.target.value));
+                        store.setPayOnceLength(parseInt(e.target.value, 10));
                     }}
                 />
             </div>
