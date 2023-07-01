@@ -149,11 +149,13 @@ const DynamicInputBox = ({
     }, [dynamicInput, setFormattedNumberCallback]);
 
     return (
-        <button
-            type="button"
+        <div
+            role="button"
             className="w-full h-full"
             style={{ color: swapTheme.primaryText }}
             onClick={activateInput}
+            onKeyUp={activateInput}
+            tabIndex={0}
         >
             <div
                 ref={parentRef}
@@ -208,7 +210,7 @@ const DynamicInputBox = ({
                     value={dynamicInput}
                 />
             </div>
-        </button>
+        </div>
     );
 };
 

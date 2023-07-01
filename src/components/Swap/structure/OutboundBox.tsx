@@ -47,8 +47,8 @@ const OutboundBox = ({
     };
 
     return (
-        <button
-            type="button"
+        <div
+            role="button"
             className="flex p-3 mt-2 items-center hover:scale-[1.02] transition-all"
             style={{
                 backgroundColor: swapTheme.tokenBox,
@@ -57,6 +57,8 @@ const OutboundBox = ({
                 fontFamily: swapTheme.textFont,
             }}
             onClick={handleButtonClick}
+            onKeyUp={handleButtonClick}
+            tabIndex={0}
         >
             <div className="w-[40px] h-[40px]">
                 {store.outboundToken ? (
@@ -128,7 +130,7 @@ const OutboundBox = ({
                     Use Max
                 </UseMaxText>
             </button>
-        </button>
+        </div>
     );
 };
 
