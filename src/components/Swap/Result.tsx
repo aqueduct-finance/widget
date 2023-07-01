@@ -1,11 +1,12 @@
 import { Theme } from "../../theme";
-import { defaultTheme } from '../../theme/theme'
-import React, { useEffect, useRef, useState } from "react";
+import { defaultTheme } from "../../theme/theme";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { IoMdClose } from 'react-icons/io'
+import { IoMdClose } from "react-icons/io";
 import { useStore } from "../../store";
-import { GridCircleLoader, NinjaLoader, DefaultLoader } from "../../theme/loaders";
+import { GridCircleLoader } from "../../theme/loaders";
 import flowrates from "../../utils/flowrates";
+import { ExplicitAny } from "../../types/ExplicitAny";
 
 const rotationAnimation = keyframes`
   0% {
@@ -25,14 +26,16 @@ const rotationBackAnimation = keyframes`
   }
 `;
 
-const StyledLoader = styled.div<{ swapTheme: any }>`
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const StyledLoader = styled.div<{ swapTheme: ExplicitAny }>`
   width: 150px;
   height: 150px;
   border-radius: 50%;
   display: inline-block;
   position: relative;
   border: 10px solid;
-  border-color: ${({ swapTheme }) => swapTheme.swapButton} ${({ swapTheme }) => swapTheme.swapButton} transparent;
+  border-color: ${({ swapTheme }) => swapTheme.swapButton} ${({ swapTheme }) =>
+    swapTheme.swapButton} transparent;
   box-sizing: border-box;
   animation: ${rotationAnimation} 1.5s linear infinite;
 
@@ -46,7 +49,9 @@ const StyledLoader = styled.div<{ swapTheme: any }>`
     bottom: 0;
     margin: auto;
     border: 10px solid;
-    border-color: transparent ${({ swapTheme }) => swapTheme.accentText} ${({ swapTheme }) => swapTheme.accentText};
+    border-color: transparent ${({ swapTheme }) => swapTheme.accentText} ${({
+    swapTheme,
+}) => swapTheme.accentText};
     width: 75px;
     height: 75px;
     border-radius: 50%;
@@ -57,77 +62,85 @@ const StyledLoader = styled.div<{ swapTheme: any }>`
 `;
 
 interface SwapResultProps {
-  theme: Theme;
-  swapActive: boolean;
-  setSwapActive: (value: boolean) => void;
-  setIsApproved: (value: boolean) => void;
-  setIsBufferAccepted: (value: boolean) => void;
-  setIsSwapSuccess: (value: boolean) => void;
-  setIsSwapFinished: (value: boolean) => void;
+    theme: Theme;
+    swapActive: boolean;
+    setSwapActive: (value: boolean) => void;
+    setIsApproved: (value: boolean) => void;
+    setIsBufferAccepted: (value: boolean) => void;
+    setIsSwapSuccess: (value: boolean) => void;
+    setIsSwapFinished: (value: boolean) => void;
 }
 
 const SwapResult = ({
-  theme,
-  swapActive,
-  setSwapActive,
-  setIsApproved,
-  setIsBufferAccepted,
-  setIsSwapSuccess,
-  setIsSwapFinished,
+    theme,
+    swapActive,
+    setSwapActive,
+    setIsApproved,
+    setIsBufferAccepted,
+    setIsSwapSuccess,
+    setIsSwapFinished,
 }: SwapResultProps) => {
-  const [isExitHover, setIsExitHover] = useState(false);
+    const [isExitHover, setIsExitHover] = useState(false);
 
-  const store = useStore()
+    const store = useStore();
 
-  // FIXME: remove useEffect
-  useEffect(() => {
-    const delayLoading = () => {
-      setTimeout(() => {
-        store.setFlowrateUnit(flowrates[1])
-        store.setOutboundToken(undefined)
-        store.setInboundToken(undefined)
-        setIsSwapSuccess(true)
-        setIsSwapFinished(true)
-      }, 5000);
-    };
+    // FIXME: remove useEffect
+    useEffect(() => {
+        const delayLoading = () => {
+            setTimeout(() => {
+                store.setFlowrateUnit(flowrates[1]);
+                store.setOutboundToken(undefined);
+                store.setInboundToken(undefined);
+                setIsSwapSuccess(true);
+                setIsSwapFinished(true);
+            }, 5000);
+        };
 
-    delayLoading();
-  }, []);
+        delayLoading();
+    }, []);
 
-  const swapTheme: Theme = { ...defaultTheme, ...theme };
+    const swapTheme: Theme = { ...defaultTheme, ...theme };
 
-  return (
-    <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[2rem] px-4`}
-      onClick={() => {
-        setSwapActive(false)
-        setIsApproved(false)
-        setIsBufferAccepted(false)
-      }}
-    >
-      <div className="w-full flex flex-row items-end justify-end px-3 font-bold text-2xl text-white">
-        <IoMdClose className="text-3xl cursor-pointer ease-in-out duration-100"
-          onMouseEnter={() => {
-            setIsExitHover(true)
-          }}
-          onMouseLeave={() => {
-            setIsExitHover(false)
-          }}
-          style={{ color: isExitHover ? swapTheme.accentText : swapTheme.primaryText }}
-          onClick={() => {
-            setSwapActive(false)
-          }}
-        />
-      </div>
-      <div className="w-full flex items-center justify-center px-3 py-3 mt-[35%]">
-        {/*<StyledLoader swapTheme={swapTheme} />*/}
-        <GridCircleLoader swapTheme={swapTheme} />
-        {/*<NinjaLoader swapTheme={swapTheme} />*/}
-      </div>
-      <div className="w-full text-white text-2xl flex justify-center items-center font-bold mt-12">
-        <h1 className="ml-2">Processing transaction</h1>
-      </div>
-    </div>
-  )
-}
+    return (
+        <div
+            className={`${
+                swapActive ? " flex" : "hidden"
+            } flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[2rem] px-4`}
+            onClick={() => {
+                setSwapActive(false);
+                setIsApproved(false);
+                setIsBufferAccepted(false);
+            }}
+        >
+            <div className="w-full flex flex-row items-end justify-end px-3 font-bold text-2xl text-white">
+                <IoMdClose
+                    className="text-3xl cursor-pointer ease-in-out duration-100"
+                    onMouseEnter={() => {
+                        setIsExitHover(true);
+                    }}
+                    onMouseLeave={() => {
+                        setIsExitHover(false);
+                    }}
+                    style={{
+                        color: isExitHover
+                            ? swapTheme.accentText
+                            : swapTheme.primaryText,
+                    }}
+                    onClick={() => {
+                        setSwapActive(false);
+                    }}
+                />
+            </div>
+            <div className="w-full flex items-center justify-center px-3 py-3 mt-[35%]">
+                {/*<StyledLoader swapTheme={swapTheme} />*/}
+                <GridCircleLoader swapTheme={swapTheme} />
+                {/*<NinjaLoader swapTheme={swapTheme} />*/}
+            </div>
+            <div className="w-full text-white text-2xl flex justify-center items-center font-bold mt-12">
+                <h1 className="ml-2">Processing transaction</h1>
+            </div>
+        </div>
+    );
+};
 
 export default SwapResult;

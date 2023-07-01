@@ -12,26 +12,25 @@ interface TokenModalProviderProps {
     outbound: boolean;
 }
 
-
 const TokenModalProvider = ({
     tokenList,
     showModal,
     setShowModal,
     outbound,
-    theme
+    theme,
 }: TokenModalProviderProps) => {
-
-    const store = useStore()
+    const store = useStore();
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] ${showModal
-                ? "top-0 pointer-events-auto"
-                : "top-full pointer-events-none"
-                }`}
+            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] ${
+                showModal
+                    ? "top-0 pointer-events-auto"
+                    : "top-full pointer-events-none"
+            }`}
             style={{
                 backgroundColor: theme.bgColor,
-                transitionDuration: theme.primaryDuration
+                transitionDuration: theme.primaryDuration,
             }}
         >
             <TokenDisplay
@@ -44,7 +43,7 @@ const TokenModalProvider = ({
                 outbound={outbound}
             />
         </div>
-    )
-}
+    );
+};
 
 export default TokenModalProvider;

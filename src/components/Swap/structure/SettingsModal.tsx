@@ -1,4 +1,4 @@
-import Settings from "./Settings"
+import Settings from "./Settings";
 import { Theme } from "../../../theme";
 import React from "react";
 
@@ -19,13 +19,14 @@ const SettingsModalProvider = ({
     autoWrap,
     setAutoWrap,
     schedule,
-    setSchedule
+    setSchedule,
 }: SettingsModalProviderProps) => (
     <div
-        className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] ${showSettings
-            ? "top-0 pointer-events-auto"
-            : "top-full pointer-events-none"
-            }`}
+        className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] ${
+            showSettings
+                ? "top-0 pointer-events-auto"
+                : "top-full pointer-events-none"
+        }`}
         style={{
             backgroundColor: theme.bgColor,
             transitionDuration: theme.primaryDuration,
@@ -41,6 +42,6 @@ const SettingsModalProvider = ({
             setSchedule={setSchedule}
         />
     </div>
-)
+);
 
 export default SettingsModalProvider;

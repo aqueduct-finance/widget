@@ -1,11 +1,10 @@
-import { useStore } from "../../../store"
+import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenTypes } from "../../../types/TokenOption";
 import SwapResult from "../Result";
 import Approve from "./Approve";
 import React from "react";
-
 
 interface StartSwapProps {
     flowrateUnit: GenericDropdownOption;
@@ -49,18 +48,18 @@ const StartSwap = ({
     setIsSwapSuccess,
     setIsSwapFinished,
 }: StartSwapProps) => {
-
-    const store = useStore()
+    const store = useStore();
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] overflow-hidden ${swapActive
-                ? "top-0 pointer-events-auto"
-                : "top-full pointer-events-none"
-                }`}
+            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] overflow-hidden ${
+                swapActive
+                    ? "top-0 pointer-events-auto"
+                    : "top-full pointer-events-none"
+            }`}
             style={{
                 backgroundColor: theme.bgColor,
-                transitionDuration: theme.primaryDuration
+                transitionDuration: theme.primaryDuration,
             }}
         >
             {isApproved ? (
@@ -90,13 +89,12 @@ const StartSwap = ({
                     setSwapActive={setSwapActive}
                     isBufferAccepted={isBufferAccepted}
                     setIsBufferAccepted={setIsBufferAccepted}
-                    isApproved={isApproved}
                     setIsApproved={setIsApproved}
                     buffer={buffer}
                 />
             )}
         </div>
-    )
-}
+    );
+};
 
 export default StartSwap;

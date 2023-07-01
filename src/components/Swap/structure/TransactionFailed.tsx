@@ -1,6 +1,6 @@
-import React from 'react';
-import { BiMessageAltError } from 'react-icons/bi';
-import { Theme } from '../../../theme';
+import React from "react";
+import { BiMessageAltError } from "react-icons/bi";
+import { Theme } from "../../../theme";
 
 interface TransactionFailedProps {
     swapTheme: Theme;
@@ -15,25 +15,27 @@ const TransactionFailed = ({
     setSwapActive,
     setIsApproved,
     setIsBufferAccepted,
-    setIsSwapFinished
+    setIsSwapFinished,
 }: TransactionFailedProps) => (
-    <div className="w-full h-full flex flex-col items-center justify-end"
+    <div
+        className="w-full h-full flex flex-col items-center justify-end"
         style={{
-            fontFamily: swapTheme.textFont
+            fontFamily: swapTheme.textFont,
         }}
     >
         <div className="flex items-center justify-center h-48 w-full">
             <BiMessageAltError
                 className="w-2/3 h-2/3"
                 style={{
-                    color: swapTheme.errorColor
+                    color: swapTheme.errorColor,
                 }}
             />
         </div>
-        <div className="w-full flex items-center justify-center"
+        <div
+            className="w-full flex items-center justify-center"
             style={{
                 color: swapTheme.primaryText,
-                fontWeight: swapTheme.primaryFontWeight
+                fontWeight: swapTheme.primaryFontWeight,
             }}
         >
             <h1 className="text-2xl">Something went wrong.</h1>
@@ -41,28 +43,35 @@ const TransactionFailed = ({
         <div className="flex items-center text-center justify-center w-full py-4">
             <p
                 style={{
-                    color: swapTheme.secondaryText
+                    color: swapTheme.secondaryText,
                 }}
             >
-                Ensure you have enough super tokens to fulfill the buffer period.
-                Learn more about buffers and super tokens{" "}
-                <a href="https://docs.aqueduct.fi/docs/superfluid-concepts/super-tokens" target="_blank" rel="noopener noreferrer">
+                Ensure you have enough super tokens to fulfill the buffer
+                period. Learn more about buffers and super tokens{" "}
+                <a
+                    href="https://docs.aqueduct.fi/docs/superfluid-concepts/super-tokens"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     <span
                         className="hover:underline"
                         style={{
-                            color: swapTheme.embeddedLink
+                            color: swapTheme.embeddedLink,
                         }}
-                    >here.</span>
+                    >
+                        here.
+                    </span>
                 </a>
             </p>
         </div>
-        <div className='flex grow' />
-        <button className={`w-full rounded-full ease-in-out`}
+        <div className="flex grow" />
+        <button
+            className={`w-full rounded-full ease-in-out`}
             onClick={() => {
-                setSwapActive(false)
-                setIsBufferAccepted(false)
-                setIsApproved(false)
-                setIsSwapFinished(false)
+                setSwapActive(false);
+                setIsBufferAccepted(false);
+                setIsApproved(false);
+                setIsSwapFinished(false);
             }}
             style={{
                 backgroundColor: swapTheme.errorColor,
@@ -71,11 +80,12 @@ const TransactionFailed = ({
                 padding: swapTheme.swapButtonPadding,
                 fontWeight: swapTheme.primaryFontWeight,
                 borderRadius: swapTheme.itemBorderRadius,
-                transitionDuration: swapTheme.primaryDuration
-            }}>
+                transitionDuration: swapTheme.primaryDuration,
+            }}
+        >
             Dismiss
         </button>
     </div>
-)
+);
 
 export default TransactionFailed;

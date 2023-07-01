@@ -18,9 +18,9 @@ const SwapButton = ({
     isEntered,
     showAnimation,
     setSwapActive,
-    setShowAnimation
+    setShowAnimation,
 }: SwapButtonProps) => {
-    const store = useStore()
+    const store = useStore();
 
     const handleSwapClick = () => {
         if (!overBalance && isEntered) {
@@ -34,7 +34,8 @@ const SwapButton = ({
     };
 
     return (
-        <button className={`${overBalance || !isEntered ? "opacity-75" : ""} mt-4`}
+        <button
+            className={`${overBalance || !isEntered ? "opacity-75" : ""} mt-4`}
             onClick={handleSwapClick}
             style={{
                 backgroundColor: swapTheme.swapButton,
@@ -42,11 +43,16 @@ const SwapButton = ({
                 fontSize: swapTheme.swapButtonFontSize,
                 padding: swapTheme.swapButtonPadding,
                 borderRadius: swapTheme.swapButtonRadius,
-                fontWeight: swapTheme.primaryFontWeight
-            }}>
-            <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>{overBalance ? `Insufficient ${store.outboundToken?.symbol} balance` : 'Swap'}</SwapText>
+                fontWeight: swapTheme.primaryFontWeight,
+            }}
+        >
+            <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>
+                {overBalance
+                    ? `Insufficient ${store.outboundToken?.symbol} balance`
+                    : "Swap"}
+            </SwapText>
         </button>
-    )
-}
+    );
+};
 
-export default SwapButton
+export default SwapButton;

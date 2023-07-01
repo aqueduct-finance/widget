@@ -26,48 +26,56 @@ const AfterTransaction = ({
     setIsBufferAccepted,
     setIsSwapFinished,
     outgoingFlowRate,
-    setSwapAmount
+    setSwapAmount,
 }: AfterTransactionProps) => {
     const [isExitHover, setIsExitHover] = useState(false);
 
     return (
         <div
-            className={`absolute bottom-0 left-0 right-0 z-50 bg-black transition-all rounded-[3rem] overflow-hidden ${isSwapFinished
-                ? "top-0 pointer-events-auto"
-                : "top-full pointer-events-none"
-                }`}
+            className={`absolute bottom-0 left-0 right-0 z-50 bg-black transition-all rounded-[3rem] overflow-hidden ${
+                isSwapFinished
+                    ? "top-0 pointer-events-auto"
+                    : "top-full pointer-events-none"
+            }`}
             style={{
-                transitionDuration: swapTheme.primaryDuration
+                transitionDuration: swapTheme.primaryDuration,
             }}
         >
-            <div className={`${isSwapFinished ? ' flex' : 'hidden'} flex-col w-full h-full items-center justify-start ease-in-out rounded-[2rem] p-5`}
+            <div
+                className={`${
+                    isSwapFinished ? " flex" : "hidden"
+                } flex-col w-full h-full items-center justify-start ease-in-out rounded-[2rem] p-5`}
                 style={{
-                    transitionDuration: swapTheme.primaryDuration
+                    transitionDuration: swapTheme.primaryDuration,
                 }}
             >
-                <div className="w-full flex flex-row items-center justify-end px-3 text-2xl"
+                <div
+                    className="w-full flex flex-row items-center justify-end px-3 text-2xl"
                     style={{
                         color: swapTheme.icons,
-                        fontWeight: swapTheme.accentFontWeight
+                        fontWeight: swapTheme.accentFontWeight,
                     }}
                 >
-                    <IoMdClose className="text-3xl mt-3 cursor-pointer ease-in-out"
+                    <IoMdClose
+                        className="text-3xl mt-3 cursor-pointer ease-in-out"
                         onMouseEnter={() => {
-                            setIsExitHover(true)
+                            setIsExitHover(true);
                         }}
                         onMouseLeave={() => {
-                            setIsExitHover(false)
+                            setIsExitHover(false);
                         }}
                         style={{
-                            color: isExitHover ? swapTheme.accentText : swapTheme.primaryText,
-                            transitionDuration: swapTheme.secondaryDuration
+                            color: isExitHover
+                                ? swapTheme.accentText
+                                : swapTheme.primaryText,
+                            transitionDuration: swapTheme.secondaryDuration,
                         }}
                         onClick={() => {
-                            setSwapActive(false)
-                            setIsBufferAccepted(false)
-                            setIsApproved(false)
-                            setIsSwapFinished(false)
-                            setSwapAmount(0)
+                            setSwapActive(false);
+                            setIsBufferAccepted(false);
+                            setIsApproved(false);
+                            setIsSwapFinished(false);
+                            setSwapAmount(0);
                         }}
                     />
                 </div>
@@ -87,7 +95,7 @@ const AfterTransaction = ({
                 )}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default AfterTransaction;

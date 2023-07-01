@@ -23,7 +23,7 @@ const DynamicInputBox = ({
     paddingPercentage,
     setSwapAmount,
     setDynamicInput,
-    dynamicInput
+    dynamicInput,
 }: DynamicInputBoxProps) => {
     const store = useStore();
     const inputRef = useRef(null);
@@ -43,17 +43,17 @@ const DynamicInputBox = ({
         // width computation + animation
 
         const numericValue = parseFloat(dynamicInput.replace(/[^0-9.]/g, ""));
-        setSwapAmount(numericValue)
+        setSwapAmount(numericValue);
 
         if (isNaN(numericValue)) {
-            setDivScrollLeft(0)
+            setDivScrollLeft(0);
             return;
         }
 
-        let computedStyle = window.getComputedStyle(inputRef.current);
+        const computedStyle = window.getComputedStyle(inputRef.current);
 
-        let getWidth = (fontSize: string) => {
-            let div = document.createElement("div");
+        const getWidth = (fontSize: string) => {
+            const div = document.createElement("div");
             div.innerText = dynamicInput;
             div.style.fontSize = fontSize;
             div.style.fontWeight = computedStyle.fontWeight;
@@ -64,7 +64,7 @@ const DynamicInputBox = ({
             div.style.position = "fixed";
             div.style.overflow = "auto";
             document.body.append(div);
-            let width = div.offsetWidth;
+            const width = div.offsetWidth;
             div.remove();
             return width;
         };
@@ -72,20 +72,19 @@ const DynamicInputBox = ({
         if (parentRef.current) {
             let newFontSize =
                 dynamicFontSize *
-                (parentRef.current.clientWidth *
-                    (1 - paddingPercentage) /
+                ((parentRef.current.clientWidth * (1 - paddingPercentage)) /
                     getWidth(`${dynamicFontSize}px`));
             newFontSize = parseFloat(newFontSize.toFixed(2));
             if (newFontSize > 72) {
-                setDynamicFontSize(72)
+                setDynamicFontSize(72);
                 newFontSize = 72;
             } else {
-                setDynamicFontSize(newFontSize)
+                setDynamicFontSize(newFontSize);
             }
 
             if (dynamicInput === "") {
-                setDivScrollLeft(0)
-                setDynamicFontSize(72)
+                setDivScrollLeft(0);
+                setDynamicFontSize(72);
             } else {
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
@@ -98,8 +97,8 @@ const DynamicInputBox = ({
         const numericValue = inputValue.replace(/[^0-9.]/g, "");
 
         if (inputValue === "") {
-            setDivScrollLeft(0)
-            setDynamicFontSize(72)
+            setDivScrollLeft(0);
+            setDynamicFontSize(72);
         }
 
         const periodsCount = (inputValue.match(regex) || []).length;
@@ -108,9 +107,8 @@ const DynamicInputBox = ({
             return;
         }
 
-        setDynamicInput(numericValue)
-    }
-
+        setDynamicInput(numericValue);
+    };
 
     return (
         <div
@@ -130,8 +128,8 @@ const DynamicInputBox = ({
                             height="40"
                             alt="OutboundToken"
                             onClick={() => {
-                                setOutbound(true)
-                                setShowModal(true)
+                                setOutbound(true);
+                                setShowModal(true);
                             }}
                         />
                     ) : (
@@ -141,13 +139,16 @@ const DynamicInputBox = ({
                                 borderColor: swapTheme.plusBorder,
                                 borderWidth: swapTheme.secondaryBorderWidth,
                                 color: swapTheme.plusColor,
-                                borderRadius: swapTheme.itemBorderRadius
+                                borderRadius: swapTheme.itemBorderRadius,
                             }}
                         >
-                            <BsPlus className="w-full h-full" onClick={() => {
-                                setOutbound(true)
-                                setShowModal(true)
-                            }} />
+                            <BsPlus
+                                className="w-full h-full"
+                                onClick={() => {
+                                    setOutbound(true);
+                                    setShowModal(true);
+                                }}
+                            />
                         </div>
                     )}
                 </div>
@@ -160,16 +161,16 @@ const DynamicInputBox = ({
                         fontWeight: swapTheme.primaryFontWeight,
                         backgroundColor: "transparent",
                         color: swapTheme.primaryText,
-                        transitionDuration: swapTheme.accentDuration
+                        transitionDuration: swapTheme.accentDuration,
                     }}
                     type="text"
-                    className='outline-none transition-all'
+                    className="outline-none transition-all"
                     onChange={handleInput}
                     value={dynamicInput}
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default DynamicInputBox;
