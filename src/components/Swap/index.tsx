@@ -32,7 +32,7 @@ const TWAMMWidget = ({
     inboundToken,
     fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap",
 }: ExportedWidgetProps) => {
-    const store = useStore();
+    const { setOutboundToken, setInboundToken } = useStore();
 
     const config = createConfig(
         getDefaultConfig({
@@ -54,13 +54,17 @@ const TWAMMWidget = ({
 
     useEffect(() => {
         if (outboundTokenWithAddress) {
-            store.setOutboundToken(outboundTokenWithAddress);
+            setOutboundToken(outboundTokenWithAddress);
         }
         if (inboundTokenWithAddress) {
-            store.setInboundToken(inboundTokenWithAddress);
+            setInboundToken(inboundTokenWithAddress);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [outboundTokenWithAddress, inboundTokenWithAddress]);
+    }, [
+        outboundTokenWithAddress,
+        inboundTokenWithAddress,
+        setOutboundToken,
+        setInboundToken,
+    ]);
 
     return (
         <WagmiConfig config={config}>

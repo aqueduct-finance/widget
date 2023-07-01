@@ -49,57 +49,50 @@ const StartSwap = ({
     setTx,
     outBalance,
     setEndFlow,
-}: StartSwapProps) => {
-    const store = useStore();
-
-    return (
-        <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] overflow-hidden ${
-                swapActive
-                    ? "top-0 pointer-events-auto"
-                    : "top-full pointer-events-none"
-            }`}
-            style={{
-                backgroundColor: theme.bgColor,
-                transitionDuration: theme.primaryDuration,
-            }}
-        >
-            {isApproved ? (
-                <SwapResult
-                    theme={theme}
-                    swapActive={swapActive}
-                    setSwapActive={setSwapActive}
-                    setIsApproved={setIsApproved}
-                    setIsBufferAccepted={setIsBufferAccepted}
-                />
-            ) : (
-                <Approve
-                    flowrateUnit={store.flowrateUnit}
-                    flowrate={outgoingFlowRate}
-                    theme={theme}
-                    outboundToken={store.outboundToken}
-                    inboundToken={store.inboundToken}
-                    swapAmount={swapAmount}
-                    setFlow={setEndFlow}
-                    startDate={startDate}
-                    startTime={startTime}
-                    endDate={endDate}
-                    endTime={endTime}
-                    autoWrap={autoWrap}
-                    swapActive={swapActive}
-                    setSwapActive={setSwapActive}
-                    isBufferAccepted={isBufferAccepted}
-                    setIsBufferAccepted={setIsBufferAccepted}
-                    setIsApproved={setIsApproved}
-                    swapFlowRate={swapFlowRate}
-                    setIsSwapFinished={setIsSwapFinished}
-                    setIsSwapSuccess={setIsSwapSuccess}
-                    setTx={setTx}
-                    outBalance={outBalance}
-                />
-            )}
-        </div>
-    );
-};
+}: StartSwapProps) => (
+    <div
+        className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] overflow-hidden ${
+            swapActive
+                ? "top-0 pointer-events-auto"
+                : "top-full pointer-events-none"
+        }`}
+        style={{
+            backgroundColor: theme.bgColor,
+            transitionDuration: theme.primaryDuration,
+        }}
+    >
+        {isApproved ? (
+            <SwapResult
+                theme={theme}
+                swapActive={swapActive}
+                setSwapActive={setSwapActive}
+                setIsApproved={setIsApproved}
+                setIsBufferAccepted={setIsBufferAccepted}
+            />
+        ) : (
+            <Approve
+                flowrate={outgoingFlowRate}
+                theme={theme}
+                swapAmount={swapAmount}
+                setFlow={setEndFlow}
+                startDate={startDate}
+                startTime={startTime}
+                endDate={endDate}
+                endTime={endTime}
+                autoWrap={autoWrap}
+                swapActive={swapActive}
+                setSwapActive={setSwapActive}
+                isBufferAccepted={isBufferAccepted}
+                setIsBufferAccepted={setIsBufferAccepted}
+                setIsApproved={setIsApproved}
+                swapFlowRate={swapFlowRate}
+                setIsSwapFinished={setIsSwapFinished}
+                setIsSwapSuccess={setIsSwapSuccess}
+                setTx={setTx}
+                outBalance={outBalance}
+            />
+        )}
+    </div>
+);
 
 export default StartSwap;

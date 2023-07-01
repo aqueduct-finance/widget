@@ -19,7 +19,7 @@ const TransactionSuccess = ({
     tx,
     endFlow,
 }: TransactionSuccessProps) => {
-    const store = useStore();
+    const { outboundToken, inboundToken } = useStore();
 
     const { address } = useAccount();
 
@@ -32,9 +32,9 @@ const TransactionSuccess = ({
                 params: {
                     type: "ERC20",
                     options: {
-                        address: store.outboundToken?.address,
-                        symbol: store.outboundToken?.symbol,
-                        decimals: store.outboundToken?.decimals,
+                        address: outboundToken?.address,
+                        symbol: outboundToken?.symbol,
+                        decimals: outboundToken?.decimals,
                         image: "https://foo.io/token-image.svg",
                     },
                 },
@@ -48,7 +48,7 @@ const TransactionSuccess = ({
 
     const userTX = `${etherScanBaseUrl}/${tx}`;
 
-    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`;
+    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${outboundToken?.address}/${inboundToken?.address}`;
 
     return (
         <div
@@ -108,7 +108,7 @@ const TransactionSuccess = ({
                             }}
                         >
                             Swapping {outgoingFlowRate.toFixed(5)}{" "}
-                            {store.outboundToken?.symbol} / {endFlow?.sublabel}
+                            {outboundToken?.symbol} / {endFlow?.sublabel}
                         </p>
                     </div>
                     <div className="flex items-center justify-center">

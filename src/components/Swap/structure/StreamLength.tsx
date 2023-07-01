@@ -10,7 +10,7 @@ interface StreamLengthProps {
 const StreamLength = ({ theme }: StreamLengthProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
-    const store = useStore();
+    const { payOnceLength, setPayOnceLength } = useStore();
 
     return (
         <div
@@ -43,7 +43,7 @@ const StreamLength = ({ theme }: StreamLengthProps) => {
                             fontFamily: swapTheme.numberFont,
                         }}
                     >
-                        {store.payOnceLength}
+                        {payOnceLength}
                     </p>
                     <p
                         style={{
@@ -65,9 +65,9 @@ const StreamLength = ({ theme }: StreamLengthProps) => {
                     type="range"
                     min={1}
                     max={720}
-                    value={store.payOnceLength}
+                    value={payOnceLength}
                     onChange={(e) => {
-                        store.setPayOnceLength(parseInt(e.target.value, 10));
+                        setPayOnceLength(parseInt(e.target.value, 10));
                     }}
                 />
             </div>

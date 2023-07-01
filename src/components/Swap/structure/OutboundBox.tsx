@@ -26,7 +26,7 @@ const OutboundBox = ({
     setSwapAmount,
     setDynamicInput,
 }: OutboundBoxProps) => {
-    const store = useStore();
+    const { outboundToken } = useStore();
 
     const handleButtonClick = () => {
         setShowModal(true);
@@ -35,7 +35,7 @@ const OutboundBox = ({
 
     const handleUseMaxClick = (e) => {
         e.stopPropagation();
-        if (store.outboundToken && parseInt(outboundBalance, 10) > 0) {
+        if (outboundToken && parseInt(outboundBalance, 10) > 0) {
             setSwapAmount(parseFloat(outboundBalance));
             setDynamicInput(outboundBalance);
         } else {
@@ -61,9 +61,9 @@ const OutboundBox = ({
             tabIndex={0}
         >
             <div className="w-[40px] h-[40px]">
-                {store.outboundToken ? (
+                {outboundToken ? (
                     <Image
-                        src={store.outboundToken.logoURI}
+                        src={outboundToken.logoURI}
                         width="40"
                         height="40"
                         alt="Token"
@@ -91,9 +91,7 @@ const OutboundBox = ({
                         fontFamily: swapTheme.textFont,
                     }}
                 >
-                    {store.outboundToken
-                        ? store.outboundToken.name
-                        : "You pay with:"}
+                    {outboundToken ? outboundToken.name : "You pay with:"}
                 </p>
                 <p
                     className="leading-none text-xs"
@@ -104,7 +102,7 @@ const OutboundBox = ({
                     }}
                 >
                     {parseFloat(outboundBalance) === 0 ||
-                    !store.outboundToken ||
+                    !outboundToken ||
                     outboundBalance === undefined ||
                     Number.isNaN(parseFloat(outboundBalance))
                         ? "0.0"

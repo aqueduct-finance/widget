@@ -78,15 +78,14 @@ const SwapResult = ({
 }: SwapResultProps) => {
     const [isExitHover, setIsExitHover] = useState(false);
 
-    const store = useStore();
+    const { setFlowrateUnit } = useStore();
 
     // FIXME: remove useEffect
     useEffect(() => {
         if (!swapActive) {
-            store.setFlowrateUnit(flowrates[1]);
+            setFlowrateUnit(flowrates[1]);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [swapActive]);
+    }, [setFlowrateUnit, swapActive]);
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 

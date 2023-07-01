@@ -18,12 +18,12 @@ const FlowRateContainer = ({
     flowRateDropDown,
     setFlowRateDropDown,
 }: FlowRateContainerProps) => {
-    const store = useStore();
+    const { flowrateUnit } = useStore();
 
     return (
         <div
             className={`${
-                store.flowrateUnit?.label === "Pay Once"
+                flowrateUnit?.label === "Pay Once"
                     ? `${isEntered ? "h-[59%]" : "h-[51.5%]"}`
                     : `${isEntered ? "h-[53.5%]" : "h-[43.5%]"}`
             } ${flowRateDropDown ? "" : "hidden"} 
@@ -48,7 +48,6 @@ const FlowRateContainer = ({
             >
                 <FlowRateRow
                     theme={swapTheme}
-                    setDropdownValue={store.setFlowrateUnit}
                     options={flowrates}
                     setFlowRateDropDown={setFlowRateDropDown}
                 />

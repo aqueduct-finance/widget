@@ -129,26 +129,32 @@ const RealTimeBalance = ({
         }
 
         updateRealTimeBalance();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address, publicClient, setBalance, token?.address]);
-
-    const updateRealTime = () => {
-        const checkBalance = balance
-            ? parseFloat(ethers.utils.formatEther(balance))
-            : 0;
-
-        if (isNotSuper) {
-            setunWrapped(parseFloat(outboundBalance.data?.formatted) || 0);
-        } else {
-            setunWrapped(
-                checkBalance + parseFloat(outboundBalance.data?.formatted)
-            );
-        }
-    };
+    }, [
+        address,
+        outboundBalance.data?.formatted,
+        setBalance,
+        setIsNew,
+        setunWrapped,
+        token,
+    ]);
 
     // REFRESH(in milliseconds) = REFRESH_INTERVAL * ANIMATION_MINIMUM_STEP_TIME
     const [time, setTime] = useState(REFRESH_INTERVAL);
     useEffect(() => {
+        const updateRealTime = () => {
+            const checkBalance = balance
+                ? parseFloat(ethers.utils.formatEther(balance))
+                : 0;
+
+            if (isNotSuper) {
+                setunWrapped(parseFloat(outboundBalance.data?.formatted) || 0);
+            } else {
+                setunWrapped(
+                    checkBalance + parseFloat(outboundBalance.data?.formatted)
+                );
+            }
+        };
+
         const timer = setTimeout(() => {
             setTime(time + 1);
             if (time >= REFRESH_INTERVAL) {
@@ -170,8 +176,17 @@ const RealTimeBalance = ({
         return () => {
             clearTimeout(timer);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [flowRate, setBalance, time, updateRealTimeBalanceCallback, isNew]);
+    }, [
+        flowRate,
+        setBalance,
+        time,
+        updateRealTimeBalanceCallback,
+        isNew,
+        setunWrapped,
+        balance,
+        isNotSuper,
+        outboundBalance.data?.formatted,
+    ]);
 
     useEffect(() => {
         updateRealTimeBalanceCallback();

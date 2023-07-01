@@ -44,7 +44,14 @@ const SwapWidget = ({
 
     const tokenList: TokenTypes[] = [...TestTokens, ...tokenOption];
 
-    const store = useStore();
+    const {
+        inboundToken,
+        outboundToken,
+        setInboundToken,
+        setOutboundToken,
+        payOnceLength,
+        flowrateUnit,
+    } = useStore();
     const { address, isConnected, isDisconnected } = useAccount();
 
     // stream vars
@@ -126,31 +133,31 @@ const SwapWidget = ({
 
     // FIXME: Remove useEffect
     useEffect(() => {
-        if (store.inboundToken === store.outboundToken && outbound) {
-            store.setInboundToken(null);
-        } else if (store.inboundToken === store.outboundToken && !outbound) {
-            store.setOutboundToken(null);
+        if (inboundToken === outboundToken && outbound) {
+            setInboundToken(null);
+        } else if (inboundToken === outboundToken && !outbound) {
+            setOutboundToken(null);
         }
 
-        if (store.inboundToken?.underlyingToken) {
-            setInboundAddress(store.inboundToken?.underlyingToken.address);
+        if (inboundToken?.underlyingToken) {
+            setInboundAddress(inboundToken?.underlyingToken.address);
         } else {
             setInboundAddress("0x");
         }
-        if (store.outboundToken?.underlyingToken) {
-            setOutboundAddress(store.outboundToken?.underlyingToken.address);
+        if (outboundToken?.underlyingToken) {
+            setOutboundAddress(outboundToken?.underlyingToken.address);
         } else {
             setOutboundAddress("0x");
         }
 
-        const lengthInSeconds = store.payOnceLength * 3600;
+        const lengthInSeconds = payOnceLength * 3600;
 
         const expectedOutFlow = swapAmount / lengthInSeconds;
 
-        const expectedOutFlowIndefinite = swapAmount / store.flowrateUnit.value;
+        const expectedOutFlowIndefinite = swapAmount / flowrateUnit.value;
 
         if (swapAmount !== 0 && swapAmount !== undefined) {
-            if (store.flowrateUnit?.label !== "Pay Once") {
+            if (flowrateUnit?.label !== "Pay Once") {
                 setOutgoingFlowRate(expectedOutFlowIndefinite);
                 calculateBuffer({ expectedFlow: expectedOutFlowIndefinite });
             } else {
@@ -174,7 +181,7 @@ const SwapWidget = ({
             setStartDate(date);
             setStartTime(time);
 
-            if (store.flowrateUnit?.label === "Pay Once") {
+            if (flowrateUnit?.label === "Pay Once") {
                 setEndDate(endDateFormatted);
                 setEndTime(endTimeFormatted);
             } else {
@@ -184,24 +191,20 @@ const SwapWidget = ({
         }, 1000);
 
         return () => clearInterval(intervalId);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        store.inboundToken,
-        store.outboundToken,
+        inboundToken,
+        outboundToken,
         swapAmount,
-        store.payOnceLength,
-        store.flowrateUnit,
-        store.flowrateUnit,
+        payOnceLength,
+        flowrateUnit,
+        outbound,
+        setInboundToken,
+        setOutboundToken,
     ]);
 
     // FIXME: Remove useEffect
     useEffect(() => {
-        if (
-            store.inboundToken &&
-            store.outboundToken &&
-            swapAmount > 0 &&
-            outBalance > 0
-        ) {
+        if (inboundToken && outboundToken && swapAmount > 0 && outBalance > 0) {
             setIsEntered(true);
         } else {
             setIsEntered(false);
@@ -215,9 +218,8 @@ const SwapWidget = ({
                             ? ethers.utils.formatEther(outboundTokenBalance)
                             : "0"
                     ) &&
-                store.outboundToken) ||
-            (outboundBalance.data?.formatted === undefined &&
-                store.outboundToken)
+                outboundToken) ||
+            (outboundBalance.data?.formatted === undefined && outboundToken)
         ) {
             setOverBalance(true);
         } else {
@@ -229,15 +231,17 @@ const SwapWidget = ({
         } else {
             setWallet(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         outboundBalance,
         inboundBalance,
-        store.outboundToken,
-        store.inboundToken,
+        outboundToken,
+        inboundToken,
         dynammicInput,
         isConnected,
         isDisconnected,
+        swapAmount,
+        outBalance,
+        outboundTokenBalance,
     ]);
 
     const [newOut, setNewOut] = useState(false);
@@ -246,12 +250,12 @@ const SwapWidget = ({
     useEffect(() => {
         setNewOut(true);
         setOutBalance(0);
-    }, [store.outboundToken]);
+    }, [outboundToken]);
 
     useEffect(() => {
         setNewIn(true);
         setInBalance(0);
-    }, [store.inboundToken]);
+    }, [inboundToken]);
 
     return (
         <div
@@ -262,7 +266,7 @@ const SwapWidget = ({
             }}
         >
             <RealTimeBalance
-                token={store.inboundToken}
+                token={inboundToken}
                 setBalance={setInboundTokenBalance}
                 balance={inboundTokenBalance}
                 setunWrapped={setInBalance}
@@ -270,7 +274,7 @@ const SwapWidget = ({
                 isNew={newIn}
             />
             <RealTimeBalance
-                token={store.outboundToken}
+                token={outboundToken}
                 setBalance={setOutboundTokenBalance}
                 balance={outboundTokenBalance}
                 setunWrapped={setOutBalance}
@@ -358,7 +362,6 @@ const SwapWidget = ({
             </div>
             <div className="mt-6">
                 <FlowRateSelect
-                    dropdownValue={store.flowrateUnit}
                     theme={swapTheme}
                     setFlowRateDropDown={setFlowRateDropDown}
                     flowRateDropDown={flowRateDropDown}

@@ -5,12 +5,10 @@ import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
 import { ExplicitAny } from "../../../types/ExplicitAny";
+import { useStore } from "../../../store";
 
 interface FlowRateRowProps {
     options: GenericDropdownOption[] | TokenOption[];
-    setDropdownValue:
-        | ((value: GenericDropdownOption) => void)
-        | ((token: TokenOption) => void);
     theme: Theme;
     setFlowRateDropDown: (value: boolean) => void;
 }
@@ -52,10 +50,10 @@ const Container = styled.div<{ theme: ExplicitAny }>`
 
 const FlowRateRow = ({
     options,
-    setDropdownValue,
     theme,
     setFlowRateDropDown,
 }: FlowRateRowProps) => {
+    const { setFlowrateUnit } = useStore();
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
@@ -71,7 +69,7 @@ const FlowRateRow = ({
                     className="w-full px-3 py-3 flex items-center justify-center mt-3 text-lg cursor-pointer"
                     key={option.value}
                     onClick={() => {
-                        setDropdownValue(option);
+                        setFlowrateUnit(option);
                         setFlowRateDropDown(false);
                     }}
                     style={{

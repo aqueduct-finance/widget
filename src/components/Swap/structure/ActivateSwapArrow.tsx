@@ -8,11 +8,12 @@ interface ActivateSwapArrowProps {
 }
 
 const ActivateSwapArrow = ({ swapTheme }: ActivateSwapArrowProps) => {
-    const store = useStore();
+    const { outboundToken, inboundToken, setOutboundToken, setInboundToken } =
+        useStore();
 
     const handleSwitch = () => {
-        store.setOutboundToken(store.inboundToken);
-        store.setInboundToken(store.outboundToken);
+        setOutboundToken(inboundToken);
+        setInboundToken(outboundToken);
     };
 
     return (

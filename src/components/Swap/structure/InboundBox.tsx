@@ -19,7 +19,7 @@ const InboundBox = ({
     setOutbound,
     isEntered,
 }: OutboundBoxProps) => {
-    const store = useStore();
+    const { inboundToken } = useStore();
 
     return (
         <button
@@ -38,9 +38,9 @@ const InboundBox = ({
             }}
         >
             <div className="w-[40px] h-[40px]">
-                {store.inboundToken ? (
+                {inboundToken ? (
                     <Image
-                        src={store.inboundToken.logoURI}
+                        src={inboundToken.logoURI}
                         width="40"
                         height="40"
                         alt="token"
@@ -68,9 +68,7 @@ const InboundBox = ({
                         fontFamily: swapTheme.textFont,
                     }}
                 >
-                    {store.inboundToken
-                        ? store.inboundToken.name
-                        : "You receive:"}
+                    {inboundToken ? inboundToken.name : "You receive:"}
                 </p>
                 <p
                     className="leading-none text-xs"
@@ -81,7 +79,7 @@ const InboundBox = ({
                     }}
                 >
                     {parseFloat(inboundBalance) === 0 ||
-                    !store.inboundToken ||
+                    !inboundToken ||
                     inboundBalance === undefined ||
                     Number.isNaN(parseFloat(inboundBalance))
                         ? "0.0"

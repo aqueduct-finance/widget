@@ -6,13 +6,12 @@ import { TokenTypes } from "../../../types/TokenOption";
 import { Theme } from "../../../theme";
 import { defaultTheme } from "../../../theme/theme";
 import TokenRow from "./TokenRow";
+import { useStore } from "../../../store";
 
 interface TokenDisplayProps {
     tokenOption: TokenTypes[];
     display: boolean;
     theme: Theme;
-    setOutboundToken: (token: TokenTypes) => void;
-    setInboundToken: (token: TokenTypes) => void;
     setDisplay: (value: boolean) => void;
     outbound: boolean;
 }
@@ -59,8 +58,6 @@ const TokenDisplay = ({
     display,
     theme,
     setDisplay,
-    setOutboundToken,
-    setInboundToken,
     outbound,
 }: TokenDisplayProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
@@ -173,8 +170,6 @@ const TokenDisplay = ({
                         index={index}
                         isHover={isHover}
                         swapTheme={swapTheme}
-                        setOutboundToken={setOutboundToken}
-                        setInboundToken={setInboundToken}
                         outbound={outbound}
                         setDisplay={setDisplay}
                         handleMouseEnter={handleMouseEnter}

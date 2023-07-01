@@ -7,7 +7,6 @@ import { useAccount, useNetwork } from "wagmi";
 import { Theme } from "../../../theme";
 import { defaultTheme } from "../../../theme/theme";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { TokenTypes } from "../../../types/TokenOption";
 import ApproveRow from "./ApproveRow";
 import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
@@ -18,11 +17,8 @@ import { goerliChainId } from "../../../utils/constants";
 import flowrates from "../../../utils/flowrates";
 
 interface ApproveSwapProps {
-    flowrateUnit: GenericDropdownOption;
     flowrate: number;
     theme: Theme;
-    outboundToken: TokenTypes | undefined;
-    inboundToken: TokenTypes | undefined;
     swapAmount: number;
     startDate: string;
     startTime: string;
@@ -43,11 +39,8 @@ interface ApproveSwapProps {
 }
 
 const Approve = ({
-    flowrateUnit,
     flowrate,
     theme,
-    outboundToken,
-    inboundToken,
     swapAmount,
     startDate,
     startTime,
@@ -66,6 +59,8 @@ const Approve = ({
     outBalance,
     setFlow,
 }: ApproveSwapProps) => {
+    const { inboundToken, outboundToken, flowrateUnit, setFlowrateUnit } =
+        useStore();
     const [isExitHover, setIsExitHover] = useState(false);
     const [showAnimation, setShowAnimation] = useState(false);
     const provider = useEthersProvider();
@@ -97,8 +92,6 @@ const Approve = ({
     const [deposit, setDeposit] = useState(BigNumber.from(0));
     const [, setAcceptedBuffer] = useState(false);
     const [, setPoolExists] = useState(false);
-
-    const store = useStore();
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -137,7 +130,7 @@ const Approve = ({
 
     const swap = async () => {
         setIsSwapFinished(false);
-        setFlow(store.flowrateUnit);
+        setFlow(flowrateUnit);
 
         if (signer === null || signer === undefined) {
             setIsSwapFinished(true);
@@ -146,12 +139,12 @@ const Approve = ({
         }
 
         const pool = getPoolAddress(
-            store.inboundToken?.address,
-            store.outboundToken?.address
+            inboundToken?.address,
+            outboundToken?.address
         );
 
         console.log(pool);
-        const token = store.outboundToken.address;
+        const token = outboundToken.address;
 
         try {
             const superfluid = await Framework.create({
@@ -191,106 +184,93 @@ const Approve = ({
 
                 setIsSwapFinished(true);
                 setIsSwapSuccess(true);
-                store.setFlowrateUnit(flowrates[1]);
+                setFlowrateUnit(flowrates[1]);
             }
         } catch (error) {
             setIsSwapFinished(true);
             setIsSwapSuccess(false);
-            store.setFlowrateUnit(flowrates[1]);
+            setFlowrateUnit(flowrates[1]);
         }
     };
-
-    const refreshPrice = async () => {
-        setRefreshingPrice(true);
-        // clear any existing timeouts
-        if (priceTimeout) {
-            clearTimeout(priceTimeout);
-            setPriceTimeout(undefined);
-        }
-
-        if (!store.outboundToken || swapFlowRate === "") {
-            return;
-        }
-
-        // set a timeout
-        const timeout: NodeJS.Timeout = setTimeout(async () => {
-            // calculate new flows
-            let calculatedToken0Flow = BigNumber.from(token0Flow.current);
-            calculatedToken0Flow = token0Flow.current
-                .add(swapFlowRate)
-                .sub(userToken0Flow.current);
-
-            // calculate token 0 price
-            if (token1Flow.current.gt(0)) {
-                setToken0Price(
-                    parseFloat(calculatedToken0Flow.toString()) /
-                        parseFloat(token1Flow.current.toString())
-                );
-            } else {
-                setToken0Price(0);
-            }
-
-            if (calculatedToken0Flow.gt(0)) {
-                // calculate price multiple
-                setPriceMultiple(
-                    token1Flow.current
-                        .mul(BigNumber.from(2).pow(128))
-                        .div(calculatedToken0Flow)
-                );
-
-                // calculate price impact
-                setPriceImpact(
-                    1 -
-                        parseFloat(token0Flow.current.toString()) /
-                            parseFloat(calculatedToken0Flow.toString())
-                );
-            } else {
-                setPriceMultiple(BigNumber.from(0));
-                setPriceImpact(0);
-            }
-
-            // calculate deposit
-            // assume 1 hr length for deposit // TODO: mainnet is 4 hrs, detect network and adjust deposit period
-            const oneHourStream = BigNumber.from(swapFlowRate).mul(3600);
-            setDeposit(oneHourStream);
-
-            // had hard time determining min balance, default to 2 hours of streaming for now // TODO: detect network and adjust
-            setMinBalance(oneHourStream.mul(2));
-
-            // reset deposit agreement
-            setAcceptedBuffer(false);
-
-            // eslint-disable-next-line no-promise-executor-return
-            await new Promise((res) => setTimeout(res, 900));
-            setRefreshingPrice(false);
-        }, 500);
-
-        setPriceTimeout(timeout);
-    };
-
-    // refresh spot pricing upon user input
-    // FIXME: Remove useEffect
-    useEffect(() => {
-        const updatePrice = async () => {
-            await refreshPrice();
-        };
-
-        updatePrice();
-
-        // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [swapFlowRate]);
 
     // update vars when tokens change
     useEffect(() => {
+        const refreshPrice = async () => {
+            setRefreshingPrice(true);
+            // clear any existing timeouts
+            if (priceTimeout) {
+                clearTimeout(priceTimeout);
+                setPriceTimeout(undefined);
+            }
+
+            if (!outboundToken || swapFlowRate === "") {
+                return;
+            }
+
+            // set a timeout
+            const timeout: NodeJS.Timeout = setTimeout(async () => {
+                // calculate new flows
+                let calculatedToken0Flow = BigNumber.from(token0Flow.current);
+                calculatedToken0Flow = token0Flow.current
+                    .add(swapFlowRate)
+                    .sub(userToken0Flow.current);
+
+                // calculate token 0 price
+                if (token1Flow.current.gt(0)) {
+                    setToken0Price(
+                        parseFloat(calculatedToken0Flow.toString()) /
+                            parseFloat(token1Flow.current.toString())
+                    );
+                } else {
+                    setToken0Price(0);
+                }
+
+                if (calculatedToken0Flow.gt(0)) {
+                    // calculate price multiple
+                    setPriceMultiple(
+                        token1Flow.current
+                            .mul(BigNumber.from(2).pow(128))
+                            .div(calculatedToken0Flow)
+                    );
+
+                    // calculate price impact
+                    setPriceImpact(
+                        1 -
+                            parseFloat(token0Flow.current.toString()) /
+                                parseFloat(calculatedToken0Flow.toString())
+                    );
+                } else {
+                    setPriceMultiple(BigNumber.from(0));
+                    setPriceImpact(0);
+                }
+
+                // calculate deposit
+                // assume 1 hr length for deposit // TODO: mainnet is 4 hrs, detect network and adjust deposit period
+                const oneHourStream = BigNumber.from(swapFlowRate).mul(3600);
+                setDeposit(oneHourStream);
+
+                // had hard time determining min balance, default to 2 hours of streaming for now // TODO: detect network and adjust
+                setMinBalance(oneHourStream.mul(2));
+
+                // reset deposit agreement
+                setAcceptedBuffer(false);
+
+                // eslint-disable-next-line no-promise-executor-return
+                await new Promise((res) => setTimeout(res, 900));
+                setRefreshingPrice(false);
+            }, 500);
+
+            setPriceTimeout(timeout);
+        };
+
         const updateFlowVars = async () => {
-            const token0Address = store.outboundToken?.address;
-            const token1Address = store.inboundToken?.address;
+            const token0Address = outboundToken?.address;
+            const token1Address = inboundToken?.address;
 
             try {
                 const poolAddress = getPoolAddress(
-                    store.inboundToken?.address,
-                    store.outboundToken?.address
+                    inboundToken?.address,
+                    outboundToken?.address
                 );
                 setPoolExists(true);
 
@@ -348,9 +328,15 @@ const Approve = ({
         };
 
         updateFlowVars();
-        // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [store.inboundToken, store.outboundToken, address, chain, swapFlowRate]);
+    }, [
+        inboundToken,
+        outboundToken,
+        address,
+        chain,
+        swapFlowRate,
+        provider,
+        priceTimeout,
+    ]);
 
     useEffect(() => {
         // calculate expected outgoing flowrate
@@ -359,16 +345,14 @@ const Approve = ({
                 ethers.utils.formatEther(
                     BigNumber.from(swapFlowRate)
                         .mul(priceMultiple)
-                        .mul(store.flowrateUnit.value)
+                        .mul(flowrateUnit.value)
                         .div(BigNumber.from(2).pow(128))
                 )
             );
         } else {
             setDisplayedExpectedFlowRate("");
         }
-        // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [priceMultiple]);
+    }, [priceMultiple, flowrateUnit.value, swapFlowRate]);
 
     const formattedOutBalance = Number.isNaN(outBalance)
         ? ethers.BigNumber.from(0)
@@ -485,7 +469,7 @@ const Approve = ({
                             >
                                 {`You do not have enough balance to cover the ${ethers.utils.formatEther(
                                     deposit
-                                )} ${store.outboundToken?.symbol} buffer.`}
+                                )} ${outboundToken?.symbol} buffer.`}
                             </p>
                         ) : (
                             <p
@@ -499,8 +483,7 @@ const Approve = ({
                                 {parseFloat(
                                     ethers.utils.formatEther(deposit)
                                 ).toFixed(5)}{" "}
-                                {store.outboundToken?.underlyingToken?.symbol}{" "}
-                                buffer.
+                                {outboundToken?.underlyingToken?.symbol} buffer.
                             </p>
                         )}
                         <div

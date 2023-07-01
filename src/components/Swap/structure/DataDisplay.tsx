@@ -21,7 +21,7 @@ const DataDisplay = ({
     endTime,
     outgoingFlowRate,
 }: DataDisplayProps) => {
-    const store = useStore();
+    const { outboundToken } = useStore();
 
     return (
         <div
@@ -73,7 +73,7 @@ const DataDisplay = ({
                     </p>
                 </div>
                 <div className="flex flex-row space-x-5">
-                    <p>{store.outboundToken?.symbol} Flowrate: </p>
+                    <p>{outboundToken?.symbol} Flowrate: </p>
                     <p
                         className="opacity-75"
                         style={{

@@ -21,7 +21,7 @@ const SwapButton = ({
     setSwapActive,
     setShowAnimation,
 }: SwapButtonProps) => {
-    const store = useStore();
+    const { inboundToken, outboundToken } = useStore();
     const [poolExists, setPoolExists] = useState(false);
 
     const handleSwapClick = () => {
@@ -37,15 +37,12 @@ const SwapButton = ({
 
     useEffect(() => {
         try {
-            getPoolAddress(
-                store.inboundToken?.address,
-                store.outboundToken?.address
-            );
+            getPoolAddress(inboundToken?.address, outboundToken?.address);
             setPoolExists(true);
         } catch (err) {
             setPoolExists(false);
         }
-    }, [store.inboundToken, store.outboundToken]);
+    }, [inboundToken, outboundToken]);
 
     return (
         <button
@@ -66,7 +63,7 @@ const SwapButton = ({
             {poolExists ? (
                 <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>
                     {overBalance
-                        ? `Insufficient ${store.outboundToken?.symbol} balance`
+                        ? `Insufficient ${outboundToken?.symbol} balance`
                         : "Swap"}
                 </SwapText>
             ) : (

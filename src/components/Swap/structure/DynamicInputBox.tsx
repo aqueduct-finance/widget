@@ -28,7 +28,7 @@ const DynamicInputBox = ({
     dynamicInput,
     setSwapFlowRate,
 }: DynamicInputBoxProps) => {
-    const store = useStore();
+    const { flowrateUnit, outboundToken } = useStore();
     const inputRef = useRef(null);
 
     const parentRef = useRef<HTMLDivElement>(null);
@@ -92,8 +92,14 @@ const DynamicInputBox = ({
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [swapAmount, dynamicInput, divScrollLeft]);
+    }, [
+        swapAmount,
+        dynamicInput,
+        divScrollLeft,
+        setSwapAmount,
+        dynamicFontSize,
+        paddingPercentage,
+    ]);
 
     const handleInput = (e) => {
         const inputValue = e.target.value;
@@ -131,9 +137,7 @@ const DynamicInputBox = ({
                         "ether"
                     );
 
-                    formattedValue = formattedValue.div(
-                        store.flowrateUnit.value
-                    );
+                    formattedValue = formattedValue.div(flowrateUnit.value);
 
                     setSwapFlowRate(formattedValue.toString());
                 }
@@ -141,7 +145,7 @@ const DynamicInputBox = ({
 
             setFormattedNumber();
         },
-        [setSwapFlowRate, store.flowrateUnit.value]
+        [setSwapFlowRate, flowrateUnit.value]
     );
 
     useEffect(() => {
@@ -162,9 +166,9 @@ const DynamicInputBox = ({
                 className="w-full h-full flex items-center justify-end overflow-hidden space-x-2"
             >
                 <div className="w-[30px] h-[30px] mb-12 cursor-pointer z-10">
-                    {store.outboundToken ? (
+                    {outboundToken ? (
                         <Image
-                            src={store.outboundToken.logoURI}
+                            src={outboundToken.logoURI}
                             width="40"
                             height="40"
                             alt="OutboundToken"
