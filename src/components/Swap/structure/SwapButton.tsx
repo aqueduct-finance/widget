@@ -21,8 +21,8 @@ const SwapButton = ({
     setSwapActive,
     setShowAnimation,
 }: SwapButtonProps) => {
-    const store = useStore()
-    const [poolExists, setPoolExists] = useState(false)
+    const store = useStore();
+    const [poolExists, setPoolExists] = useState(false);
 
     const handleSwapClick = () => {
         if (!overBalance && isEntered && poolExists) {
@@ -41,14 +41,17 @@ const SwapButton = ({
                 store.inboundToken?.address,
                 store.outboundToken?.address
             );
-            setPoolExists(true)
+            setPoolExists(true);
         } catch (err) {
-            setPoolExists(false)
+            setPoolExists(false);
         }
-    }, [store.inboundToken, store.outboundToken])
+    }, [store.inboundToken, store.outboundToken]);
 
     return (
-        <button className={`${overBalance || !isEntered || !poolExists ? "opacity-75" : ""} mt-4`}
+        <button
+            className={`${
+                overBalance || !isEntered || !poolExists ? "opacity-75" : ""
+            } mt-4`}
             onClick={handleSwapClick}
             style={{
                 backgroundColor: swapTheme.swapButton,
@@ -56,15 +59,22 @@ const SwapButton = ({
                 fontSize: swapTheme.swapButtonFontSize,
                 padding: swapTheme.swapButtonPadding,
                 borderRadius: swapTheme.swapButtonRadius,
-                fontWeight: swapTheme.primaryFontWeight
-            }}>
+                fontWeight: swapTheme.primaryFontWeight,
+            }}
+        >
             {poolExists ? (
-                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>{overBalance ? `Insufficient ${store.outboundToken?.symbol} balance` : 'Swap'}</SwapText>
+                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>
+                    {overBalance
+                        ? `Insufficient ${store.outboundToken?.symbol} balance`
+                        : "Swap"}
+                </SwapText>
             ) : (
-                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Pool does not exist</SwapText>
+                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>
+                    Pool does not exist
+                </SwapText>
             )}
         </button>
-    )
-}
+    );
+};
 
-export default SwapButton
+export default SwapButton;

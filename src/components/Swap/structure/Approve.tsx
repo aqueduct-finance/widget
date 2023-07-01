@@ -1,11 +1,11 @@
 import { Theme } from "../../../theme";
-import { defaultTheme } from '../../../theme/theme'
+import { defaultTheme } from "../../../theme/theme";
 import React, { useEffect, useRef, useState } from "react";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { IoMdClose } from 'react-icons/io'
+import { IoMdClose } from "react-icons/io";
 import { TokenTypes } from "../../../types/TokenOption";
 import ApproveRow from "./ApproveRow";
-import { BsCheckLg } from 'react-icons/bs'
+import { BsCheckLg } from "react-icons/bs";
 import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
 import { useEthersProvider } from "../../../providers/provider";
@@ -34,7 +34,6 @@ interface ApproveSwapProps {
     setSwapActive: (value: boolean) => void;
     isBufferAccepted: boolean;
     setIsBufferAccepted: (value: boolean) => void;
-    isApproved: boolean;
     setIsApproved: (value: boolean) => void;
     buffer: number;
     swapFlowRate: string;
@@ -52,7 +51,6 @@ const Approve = ({
     outboundToken,
     inboundToken,
     swapAmount,
-    setIsEntered,
     startDate,
     startTime,
     endDate,
@@ -62,22 +60,20 @@ const Approve = ({
     setSwapActive,
     isBufferAccepted,
     setIsBufferAccepted,
-    isApproved,
     setIsApproved,
-    buffer,
     swapFlowRate,
     setIsSwapFinished,
     setIsSwapSuccess,
     setTx,
     outBalance,
-    setFlow
+    setFlow,
 }: ApproveSwapProps) => {
     const [isExitHover, setIsExitHover] = useState(false);
-    const [showAnimation, setShowAnimation] = useState(false)
-    const provider = useEthersProvider()
-    const signer = useEthersSigner()
+    const [showAnimation, setShowAnimation] = useState(false);
+    const provider = useEthersProvider();
+    const signer = useEthersSigner();
 
-    const { address } = useAccount()
+    const { address } = useAccount();
     const { chain } = useNetwork();
 
     const userToken0Flow = useRef(BigNumber.from(0));
@@ -85,6 +81,7 @@ const Approve = ({
     const token0Flow = useRef(BigNumber.from(0));
     const token1Flow = useRef(BigNumber.from(0));
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [token0Price, setToken0Price] = useState(0);
     const [priceMultiple, setPriceMultiple] = useState<BigNumber>(
         BigNumber.from(0)
@@ -103,36 +100,52 @@ const Approve = ({
     const [, setAcceptedBuffer] = useState(false);
     const [, setPoolExists] = useState(false);
 
-    const store = useStore()
+    const store = useStore();
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     const options = [
-        { title: "Spending", data: swapAmount?.toFixed(5) + " " + outboundToken?.symbol },
-        { title: "Receiving", data: parseFloat(displayedExpectedFlowRate).toFixed(5) + " " + inboundToken?.symbol },
-        { title: "Flowrate", data: (flowrate * flowrateUnit.value).toFixed(8) + " / " + flowrateUnit.sublabel },
+        {
+            title: "Spending",
+            data: swapAmount?.toFixed(5) + " " + outboundToken?.symbol,
+        },
+        {
+            title: "Receiving",
+            data:
+                parseFloat(displayedExpectedFlowRate).toFixed(5) +
+                " " +
+                inboundToken?.symbol,
+        },
+        {
+            title: "Flowrate",
+            data:
+                (flowrate * flowrateUnit.value).toFixed(8) +
+                " / " +
+                flowrateUnit.sublabel,
+        },
         { title: "Start Date", data: startDate },
         { title: "Start Time", data: startTime },
         { title: "End Date", data: endDate },
         { title: "End Time", data: endTime },
         { title: "Auto Wrap", data: autoWrap ? "On" : "Off" },
-    ]
+    ];
 
     const filteredOptions = options.filter(
         (option) =>
             !(
-                (option.title === "End Date" && option.data === "Not scheduled") ||
+                (option.title === "End Date" &&
+                    option.data === "Not scheduled") ||
                 (option.title === "End Time" && option.data === "")
             )
     );
 
     const swap = async () => {
-        setIsSwapFinished(false)
-        setFlow(store.flowrateUnit)
+        setIsSwapFinished(false);
+        setFlow(store.flowrateUnit);
 
         if (signer === null || signer === undefined) {
-            setIsSwapFinished(true)
-            setIsSwapSuccess(false)
+            setIsSwapFinished(true);
+            setIsSwapSuccess(false);
             return;
         }
 
@@ -141,16 +154,14 @@ const Approve = ({
             store.outboundToken?.address
         );
 
-        console.log(pool)
+        console.log(pool);
         const token = store.outboundToken.address;
 
-        let transactionHash;
         try {
             const superfluid = await Framework.create({
                 chainId: goerliChainId,
                 provider: provider,
             });
-
 
             const sender = await signer.getAddress();
             if (token) {
@@ -163,12 +174,11 @@ const Approve = ({
                         sender,
                     });
                     const result = await updateFlowOperation.exec(signer);
-                    transactionHash = result.hash;
                     const transactionReceipt = await result.wait();
                     // Add set Transactionsuccess ( might want to take the same approach as toast )
 
-                    setTx(transactionReceipt.transactionHash)
-                    console.log(transactionReceipt.transactionHash)
+                    setTx(transactionReceipt.transactionHash);
+                    console.log(transactionReceipt.transactionHash);
                 } else {
                     const createFlowOperation = superfluid.cfaV1.createFlow({
                         receiver: pool,
@@ -178,20 +188,19 @@ const Approve = ({
                     });
 
                     const result = await createFlowOperation.exec(signer);
-                    transactionHash = result.hash;
                     const transactionReceipt = await result.wait();
 
-                    setTx(transactionReceipt.transactionHash)
+                    setTx(transactionReceipt.transactionHash);
                 }
 
-                setIsSwapFinished(true)
-                setIsSwapSuccess(true)
-                store.setFlowrateUnit(flowrates[1])
+                setIsSwapFinished(true);
+                setIsSwapSuccess(true);
+                store.setFlowrateUnit(flowrates[1]);
             }
         } catch (error) {
-            setIsSwapFinished(true)
-            setIsSwapSuccess(false)
-            store.setFlowrateUnit(flowrates[1])
+            setIsSwapFinished(true);
+            setIsSwapSuccess(false);
+            store.setFlowrateUnit(flowrates[1]);
         }
     };
 
@@ -219,7 +228,7 @@ const Approve = ({
             if (token1Flow.current.gt(0)) {
                 setToken0Price(
                     parseFloat(calculatedToken0Flow.toString()) /
-                    parseFloat(token1Flow.current.toString())
+                        parseFloat(token1Flow.current.toString())
                 );
             } else {
                 setToken0Price(0);
@@ -236,8 +245,8 @@ const Approve = ({
                 // calculate price impact
                 setPriceImpact(
                     1 -
-                    parseFloat(token0Flow.current.toString()) /
-                    parseFloat(calculatedToken0Flow.toString())
+                        parseFloat(token0Flow.current.toString()) /
+                            parseFloat(calculatedToken0Flow.toString())
                 );
             } else {
                 setPriceMultiple(BigNumber.from(0));
@@ -246,9 +255,7 @@ const Approve = ({
 
             // calculate deposit
             // assume 1 hr length for deposit // TODO: mainnet is 4 hrs, detect network and adjust deposit period
-            const oneHourStream = BigNumber.from(swapFlowRate).mul(
-                3600
-            );
+            const oneHourStream = BigNumber.from(swapFlowRate).mul(3600);
             setDeposit(oneHourStream);
 
             // had hard time determining min balance, default to 2 hours of streaming for now // TODO: detect network and adjust
@@ -275,7 +282,6 @@ const Approve = ({
         updatePrice();
 
         // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [swapFlowRate]);
 
     // update vars when tokens change
@@ -346,7 +352,6 @@ const Approve = ({
 
         updateFlowVars();
         // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [store.inboundToken, store.outboundToken, address, chain, swapFlowRate]);
 
     useEffect(() => {
@@ -364,17 +369,18 @@ const Approve = ({
             setDisplayedExpectedFlowRate("");
         }
         // TODO: Assess missing dependency array values
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [priceMultiple]);
 
-    const formattedOutBalance = isNaN(outBalance) ? ethers.BigNumber.from(0) : ethers.utils.parseUnits(outBalance.toString());
+    const formattedOutBalance = isNaN(outBalance)
+        ? ethers.BigNumber.from(0)
+        : ethers.utils.parseUnits(outBalance.toString());
 
     const enoughBuffer = minBalance.lt(formattedOutBalance);
 
     const handleApproveClick = () => {
         if (isBufferAccepted) {
-            setIsApproved(true)
-            swap()
+            setIsApproved(true);
+            swap();
         } else {
             setShowAnimation(true);
             setTimeout(() => {
@@ -383,56 +389,64 @@ const Approve = ({
         }
     };
 
-
     // todo saturday - Fix FlowRate for pay once... etc
     // - Test swap functionality and the animations within it
     // Write down bugs, fix at night
 
-
     return (
-        <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out rounded-[3rem] px-4`}
+        <div
+            className={`${
+                swapActive ? " flex" : "hidden"
+            } flex-col w-full h-full items-start justify-start ease-in-out rounded-[3rem] px-4`}
             style={{
-                transitionDuration: swapTheme.primaryDuration
+                transitionDuration: swapTheme.primaryDuration,
             }}
         >
-            <div className="w-full flex flex-row items-center justify-between px-3 text-2xl"
+            <div
+                className="w-full flex flex-row items-center justify-between px-3 text-2xl"
                 style={{
                     color: swapTheme.TitleColor,
-                    fontWeight: swapTheme.accentFontWeight
+                    fontWeight: swapTheme.accentFontWeight,
                 }}
             >
                 <h1>Approve Swap</h1>
-                <IoMdClose className="text-3xl cursor-pointer ease-in-out"
+                <IoMdClose
+                    className="text-3xl cursor-pointer ease-in-out"
                     onMouseEnter={() => {
-                        setIsExitHover(true)
+                        setIsExitHover(true);
                     }}
                     onMouseLeave={() => {
-                        setIsExitHover(false)
+                        setIsExitHover(false);
                     }}
                     style={{
-                        color: isExitHover ? swapTheme.accentText : swapTheme.primaryText,
-                        transitionDuration: swapTheme.secondaryDuration
+                        color: isExitHover
+                            ? swapTheme.accentText
+                            : swapTheme.primaryText,
+                        transitionDuration: swapTheme.secondaryDuration,
                     }}
                     onClick={() => {
-                        setSwapActive(false)
-                        setIsBufferAccepted(false)
+                        setSwapActive(false);
+                        setIsBufferAccepted(false);
                     }}
                 />
             </div>
-            <div className="w-full h-full flex flex-col items-center justify-between space-y-0 px-2 pt-4 pb-5"
+            <div
+                className="w-full h-full flex flex-col items-center justify-between space-y-0 px-2 pt-4 pb-5"
                 style={{
-                    borderRadius: swapTheme.accentBorderRadius
+                    borderRadius: swapTheme.accentBorderRadius,
                 }}
             >
-                <div className="w-full flex flex-col space-y-9 px-3 pt-6 pb-0 ease-in-out duration-200 mt-8"
+                <div
+                    className="w-full flex flex-col space-y-9 px-3 pt-6 pb-0 ease-in-out duration-200 mt-8"
                     style={{
                         backgroundColor: "transparent",
-                        borderRadius: swapTheme.accentBorderRadius
+                        borderRadius: swapTheme.accentBorderRadius,
                     }}
                 >
-                    <div className="w-full flex flex-col space-y-3 px-3 py-0"
+                    <div
+                        className="w-full flex flex-col space-y-3 px-3 py-0"
                         style={{
-                            borderRadius: swapTheme.accentBorderRadius
+                            borderRadius: swapTheme.accentBorderRadius,
                         }}
                     >
                         {filteredOptions.map((option, index) => (
@@ -444,10 +458,15 @@ const Approve = ({
                             />
                         ))}
                     </div>
-                    <div className="w-full flex flex-col justify-start items-start py-4 px-4 space-y-4 leading-relaxed"
+                    <div
+                        className="w-full flex flex-col justify-start items-start py-4 px-4 space-y-4 leading-relaxed"
                         style={{
-                            backgroundColor: enoughBuffer ? isBufferAccepted ? swapTheme.secondaryMain : swapTheme.useMaxButton : swapTheme.errorColor,
-                            borderRadius: swapTheme.accentBorderRadius
+                            backgroundColor: enoughBuffer
+                                ? isBufferAccepted
+                                    ? swapTheme.secondaryMain
+                                    : swapTheme.useMaxButton
+                                : swapTheme.errorColor,
+                            borderRadius: swapTheme.accentBorderRadius,
                         }}
                     >
                         {deposit.gt(formattedOutBalance) ? (
@@ -467,34 +486,59 @@ const Approve = ({
                                 style={{
                                     color: swapTheme.primaryText,
                                 }}
-                            >If you do not cancel your swap before your balance reaches zero, you will lose your {parseFloat(ethers.utils.formatEther(deposit)).toFixed(5)} {store.outboundToken?.underlyingToken?.symbol} buffer.</p>
+                            >
+                                If you do not cancel your swap before your
+                                balance reaches zero, you will lose your{" "}
+                                {parseFloat(
+                                    ethers.utils.formatEther(deposit)
+                                ).toFixed(5)}{" "}
+                                {store.outboundToken?.underlyingToken?.symbol}{" "}
+                                buffer.
+                            </p>
                         )}
-                        <div className={`${enoughBuffer ? 'flex' : 'hidden'} flex-row space-x-2 items-center font-bold`}>
+                        <div
+                            className={`${
+                                enoughBuffer ? "flex" : "hidden"
+                            } flex-row space-x-2 items-center font-bold`}
+                        >
                             <button
                                 className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
                                 style={{
-                                    backgroundColor: isBufferAccepted ? "white" : "transparent",
+                                    backgroundColor: isBufferAccepted
+                                        ? "white"
+                                        : "transparent",
                                     borderColor: "white",
                                     borderRadius: swapTheme.checkBorderRadius,
-                                    transitionDuration: swapTheme.primaryDuration
+                                    transitionDuration:
+                                        swapTheme.primaryDuration,
                                 }}
                                 onClick={() => {
-                                    setIsBufferAccepted(!isBufferAccepted)
+                                    setIsBufferAccepted(!isBufferAccepted);
                                 }}
                             >
-                                {isBufferAccepted && <BsCheckLg style={{ color: swapTheme.swapButton }} className="w-full h-full" />}
+                                {isBufferAccepted && (
+                                    <BsCheckLg
+                                        style={{ color: swapTheme.swapButton }}
+                                        className="w-full h-full"
+                                    />
+                                )}
                             </button>
                             <p
                                 className="opacity-80"
                                 style={{
                                     color: swapTheme.primaryText,
-                                    fontWeight: swapTheme.accentFontWeight
+                                    fontWeight: swapTheme.accentFontWeight,
                                 }}
-                            >Yes, I understand the risk.</p>
+                            >
+                                Yes, I understand the risk.
+                            </p>
                         </div>
                     </div>
                 </div>
-                <button className={`${isBufferAccepted ? '' : 'opacity-60'} w-full mt-4 ease-in-out`}
+                <button
+                    className={`${
+                        isBufferAccepted ? "" : "opacity-60"
+                    } w-full mt-4 ease-in-out`}
                     onClick={handleApproveClick}
                     style={{
                         backgroundColor: swapTheme.swapButton,
@@ -503,13 +547,19 @@ const Approve = ({
                         padding: swapTheme.swapButtonPadding,
                         fontWeight: swapTheme.secondaryFontWeight,
                         borderRadius: swapTheme.itemBorderRadius,
-                        transitionDuration: swapTheme.primaryDuration
-                    }}>
-                    <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Approve</SwapText>
+                        transitionDuration: swapTheme.primaryDuration,
+                    }}
+                >
+                    <SwapText
+                        swapTheme={swapTheme}
+                        showAnimation={showAnimation}
+                    >
+                        Approve
+                    </SwapText>
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Approve;

@@ -7,28 +7,27 @@ interface StreamLengthContainerProps {
     swapTheme: Theme;
 }
 
-const StreamLengthContainer = ({
-    swapTheme,
-}: StreamLengthContainerProps) => {
-    const store = useStore()
+const StreamLengthContainer = ({ swapTheme }: StreamLengthContainerProps) => {
+    const store = useStore();
 
     return (
-        <div className={`${store.flowrateUnit?.label === "Pay Once" ? 'mt-2' : 'mt-0'} w-full bg-transparent`}
+        <div
+            className={`${
+                store.flowrateUnit?.label === "Pay Once" ? "mt-2" : "mt-0"
+            } w-full bg-transparent`}
             style={{
-                borderRadius: swapTheme.accentBorderRadius
+                borderRadius: swapTheme.accentBorderRadius,
             }}
         >
             {store.flowrateUnit?.label === "Pay Once" ? (
                 <div className="flex flex-row justify-between">
-                    <StreamLength
-                        theme={swapTheme}
-                    />
+                    <StreamLength theme={swapTheme} />
                 </div>
             ) : (
                 <div />
             )}
         </div>
-    )
-}
+    );
+};
 
 export default StreamLengthContainer;

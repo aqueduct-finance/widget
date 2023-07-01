@@ -15,10 +15,12 @@ const getPoolAddress = (outboundToken: string, inboundToken: string) => {
         case inboundToken === Address.fDAIxp && outboundToken === Address.ETHxp:
             pool = fDAIxpETHxpPool;
             break;
-        case inboundToken === Address.fDAIxp && outboundToken === Address.fUSDCxp:
+        case inboundToken === Address.fDAIxp &&
+            outboundToken === Address.fUSDCxp:
             pool = fDAIxpfUSDCxpPool;
             break;
-        case inboundToken === Address.fUSDCxp && outboundToken === Address.fDAIxp:
+        case inboundToken === Address.fUSDCxp &&
+            outboundToken === Address.fDAIxp:
             pool = fDAIxpfUSDCxpPool;
             break;
         default:

@@ -10,34 +10,33 @@ interface ActivateSwapArrowProps {
     setSwapActive: (value: boolean) => void;
 }
 
-const ActivateSwapArrow = ({
-    swapTheme,
-}: ActivateSwapArrowProps) => {
-
-    const store = useStore()
+const ActivateSwapArrow = ({ swapTheme }: ActivateSwapArrowProps) => {
+    const store = useStore();
 
     const handleSwitch = () => {
-        store.setOutboundToken(store.inboundToken)
-        store.setInboundToken(store.outboundToken)
-    }
+        store.setOutboundToken(store.inboundToken);
+        store.setInboundToken(store.outboundToken);
+    };
 
     return (
         <div className="flex w-full items-center justify-center -mt-3">
-            <div className="px-1.5 py-1.5 z-10 opacity-80 hover:opacity-100 cursor-pointer"
+            <div
+                className="px-1.5 py-1.5 z-10 opacity-80 hover:opacity-100 cursor-pointer"
                 onClick={handleSwitch}
                 style={{
                     backgroundColor: swapTheme.useMaxButton,
-                    borderRadius: swapTheme.accentBorderRadius
+                    borderRadius: swapTheme.accentBorderRadius,
                 }}
             >
-                <HiSwitchVertical className="text-xl"
+                <HiSwitchVertical
+                    className="text-xl"
                     style={{
-                        color: swapTheme.accentText
+                        color: swapTheme.accentText,
                     }}
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ActivateSwapArrow;

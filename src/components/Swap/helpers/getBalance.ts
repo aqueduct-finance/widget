@@ -1,4 +1,4 @@
-import { useAccount, useBalance } from 'wagmi'
+import { useAccount, useBalance } from "wagmi";
 
 // some bs here with not assignable because wagmi is stupid,
 // will make better no cap
@@ -9,13 +9,12 @@ interface GetBalanceProps {
 
 // TODO: This isn't used anywhere?
 export const useGetBalance = ({ tokenOption }: GetBalanceProps) => {
-
-    const user = useAccount()
+    const user = useAccount();
 
     const balance = useBalance({
         address: user.address,
         token: tokenOption,
-    })
+    });
 
     return balance;
-}
+};

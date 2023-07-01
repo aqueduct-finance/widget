@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BigNumber, ethers } from "ethers";
 import { useAccount, useBalance } from "wagmi";
 import { useStore } from "../../store";
 import RealTimeBalance from "./helpers/RealTimeBalance";
-import { defaultTheme } from '../../theme/theme'
+import { defaultTheme } from "../../theme/theme";
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
-import 'tailwindcss/tailwind.css'
 import ConnectWalletButton from "../ConnectWallet/ConnectWalletButton";
 import FlowRateSelect from "./structure/FlowRateSelect";
-import '../../styles/SwapWidget.module.css'
+import "../../styles/SwapWidget.module.css";
 import TokenModalProvider from "./structure/TokenModal";
 import SettingsModalProvider from "./structure/SettingsModal";
 import StartSwap from "./structure/StartSwap";
@@ -37,12 +36,21 @@ interface SwapWidgetProps {
 // 1. 500 lines (700 lines before removing some unused code) is a potential sign this component is doing too much/is too complex
 // 2. Overuse of useEffects. These should all be removed as they are not reacting to an external system - https://react.dev/learn/you-might-not-need-an-effect
 // 3. Too many useStates
-const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" }: SwapWidgetProps) => {
-
+const SwapWidget = ({
+    theme,
+    tokenOption,
+    defaultTokens = true,
+    width = "27rem",
+}: SwapWidgetProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
-    const tokenList: TokenTypes[] = defaultTokens ? tokenOption ? [...TestTokens, ...tokenOption] :
-        [...TestTokens] : tokenOption ? [...tokenOption] : [];
+    const tokenList: TokenTypes[] = defaultTokens
+        ? tokenOption
+            ? [...TestTokens, ...tokenOption]
+            : [...TestTokens]
+        : tokenOption
+        ? [...tokenOption]
+        : [];
 
     const store = useStore();
     const { address, isConnected, isDisconnected } = useAccount();
@@ -51,31 +59,35 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     // TODO: where is state variable
 
     // stream vars
-    const [endFlow, setEndFlow] = useState<GenericDropdownOption>()
+    const [endFlow, setEndFlow] = useState<GenericDropdownOption>();
     const [swapFlowRate, setSwapFlowRate] = useState("");
-    const [swapActive, setSwapActive] = useState(false)
+    const [swapActive, setSwapActive] = useState(false);
 
     // token modal open/close
     const [showModal, setShowModal] = useState(false);
     const [swapAmount, setSwapAmount] = useState<number>();
-    const [dynammicInput, setDynamicInput] = useState("")
+    const [dynammicInput, setDynamicInput] = useState("");
 
     // track inbound and outbound token addresses for grabbing balances
-    const [outboundAddress, setOutboundAddress] = useState<`0x${string}` | undefined>();
-    const [inboundAddress, setInboundAddress] = useState<`0x${string}` | undefined>();
+    const [outboundAddress, setOutboundAddress] = useState<
+        `0x${string}` | undefined
+    >();
+    const [inboundAddress, setInboundAddress] = useState<
+        `0x${string}` | undefined
+    >();
 
     // check swap validity
-    const [overBalance, setOverBalance] = useState(false)
-    const [isEntered, setIsEntered] = useState(false)
+    const [overBalance, setOverBalance] = useState(false);
+    const [isEntered, setIsEntered] = useState(false);
 
     // state for stream lengths
-    const [startDate, setStartDate] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [startDate, setStartDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [endTime, setEndTime] = useState("");
 
     // settings and settings options
-    const [showSettings, setShowSettings] = useState(false)
+    const [showSettings, setShowSettings] = useState(false);
     const [autoWrap, setAutoWrap] = useState(false);
     const [schedule, setSchedule] = useState(false);
 
@@ -84,62 +96,60 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     const [isApproved, setIsApproved] = useState(false);
 
     // animation track
-    const [showAnimation, setShowAnimation] = useState(false)
-    const [showMaxAnimation, setShowMaxAnimation] = useState(false)
+    const [showAnimation, setShowAnimation] = useState(false);
+    const [showMaxAnimation, setShowMaxAnimation] = useState(false);
 
-    const [isWallet, setWallet] = useState(false)
-    const [outbound, setOutbound] = useState(false)
+    const [isWallet, setWallet] = useState(false);
+    const [outbound, setOutbound] = useState(false);
     const [flowRateDropDown, setFlowRateDropDown] = useState(false);
     const [buffer, setBuffer] = useState(0);
-    const [isSwapSuccess, setIsSwapSuccess] = useState(false)
+    const [isSwapSuccess, setIsSwapSuccess] = useState(false);
 
     // buffer confirmation
     const [outgoingFlowRate, setOutgoingFlowRate] = useState(0);
-    const [isSwapFinished, setIsSwapFinished] = useState(false)
-    const [outBalance, setOutBalance] = useState<number>(0)
-    const [inBalance, setInBalance] = useState<number>(0)
+    const [isSwapFinished, setIsSwapFinished] = useState(false);
+    const [outBalance, setOutBalance] = useState<number>(0);
+    const [inBalance, setInBalance] = useState<number>(0);
     const [tx, setTx] = useState("");
 
     // user vars
-    const [outboundTokenBalance, setOutboundTokenBalance] = useState<BigNumber | null>(
-        null
-    );
-    const [inboundTokenBalance, setInboundTokenBalance] = useState<BigNumber | null>(
-        null
-    );
+    const [outboundTokenBalance, setOutboundTokenBalance] =
+        useState<BigNumber | null>(null);
+    const [inboundTokenBalance, setInboundTokenBalance] =
+        useState<BigNumber | null>(null);
 
     const calculateBuffer = ({ expectedFlow }: { expectedFlow: number }) => {
         const bufferTime = 14400;
         const bufferCost = bufferTime * expectedFlow;
 
         setBuffer(bufferCost);
-    }
+    };
 
     const outboundBalance = useBalance({
         address: address,
         token: outboundAddress,
-    })
+    });
 
     const inboundBalance = useBalance({
         address: address,
         token: inboundAddress,
-    })
+    });
 
     // FIXME: Remove useEffect
     useEffect(() => {
         if (store.inboundToken === store.outboundToken && outbound) {
-            store.setInboundToken(null)
+            store.setInboundToken(null);
         } else if (store.inboundToken === store.outboundToken && !outbound) {
-            store.setOutboundToken(null)
+            store.setOutboundToken(null);
         }
 
         if (store.inboundToken?.underlyingToken) {
-            setInboundAddress(store.inboundToken?.underlyingToken.address)
+            setInboundAddress(store.inboundToken?.underlyingToken.address);
         } else {
-            setInboundAddress("0x")
+            setInboundAddress("0x");
         }
         if (store.outboundToken?.underlyingToken) {
-            setOutboundAddress(store.outboundToken?.underlyingToken.address)
+            setOutboundAddress(store.outboundToken?.underlyingToken.address);
         } else {
             setOutboundAddress("0x");
         }
@@ -148,19 +158,19 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
 
         const expectedOutFlow = swapAmount / lengthInSeconds;
 
-        const expectedOutFlowIndefinite = swapAmount / store.flowrateUnit.value
+        const expectedOutFlowIndefinite = swapAmount / store.flowrateUnit.value;
 
         if (swapAmount !== 0 && swapAmount !== undefined) {
             if (store.flowrateUnit?.label !== "Pay Once") {
-                setOutgoingFlowRate(expectedOutFlowIndefinite)
-                calculateBuffer({ expectedFlow: expectedOutFlowIndefinite })
+                setOutgoingFlowRate(expectedOutFlowIndefinite);
+                calculateBuffer({ expectedFlow: expectedOutFlowIndefinite });
             } else {
                 setOutgoingFlowRate(expectedOutFlow);
-                calculateBuffer({ expectedFlow: expectedOutFlow })
+                calculateBuffer({ expectedFlow: expectedOutFlow });
             }
         } else {
-            setOutgoingFlowRate(0)
-            setBuffer(0)
+            setOutgoingFlowRate(0);
+            setBuffer(0);
         }
 
         const intervalId = setInterval(() => {
@@ -179,30 +189,45 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 setEndDate(endDateFormatted);
                 setEndTime(endTimeFormatted);
             } else {
-                setEndDate("Not scheduled")
-                setEndTime("")
+                setEndDate("Not scheduled");
+                setEndTime("");
             }
         }, 1000);
 
         return () => clearInterval(intervalId);
-
-    }, [store.inboundToken, store.outboundToken, swapAmount, store.payOnceLength, store.flowrateUnit, store.flowrateUnit])
+    }, [
+        store.inboundToken,
+        store.outboundToken,
+        swapAmount,
+        store.payOnceLength,
+        store.flowrateUnit,
+        store.flowrateUnit,
+    ]);
 
     // FIXME: Remove useEffect
     useEffect(() => {
-        if (store.inboundToken &&
+        if (
+            store.inboundToken &&
             store.outboundToken &&
             swapAmount > 0 &&
-            outBalance > 0) {
-            setIsEntered(true)
+            outBalance > 0
+        ) {
+            setIsEntered(true);
         } else {
-            setIsEntered(false)
+            setIsEntered(false);
         }
 
         if (
-            parseFloat(dynammicInput) > parseFloat(outboundBalance.data?.formatted) + parseFloat(outboundTokenBalance ? ethers.utils.formatEther(outboundTokenBalance) : "0") &&
-            store.outboundToken ||
-            outboundBalance.data?.formatted === undefined && store.outboundToken
+            (parseFloat(dynammicInput) >
+                parseFloat(outboundBalance.data?.formatted) +
+                    parseFloat(
+                        outboundTokenBalance
+                            ? ethers.utils.formatEther(outboundTokenBalance)
+                            : "0"
+                    ) &&
+                store.outboundToken) ||
+            (outboundBalance.data?.formatted === undefined &&
+                store.outboundToken)
         ) {
             setOverBalance(true);
         } else {
@@ -210,30 +235,39 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
         }
 
         if (isConnected && !isDisconnected) {
-            setWallet(true)
+            setWallet(true);
         } else {
-            setWallet(false)
+            setWallet(false);
         }
-    }, [outboundBalance, inboundBalance, store.outboundToken, store.inboundToken, dynammicInput, isConnected, isDisconnected])
+    }, [
+        outboundBalance,
+        inboundBalance,
+        store.outboundToken,
+        store.inboundToken,
+        dynammicInput,
+        isConnected,
+        isDisconnected,
+    ]);
 
-    const [newOut, setNewOut] = useState(false)
-    const [newIn, setNewIn] = useState(false)
+    const [newOut, setNewOut] = useState(false);
+    const [newIn, setNewIn] = useState(false);
 
     useEffect(() => {
-        setNewOut(true)
-        setOutBalance(0)
-    }, [store.outboundToken])
+        setNewOut(true);
+        setOutBalance(0);
+    }, [store.outboundToken]);
 
     useEffect(() => {
-        setNewIn(true)
-        setInBalance(0)
-    }, [store.inboundToken])
+        setNewIn(true);
+        setInBalance(0);
+    }, [store.inboundToken]);
 
     return (
-        <div className="relative flex flex-col px-7 pb-7 pt-12 z-10 overflow-hidden"
+        <div
+            className="relative flex flex-col px-7 pb-7 pt-12 z-10 overflow-hidden"
             style={{
                 width: width,
-                fontFamily: swapTheme.textFont
+                fontFamily: swapTheme.textFont,
             }}
         >
             <RealTimeBalance
@@ -243,7 +277,6 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 setunWrapped={setInBalance}
                 setIsNew={setNewIn}
                 isNew={newIn}
-
             />
             <RealTimeBalance
                 token={store.outboundToken}
@@ -312,12 +345,14 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     endFlow={endFlow}
                 />
             </div>
-            <div className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none overflow-hidden" style={{
-                backgroundColor: swapTheme.bgColor,
-                borderColor: swapTheme.borderColor,
-                borderWidth: swapTheme.primaryBorderWidth,
-                borderRadius: swapTheme.primaryBorderRadius
-            }}
+            <div
+                className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none overflow-hidden"
+                style={{
+                    backgroundColor: swapTheme.bgColor,
+                    borderColor: swapTheme.borderColor,
+                    borderWidth: swapTheme.primaryBorderWidth,
+                    borderRadius: swapTheme.primaryBorderRadius,
+                }}
             />
             <WidgetTitle
                 swapTheme={swapTheme}
@@ -366,10 +401,11 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 isEntered={isEntered}
                 setSwapActive={setSwapActive}
             />
-            <div className="flex flex-col ease-in-out duration-300 transition-all"
+            <div
+                className="flex flex-col ease-in-out duration-300 transition-all"
                 style={{
                     backgroundColor: swapTheme.streamLengthBox,
-                    borderRadius: swapTheme.secondaryBorderRadius
+                    borderRadius: swapTheme.secondaryBorderRadius,
                 }}
             >
                 <InboundBox
@@ -389,9 +425,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     outgoingFlowRate={outgoingFlowRate}
                 />
             </div>
-            <StreamLengthContainer
-                swapTheme={swapTheme}
-            />
+            <StreamLengthContainer swapTheme={swapTheme} />
             {isWallet ? (
                 <SwapButton
                     swapTheme={swapTheme}

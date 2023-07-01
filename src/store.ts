@@ -41,4 +41,4 @@ export const useStore = create<StoreState>()((set) => ({
         set((state) => ({ ...state, flowrateUnit })),
     setPayOnceLength: (payOnceLength: number) =>
         set((state) => ({ ...state, payOnceLength })),
-})); 
+}));

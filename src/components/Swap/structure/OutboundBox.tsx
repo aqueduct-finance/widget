@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
-import Image from 'next/image';
-import { Theme } from '../../../theme';
-import { useStore } from '../../../store';
-import { BsPlus } from 'react-icons/bs';
-import { ethers } from 'ethers';
-import { UseMaxText } from '../../../theme/animation';
-import { BigNumber } from 'ethers';
+import React from "react";
+import Image from "next/image";
+import { Theme } from "../../../theme";
+import { useStore } from "../../../store";
+import { BsPlus } from "react-icons/bs";
+import { UseMaxText } from "../../../theme/animation";
 
 interface OutboundBoxProps {
     swapTheme: Theme;
@@ -26,28 +24,27 @@ const OutboundBox = ({
     setOutbound,
     setShowMaxAnimation,
     setSwapAmount,
-    setDynamicInput
+    setDynamicInput,
 }: OutboundBoxProps) => {
-
     const store = useStore();
 
     const handleButtonClick = () => {
-        setShowModal(true)
-        setOutbound(true)
-    }
+        setShowModal(true);
+        setOutbound(true);
+    };
 
     const handleUseMaxClick = (e) => {
         e.stopPropagation();
         if (store.outboundToken && parseInt(outboundBalance) > 0) {
-            setSwapAmount(parseFloat(outboundBalance))
-            setDynamicInput(outboundBalance)
+            setSwapAmount(parseFloat(outboundBalance));
+            setDynamicInput(outboundBalance);
         } else {
             setShowMaxAnimation(true);
             setTimeout(() => {
                 setShowMaxAnimation(false);
             }, 300);
         }
-    }
+    };
 
     return (
         <button
@@ -57,7 +54,7 @@ const OutboundBox = ({
                 backgroundColor: swapTheme.tokenBox,
                 borderRadius: swapTheme.secondaryBorderRadius,
                 transitionDuration: swapTheme.accentDuration,
-                fontFamily: swapTheme.textFont
+                fontFamily: swapTheme.textFont,
             }}
             onClick={handleButtonClick}
         >
@@ -76,7 +73,7 @@ const OutboundBox = ({
                             borderColor: swapTheme.plusBorder,
                             color: swapTheme.plusColor,
                             borderWidth: swapTheme.secondaryBorderWidth,
-                            borderRadius: swapTheme.itemBorderRadius
+                            borderRadius: swapTheme.itemBorderRadius,
                         }}
                     >
                         <BsPlus className="w-full h-full" />
@@ -84,31 +81,32 @@ const OutboundBox = ({
                 )}
             </div>
             <div className="flex flex-col grow pl-3 space-y-1 items-start justify-center">
-                <p className="leading-none text-sm"
+                <p
+                    className="leading-none text-sm"
                     style={{
                         color: swapTheme.secondaryText,
                         fontWeight: swapTheme.secondaryFontWeight,
-                        fontFamily: swapTheme.textFont
+                        fontFamily: swapTheme.textFont,
                     }}
                 >
                     {store.outboundToken
                         ? store.outboundToken.name
                         : "You pay with:"}
                 </p>
-                <p className="leading-none text-xs"
+                <p
+                    className="leading-none text-xs"
                     style={{
                         color: swapTheme.accentText,
                         fontWeight: swapTheme.secondaryFontWeight,
-                        fontFamily: swapTheme.numberFont
+                        fontFamily: swapTheme.numberFont,
                     }}
                 >
-                    {parseFloat(
-                        outboundBalance
-                    ) === 0 || !store.outboundToken || outboundBalance === undefined || isNaN(parseFloat(outboundBalance))
+                    {parseFloat(outboundBalance) === 0 ||
+                    !store.outboundToken ||
+                    outboundBalance === undefined ||
+                    isNaN(parseFloat(outboundBalance))
                         ? "0.0"
-                        : (
-                            parseFloat(outboundBalance)
-                        ).toFixed(5)}
+                        : parseFloat(outboundBalance).toFixed(5)}
                 </p>
             </div>
             <div
@@ -118,15 +116,19 @@ const OutboundBox = ({
                     color: swapTheme.useMaxText,
                     fontWeight: swapTheme.primaryFontWeight,
                     borderRadius: swapTheme.itemBorderRadius,
-                    transitionDuration: swapTheme.accentDuration
+                    transitionDuration: swapTheme.accentDuration,
                 }}
                 onClick={handleUseMaxClick}
             >
-                <UseMaxText swapTheme={swapTheme} showMaxAnimation={showMaxAnimation}
-                >Use Max</UseMaxText>
+                <UseMaxText
+                    swapTheme={swapTheme}
+                    showMaxAnimation={showMaxAnimation}
+                >
+                    Use Max
+                </UseMaxText>
             </div>
         </button>
-    )
-}
+    );
+};
 
 export default OutboundBox;

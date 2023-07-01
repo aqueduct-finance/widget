@@ -1,10 +1,10 @@
-import React from 'react';
-import { useStore } from '../../../store';
-import { HiCheckCircle } from 'react-icons/hi';
-import { BiTime } from 'react-icons/bi';
-import { Theme } from '../../../theme';
-import { GenericDropdownOption } from '../../../types/GenericDropdownOption';
-import { useAccount } from 'wagmi';
+import React from "react";
+import { useStore } from "../../../store";
+import { HiCheckCircle } from "react-icons/hi";
+import { BiTime } from "react-icons/bi";
+import { Theme } from "../../../theme";
+import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
+import { useAccount } from "wagmi";
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
@@ -17,75 +17,78 @@ const TransactionSuccess = ({
     swapTheme,
     outgoingFlowRate,
     tx,
-    endFlow
+    endFlow,
 }: TransactionSuccessProps) => {
-    const store = useStore()
+    const store = useStore();
 
-    const { address } = useAccount()
+    const { address } = useAccount();
 
     const importTokens = async () => {
-
-        const ethereum = window.ethereum
+        const ethereum = window.ethereum;
 
         try {
-            ethereum
-                .request({
-                    method: 'wallet_watchAsset',
-                    params: {
-                        type: 'ERC20',
-                        options: {
-                            address: store.outboundToken?.address,
-                            symbol: store.outboundToken?.symbol,
-                            decimals: store.outboundToken?.decimals,
-                            image: 'https://foo.io/token-image.svg',
-                        },
+            ethereum.request({
+                method: "wallet_watchAsset",
+                params: {
+                    type: "ERC20",
+                    options: {
+                        address: store.outboundToken?.address,
+                        symbol: store.outboundToken?.symbol,
+                        decimals: store.outboundToken?.decimals,
+                        image: "https://foo.io/token-image.svg",
                     },
-                })
+                },
+            });
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
+    };
 
-    const etherScanBaseUrl = 'https://goerli.etherscan.io/tx';
+    const etherScanBaseUrl = "https://goerli.etherscan.io/tx";
 
-    const userTX = `${etherScanBaseUrl}/${tx}`
+    const userTX = `${etherScanBaseUrl}/${tx}`;
 
-    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`
+    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`;
 
     return (
         <div
             className="w-full h-full flex flex-col items-center justify-center"
             style={{
-                fontFamily: swapTheme.textFont
+                fontFamily: swapTheme.textFont,
             }}
         >
             <div className="flex items-center justify-center h-44 w-full mt-[70px]">
                 <HiCheckCircle
                     className="w-5/6 h-5/6"
                     style={{
-                        color: swapTheme.successColor
+                        color: swapTheme.successColor,
                     }}
                 />
             </div>
-            <div className="w-full flex items-center justify-center"
+            <div
+                className="w-full flex items-center justify-center"
                 style={{
                     color: swapTheme.primaryText,
-                    fontWeight: swapTheme.primaryFontWeight
+                    fontWeight: swapTheme.primaryFontWeight,
                 }}
             >
                 <h1 className="text-2xl">Transaction Submitted</h1>
             </div>
             <div className="flex items-center justify-center w-full pt-2">
                 <a href={userTX} target="_blank" rel="noopener noreferrer">
-                    <p className="hover:underline"
+                    <p
+                        className="hover:underline"
                         style={{
-                            color: swapTheme.embeddedLink
+                            color: swapTheme.embeddedLink,
                         }}
-                    >View on Etherscan</p>
+                    >
+                        View on Etherscan
+                    </p>
                 </a>
             </div>
-            <div className='flex grow' />
-            <div className="w-full flex flex-row justify-between py-3 mt-4"
+            <div className="flex grow" />
+            <div
+                className="w-full flex flex-row justify-between py-3 mt-4"
                 style={{
                     borderTopColor: swapTheme.borderColor,
                     borderTopWidth: swapTheme.primaryBorderWidth,
@@ -93,25 +96,35 @@ const TransactionSuccess = ({
             >
                 <div className="w-full flex flex-row items-center px-2 py-1 justify-between">
                     <div className="flex flex-row items-center justify-center space-x-3">
-                        <BiTime className="w-[20px] h-[20px]"
+                        <BiTime
+                            className="w-[20px] h-[20px]"
                             style={{
-                                color: swapTheme.primaryText
+                                color: swapTheme.primaryText,
                             }}
                         />
                         <p
                             style={{
-                                color: swapTheme.accentText
+                                color: swapTheme.accentText,
                             }}
-                        >Swapping {outgoingFlowRate.toFixed(5)} {store.outboundToken?.symbol} / {endFlow?.sublabel}</p>
+                        >
+                            Swapping {outgoingFlowRate.toFixed(5)}{" "}
+                            {store.outboundToken?.symbol} / {endFlow?.sublabel}
+                        </p>
                     </div>
                     <div className="flex items-center justify-center">
-                        <a href={aqueductUrl} target="_blank" rel="noopener noreferrer">
+                        <a
+                            href={aqueductUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             <p
                                 className="hover:underline"
                                 style={{
-                                    color: swapTheme.embeddedLink
+                                    color: swapTheme.embeddedLink,
                                 }}
-                            >View</p>
+                            >
+                                View
+                            </p>
                         </a>
                     </div>
                 </div>
@@ -126,12 +139,13 @@ const TransactionSuccess = ({
                     padding: swapTheme.swapButtonPadding,
                     fontWeight: swapTheme.primaryFontWeight,
                     transitionDuration: swapTheme.primaryDuration,
-                    borderRadius: swapTheme.itemBorderRadius
-                }}>
+                    borderRadius: swapTheme.itemBorderRadius,
+                }}
+            >
                 Import Tokens
             </button>
         </div>
-    )
-}
+    );
+};
 
 export default TransactionSuccess;
