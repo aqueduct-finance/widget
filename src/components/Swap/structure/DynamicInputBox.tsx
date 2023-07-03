@@ -32,8 +32,10 @@ const DynamicInputBox = ({
     const inputRef = useRef(null);
 
     const parentRef = useRef<HTMLDivElement>(null);
-    const [divScrollLeft, setDivScrollLeft] = useState(0);
+    const [divScrollLeft, setDivScrollLeft] = useState(21.5);
     const [dynamicFontSize, setDynamicFontSize] = useState(72); // in px
+
+    const START_SCROLL = 21.5;
 
     const activateInput = () => {
         inputRef.current.focus();
@@ -49,7 +51,7 @@ const DynamicInputBox = ({
         setSwapAmount(numericValue)
 
         if (isNaN(numericValue)) {
-            setDivScrollLeft(0)
+            setDivScrollLeft(START_SCROLL)
             return;
         }
 
@@ -87,7 +89,7 @@ const DynamicInputBox = ({
             }
 
             if (dynamicInput === "") {
-                setDivScrollLeft(0)
+                setDivScrollLeft(START_SCROLL)
                 setDynamicFontSize(72)
             } else {
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
@@ -101,7 +103,7 @@ const DynamicInputBox = ({
         const numericValue = inputValue.replace(/[^0-9.]/g, "");
 
         if (inputValue === "") {
-            setDivScrollLeft(0)
+            setDivScrollLeft(START_SCROLL)
             setDynamicFontSize(72)
         }
 
@@ -201,6 +203,7 @@ const DynamicInputBox = ({
                     className='outline-none transition-all'
                     onChange={handleInput}
                     value={dynamicInput}
+                    placeholder="0"
                 />
             </div>
         </div>

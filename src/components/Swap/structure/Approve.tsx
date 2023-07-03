@@ -109,7 +109,7 @@ const Approve = ({
 
     const options = [
         { title: "Spending", data: swapAmount?.toFixed(5) + " " + outboundToken?.symbol },
-        { title: "Receiving", data: parseFloat(displayedExpectedFlowRate).toFixed(5) + " " + inboundToken?.symbol },
+        { title: "Receiving", data: inboundToken?.symbol },
         { title: "Flowrate", data: (flowrate * flowrateUnit.value).toFixed(8) + " / " + flowrateUnit.sublabel },
         { title: "Start Date", data: startDate },
         { title: "Start Time", data: startTime },
@@ -424,7 +424,7 @@ const Approve = ({
                     borderRadius: swapTheme.accentBorderRadius
                 }}
             >
-                <div className="w-full flex flex-col space-y-9 px-3 pt-6 pb-0 ease-in-out duration-200 mt-8"
+                <div className="w-full flex flex-col space-y-9 px-1 pt-6 pb-0 ease-in-out duration-200 mt-8"
                     style={{
                         backgroundColor: "transparent",
                         borderRadius: swapTheme.accentBorderRadius
@@ -444,10 +444,10 @@ const Approve = ({
                             />
                         ))}
                     </div>
-                    <div className="w-full flex flex-col justify-start items-start py-4 px-4 space-y-4 leading-relaxed"
+                    <div className="w-full flex flex-col justify-start items-start py-5 px-5 space-y-4 leading-relaxed text-sm"
                         style={{
-                            backgroundColor: enoughBuffer ? isBufferAccepted ? swapTheme.secondaryMain : swapTheme.useMaxButton : swapTheme.errorColor,
-                            borderRadius: swapTheme.accentBorderRadius
+                            backgroundColor: enoughBuffer ? isBufferAccepted ? swapTheme.swapButton : swapTheme.useMaxButton : swapTheme.errorColor,
+                            borderRadius: "25px"
                         }}
                     >
                         {deposit.gt(formattedOutBalance) ? (

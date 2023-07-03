@@ -4,7 +4,7 @@ import Token from "../types/Token";
 export const TestTokens: TokenTypes[] = [
     {
         name: "USD Coin",
-        address: "0x3a36cD6D55e260E0a3448cd8905c51517bb7EbA8",
+        address: "0x8aE68021f6170E5a766bE613cEA0d75236ECCa9a",
         symbol: "USDCx",
         decimals: 18,
         chainId: 5,
@@ -20,7 +20,7 @@ export const TestTokens: TokenTypes[] = [
     },
     {
         name: "DAI Stablecoin",
-        address: "0xB133415Ae49150bCd8cDB7f515c30EbA2b42F2fe",
+        address: "0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00",
         symbol: "DAIx",
         decimals: 18,
         chainId: 5,

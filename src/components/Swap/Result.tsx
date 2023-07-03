@@ -94,6 +94,7 @@ const SwapResult = ({
       }}
     >
       <div className="w-full flex flex-row items-end justify-end px-3 font-bold text-2xl text-white">
+        { /*
         <IoMdClose className="text-3xl cursor-pointer ease-in-out duration-100"
           onMouseEnter={() => {
             setIsExitHover(true)
@@ -106,6 +107,7 @@ const SwapResult = ({
             setSwapActive(false)
           }}
         />
+        */}
       </div>
       <div className="w-full flex items-center justify-center px-3 py-3 mt-[35%]">
         {/*<StyledLoader swapTheme={swapTheme} />*/}
@@ -113,7 +115,7 @@ const SwapResult = ({
         {/*<NinjaLoader swapTheme={swapTheme} />*/}
       </div>
       <div className="w-full text-white text-2xl flex justify-center items-center font-bold mt-12">
-        <h1 className="ml-2">Processing transaction</h1>
+        <h1 className="ml-2">Submitting transaction</h1>
       </div>
     </div>
   )
