@@ -6,8 +6,6 @@ import { polygonMumbai } from "wagmi/chains";
 
 // we will not be using _app.tsx for swap widget. This is strictly for testing.
 
-// prOs@agOtOfritre5HA66fi?OCHo8athixAz#d7fRastlh*ca1u=Odr!dreW7
-
 const chains = [polygonMumbai];
 
 const config = createConfig(
@@ -28,7 +26,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <div className="w-full h-screen poppins-font bg-black">
                 <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
                     <main
-                        className='flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll'
+                        className='flex flex-col items-center space-y-4 md:space-y-16 w-full overflow-y-scroll'
                     >
                         <div className="md:h-[50%]" />
                         <Component

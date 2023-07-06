@@ -22,10 +22,6 @@ const tokens: TokenTypes[] = [
   },
 ];
 
-const outboundToken = "0x3a36cD6D55e260E0a3448cd8905c51517bb7EbA8"
-
-const inboundToken = "0x322a06447Ff6FcF75d803135a7de15CE88C1d4ec"
-
 const fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap"
 
 
@@ -33,11 +29,11 @@ function Home() {
   return (
     <div>
       <TWAMMWidget
-        Web3Key={Web3Key}
-        theme={theme}
-        tokenOption={tokens}
-        width="27rem"
-        fontUrl={fontUrl}
+          Web3Key={Web3Key}
+          theme={theme}
+          tokenOption={tokens}
+          width="26.5rem"
+          fontUrl={fontUrl}
       />
     </div>
   )

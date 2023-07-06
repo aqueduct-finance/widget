@@ -64,7 +64,7 @@ const StartSwap = ({
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] overflow-hidden ${swapActive
+            className={`absolute 2bottom-[0.2rem] bottom-0 left-0 right-0 z-50 transition-all rounded-[2rem] overflow-hidden ${swapActive
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}

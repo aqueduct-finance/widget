@@ -230,10 +230,14 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
     }, [store.inboundToken])
 
     return (
-        <div className="relative flex flex-col px-7 pb-7 pt-12 z-10 overflow-hidden"
+        <div className="relative flex flex-col p-3 md:p-5 pt-4 md:pt-10 z-10 md:overflow-hidden border-none md:border-solid"
             style={{
-                width: width,
-                fontFamily: swapTheme.textFont
+                maxWidth: width,
+                fontFamily: swapTheme.textFont,
+                backgroundColor: swapTheme.bgColor,
+                borderColor: swapTheme.borderColor,
+                borderWidth: swapTheme.primaryBorderWidth,
+                borderRadius: swapTheme.primaryBorderRadius
             }}
         >
             <RealTimeBalance
@@ -253,7 +257,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 setIsNew={setNewOut}
                 isNew={newOut}
             />
-            <div className="absolute overflow-hidden 2bg-red-500/25 top-10 left-[0.5rem] right-[0.5rem] bottom-[0.5rem] rounded-gc-3xl z-50 pointer-events-none">
+            <div className="absolute overflow-hidden 2bg-red-500 top-4 md:top-10 left-0 right-0 bottom-0 z-50 pointer-events-none">
                 <TokenModalProvider
                     tokenList={tokenList}
                     showModal={showModal}
@@ -312,13 +316,19 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                     endFlow={endFlow}
                 />
             </div>
-            <div className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none overflow-hidden" style={{
-                backgroundColor: swapTheme.bgColor,
-                borderColor: swapTheme.borderColor,
-                borderWidth: swapTheme.primaryBorderWidth,
-                borderRadius: swapTheme.primaryBorderRadius
-            }}
+            
+            {/*
+            <div 
+                className="absolute top-[0.2rem] bottom-[0.2rem] left-[0.2rem] right-[0.2rem] -z-10 pointer-events-none overflow-hidden 2hidden" 
+                style={{
+                    backgroundColor: swapTheme.bgColor,
+                    borderColor: swapTheme.borderColor,
+                    borderWidth: swapTheme.primaryBorderWidth,
+                    borderRadius: swapTheme.primaryBorderRadius
+                }}
             />
+            */}
+            
             <WidgetTitle
                 swapTheme={swapTheme}
                 setShowSettings={setShowSettings}

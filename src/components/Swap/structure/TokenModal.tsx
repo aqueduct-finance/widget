@@ -25,7 +25,7 @@ const TokenModalProvider = ({
 
     return (
         <div
-            className={`absolute bottom-[0.2rem] left-0 right-0 z-50 transition-all rounded-[2rem] ${showModal
+            className={`absolute bottom-0 left-0 right-0 px-4 z-50 transition-all 2rounded-[2rem] ${showModal
                 ? "top-0 pointer-events-auto"
                 : "top-full pointer-events-none"
                 }`}

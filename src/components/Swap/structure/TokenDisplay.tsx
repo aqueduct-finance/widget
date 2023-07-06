@@ -80,9 +80,10 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
         );
     };
 
+    //{/*<Container display={display}>*/}
     return (
-        <Container display={display}>
-            <div className="w-full flex items-start justify-between px-4 py-1">
+        <div>
+            <div className="w-full flex items-start justify-between px-3 py-1">
                 <h1
                     className="text-xl"
                     style={{
@@ -107,7 +108,7 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                     }}
                 />
             </div>
-            <div className="w-full px-4 py-4 flex flex-row items-center justify-between">
+            <div className="w-full px-2 py-4 flex flex-row items-center justify-between">
                 <div className="w-full h-14 items-center flex flex-row space-x-2 ease-in-out"
                     style={{
                         backgroundColor: swapTheme.streamLengthBox,
@@ -164,7 +165,7 @@ const TokenDisplay = ({ tokenOption, display, theme, setDisplay, setOutboundToke
                     />
                 ))}
             </div>
-        </Container>
+        </div>
     )
 }
 

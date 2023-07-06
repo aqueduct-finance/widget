@@ -391,12 +391,12 @@ const Approve = ({
 
 
     return (
-        <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out rounded-[3rem] px-4`}
+        <div className={`${swapActive ? ' flex' : 'hidden'} flex-col w-full h-full items-start justify-start ease-in-out rounded-[3rem] px-2 md:px-3`}
             style={{
                 transitionDuration: swapTheme.primaryDuration
             }}
         >
-            <div className="w-full flex flex-row items-center justify-between px-3 text-2xl"
+            <div className="w-full flex flex-row items-center justify-between pl-3 pr-2 text-2xl"
                 style={{
                     color: swapTheme.TitleColor,
                     fontWeight: swapTheme.accentFontWeight
