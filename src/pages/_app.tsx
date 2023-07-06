@@ -2,13 +2,13 @@ import type { AppProps } from "next/app";
 import React from "react";
 import { getDefaultConfig } from "connectkit";
 import { createConfig } from "wagmi";
-import { goerli } from "wagmi/chains";
+import { polygonMumbai } from "wagmi/chains";
 
 // we will not be using _app.tsx for swap widget. This is strictly for testing.
 
 // prOs@agOtOfritre5HA66fi?OCHo8athixAz#d7fRastlh*ca1u=Odr!dreW7
 
-const chains = [goerli];
+const chains = [polygonMumbai];
 
 const config = createConfig(
     getDefaultConfig({

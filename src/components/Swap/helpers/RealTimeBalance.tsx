@@ -75,7 +75,6 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped, setIsNew, i
                         args: [address, currentTimestampBigNumber.div(1000).toString()]
                     })
 
-
                     const initialBalance = initialResult[0];
 
                     const futureResult = await publicClient.readContract({

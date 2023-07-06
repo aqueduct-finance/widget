@@ -1,5 +1,5 @@
 import SwapWidget from "./SwapWidget";
-import { goerli } from "wagmi/chains";
+import { polygonMumbai } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
 import { useStore } from "../../store";
@@ -9,7 +9,7 @@ import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
 import Head from "next/head";
 
-const chains = [goerli];
+const chains = [polygonMumbai];
 
 interface ExportedWidgetProps {
     theme?: Theme;

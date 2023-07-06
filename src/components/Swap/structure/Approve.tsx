@@ -13,7 +13,7 @@ import { useEthersSigner } from "../../../providers/signer";
 import { BigNumber, ethers } from "ethers";
 import getPoolAddress from "../helpers/getPool";
 import { Framework } from "@superfluid-finance/sdk-core";
-import { goerliChainId } from "../../../utils/constants";
+import { mumbaiChainId } from "../../../utils/constants";
 import { useAccount, useNetwork } from "wagmi";
 import flowrates from "../../../utils/flowrates";
 
@@ -147,7 +147,7 @@ const Approve = ({
         let transactionHash;
         try {
             const superfluid = await Framework.create({
-                chainId: goerliChainId,
+                chainId: mumbaiChainId,
                 provider: provider,
             });
 
@@ -192,6 +192,7 @@ const Approve = ({
             setIsSwapFinished(true)
             setIsSwapSuccess(false)
             store.setFlowrateUnit(flowrates[1])
+            console.log(error)
         }
     };
 
@@ -293,7 +294,7 @@ const Approve = ({
 
                 // init sf framework
                 const sf = await Framework.create({
-                    chainId: goerliChainId,
+                    chainId: mumbaiChainId,
                     provider,
                 });
 

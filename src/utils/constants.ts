@@ -4,17 +4,17 @@ export const ETHxpfDAIxpPool = "0x1";
 
 export const fDAIxpETHxpPool = "0x2";
 
-export const fDAIxfUSDCxPool = "0xF40dcdf92d9C5473d53a2de15609D9B6C8590c7F";
+export const fDAIxfUSDCxPool = "0xe2F7f29C9EAe30CE770e4c3D23363bDce4ea55d8";
 
-export const fDAI = "0x88271d333C72e51516B67f5567c728E702b3eeE8";
+export const fDAI = "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7";
 
-export const fUSDC = "0xc94dd466416A7dFE166aB2cF916D3875C049EBB7";
+export const fUSDC = "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2";
 
 export const ETHxp = "0x1";
 
-export const fDAIx = "0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00";
+export const fDAIx = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
 
-export const fUSDCx = "0x8aE68021f6170E5a766bE613cEA0d75236ECCa9a";
+export const fUSDCx = "0x42bb40bF79730451B11f6De1CbA222F17b87Afd7";
 
 export const fTokenDistributor = "0x422230026b1f13487Ce8e52Ee5da8db815F5F95C";
 
@@ -22,5 +22,7 @@ export const deleteFlowResolverTaskCreator =
     "0x84CB8098e82dd16B21866f69A2406E60FE64F98b";
 
 export const goerliChainId = 5;
+
+export const mumbaiChainId = 80001;
 
 export const DEFAULT_PAY_ONCE = 24;
