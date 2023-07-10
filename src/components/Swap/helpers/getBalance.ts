@@ -8,7 +8,7 @@ interface GetBalanceProps {
 }
 
 // TODO: This isn't used anywhere?
-export const useGetBalance = ({ tokenOption }: GetBalanceProps) => {
+export default function useGetBalance({ tokenOption }: GetBalanceProps) {
     const user = useAccount();
 
     const balance = useBalance({
@@ -17,4 +17,4 @@ export const useGetBalance = ({ tokenOption }: GetBalanceProps) => {
     });
 
     return balance;
-};
+}

@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import { BsPlus } from "react-icons/bs";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
-import { BsPlus } from "react-icons/bs";
 import { UseMaxText } from "../../../theme/animation";
 
 interface OutboundBoxProps {
@@ -26,7 +26,7 @@ const OutboundBox = ({
     setSwapAmount,
     setDynamicInput,
 }: OutboundBoxProps) => {
-    const store = useStore();
+    const { outboundToken } = useStore();
 
     const handleButtonClick = () => {
         setShowModal(true);
@@ -35,7 +35,7 @@ const OutboundBox = ({
 
     const handleUseMaxClick = (e) => {
         e.stopPropagation();
-        if (store.outboundToken && parseInt(outboundBalance) > 0) {
+        if (outboundToken && parseInt(outboundBalance, 10) > 0) {
             setSwapAmount(parseFloat(outboundBalance));
             setDynamicInput(outboundBalance);
         } else {
@@ -47,8 +47,8 @@ const OutboundBox = ({
     };
 
     return (
-        <button
-            type="button"
+        <div
+            role="button"
             className="flex p-3 mt-2 items-center hover:scale-[1.02] transition-all"
             style={{
                 backgroundColor: swapTheme.tokenBox,
@@ -57,11 +57,13 @@ const OutboundBox = ({
                 fontFamily: swapTheme.textFont,
             }}
             onClick={handleButtonClick}
+            onKeyUp={handleButtonClick}
+            tabIndex={0}
         >
             <div className="w-[40px] h-[40px]">
-                {store.outboundToken ? (
+                {outboundToken ? (
                     <Image
-                        src={store.outboundToken.logoURI}
+                        src={outboundToken.logoURI}
                         width="40"
                         height="40"
                         alt="Token"
@@ -89,9 +91,7 @@ const OutboundBox = ({
                         fontFamily: swapTheme.textFont,
                     }}
                 >
-                    {store.outboundToken
-                        ? store.outboundToken.name
-                        : "You pay with:"}
+                    {outboundToken ? outboundToken.name : "You pay with:"}
                 </p>
                 <p
                     className="leading-none text-xs"
@@ -102,14 +102,15 @@ const OutboundBox = ({
                     }}
                 >
                     {parseFloat(outboundBalance) === 0 ||
-                    !store.outboundToken ||
+                    !outboundToken ||
                     outboundBalance === undefined ||
-                    isNaN(parseFloat(outboundBalance))
+                    Number.isNaN(parseFloat(outboundBalance))
                         ? "0.0"
                         : parseFloat(outboundBalance).toFixed(5)}
                 </p>
             </div>
-            <div
+            <button
+                type="button"
                 className="text-xs h-8 px-4 hover:scale-110 hover:-translate-x-1 transition-all flex items-center justify-center"
                 style={{
                     backgroundColor: swapTheme.useMaxButton,
@@ -126,8 +127,8 @@ const OutboundBox = ({
                 >
                     Use Max
                 </UseMaxText>
-            </div>
-        </button>
+            </button>
+        </div>
     );
 };
 

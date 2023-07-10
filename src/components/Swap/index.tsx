@@ -1,39 +1,38 @@
-import SwapWidget from "./SwapWidget";
 import { goerli } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
-import { useStore } from "../../store";
 import React, { useEffect } from "react";
+import Head from "next/head";
+import SwapWidget from "./SwapWidget";
+import { useStore } from "../../store";
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
-import Head from "next/head";
 
 const chains = [goerli];
 
 interface ExportedWidgetProps {
-    theme?: Theme;
-    tokenOption?: TokenTypes[];
-    defaultTokens?: boolean;
+    theme: Theme;
+    tokenOption: TokenTypes[];
     Web3Key: string;
-    chainName?: string;
-    width?: string;
-    outboundToken?: string;
-    inboundToken?: string;
-    fontUrl?: string;
+    width: string;
+    outboundToken: string;
+    inboundToken: string;
+    fontUrl: string;
 }
+
+// Buy back programs
 
 const TWAMMWidget = ({
     theme,
     tokenOption,
-    defaultTokens,
     Web3Key,
     width,
     outboundToken,
     inboundToken,
     fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap",
 }: ExportedWidgetProps) => {
-    const store = useStore();
+    const { setOutboundToken, setInboundToken } = useStore();
 
     const config = createConfig(
         getDefaultConfig({
@@ -55,12 +54,17 @@ const TWAMMWidget = ({
 
     useEffect(() => {
         if (outboundTokenWithAddress) {
-            store.setOutboundToken(outboundTokenWithAddress);
+            setOutboundToken(outboundTokenWithAddress);
         }
         if (inboundTokenWithAddress) {
-            store.setInboundToken(inboundTokenWithAddress);
+            setInboundToken(inboundTokenWithAddress);
         }
-    }, [outboundTokenWithAddress, inboundTokenWithAddress]);
+    }, [
+        outboundTokenWithAddress,
+        inboundTokenWithAddress,
+        setOutboundToken,
+        setInboundToken,
+    ]);
 
     return (
         <WagmiConfig config={config}>
@@ -71,7 +75,6 @@ const TWAMMWidget = ({
                 <SwapWidget
                     theme={theme}
                     tokenOption={tokenOption}
-                    defaultTokens={defaultTokens}
                     width={width}
                 />
             </ConnectKitProvider>

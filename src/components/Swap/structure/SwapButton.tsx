@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SwapText } from "../../../theme/animation";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
+import getPoolAddress from "../helpers/getPool";
 
 interface SwapButtonProps {
     swapTheme: Theme;
@@ -20,10 +21,11 @@ const SwapButton = ({
     setSwapActive,
     setShowAnimation,
 }: SwapButtonProps) => {
-    const store = useStore();
+    const { inboundToken, outboundToken } = useStore();
+    const [poolExists, setPoolExists] = useState(false);
 
     const handleSwapClick = () => {
-        if (!overBalance && isEntered) {
+        if (!overBalance && isEntered && poolExists) {
             setSwapActive(true);
         } else {
             setShowAnimation(true);
@@ -33,9 +35,21 @@ const SwapButton = ({
         }
     };
 
+    useEffect(() => {
+        try {
+            getPoolAddress(inboundToken?.address, outboundToken?.address);
+            setPoolExists(true);
+        } catch (err) {
+            setPoolExists(false);
+        }
+    }, [inboundToken, outboundToken]);
+
     return (
         <button
-            className={`${overBalance || !isEntered ? "opacity-75" : ""} mt-4`}
+            type="button"
+            className={`${
+                overBalance || !isEntered || !poolExists ? "opacity-75" : ""
+            } mt-4`}
             onClick={handleSwapClick}
             style={{
                 backgroundColor: swapTheme.swapButton,
@@ -46,11 +60,17 @@ const SwapButton = ({
                 fontWeight: swapTheme.primaryFontWeight,
             }}
         >
-            <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>
-                {overBalance
-                    ? `Insufficient ${store.outboundToken?.symbol} balance`
-                    : "Swap"}
-            </SwapText>
+            {poolExists ? (
+                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>
+                    {overBalance
+                        ? `Insufficient ${outboundToken?.symbol} balance`
+                        : "Swap"}
+                </SwapText>
+            ) : (
+                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>
+                    Pool does not exist
+                </SwapText>
+            )}
         </button>
     );
 };

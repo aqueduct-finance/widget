@@ -3,6 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { Theme } from "../../../theme";
 import TransactionSuccess from "./TransactionSuccess";
 import TransactionFailed from "./TransactionFailed";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 
 interface AfterTransactionProps {
     swapTheme: Theme;
@@ -13,8 +14,9 @@ interface AfterTransactionProps {
     setIsBufferAccepted: (value: boolean) => void;
     setIsSwapFinished: (value: boolean) => void;
     outgoingFlowRate: number;
-    endDate: string;
     setSwapAmount: (value: number) => void;
+    tx: string;
+    endFlow: FlowRateOption;
 }
 
 const AfterTransaction = ({
@@ -27,6 +29,8 @@ const AfterTransaction = ({
     setIsSwapFinished,
     outgoingFlowRate,
     setSwapAmount,
+    tx,
+    endFlow,
 }: AfterTransactionProps) => {
     const [isExitHover, setIsExitHover] = useState(false);
 
@@ -83,6 +87,8 @@ const AfterTransaction = ({
                     <TransactionSuccess
                         swapTheme={swapTheme}
                         outgoingFlowRate={outgoingFlowRate}
+                        tx={tx}
+                        endFlow={endFlow}
                     />
                 ) : (
                     <TransactionFailed

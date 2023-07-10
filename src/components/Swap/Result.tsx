@@ -1,8 +1,8 @@
-import { Theme } from "../../theme";
-import { defaultTheme } from "../../theme/theme";
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { IoMdClose } from "react-icons/io";
+import { defaultTheme } from "../../theme/theme";
+import { Theme } from "../../theme";
 import { useStore } from "../../store";
 import { GridCircleLoader } from "../../theme/loaders";
 import flowrates from "../../utils/flowrates";
@@ -67,8 +67,6 @@ interface SwapResultProps {
     setSwapActive: (value: boolean) => void;
     setIsApproved: (value: boolean) => void;
     setIsBufferAccepted: (value: boolean) => void;
-    setIsSwapSuccess: (value: boolean) => void;
-    setIsSwapFinished: (value: boolean) => void;
 }
 
 const SwapResult = ({
@@ -77,32 +75,23 @@ const SwapResult = ({
     setSwapActive,
     setIsApproved,
     setIsBufferAccepted,
-    setIsSwapSuccess,
-    setIsSwapFinished,
 }: SwapResultProps) => {
     const [isExitHover, setIsExitHover] = useState(false);
 
-    const store = useStore();
+    const { setFlowrateUnit } = useStore();
 
     // FIXME: remove useEffect
     useEffect(() => {
-        const delayLoading = () => {
-            setTimeout(() => {
-                store.setFlowrateUnit(flowrates[1]);
-                store.setOutboundToken(undefined);
-                store.setInboundToken(undefined);
-                setIsSwapSuccess(true);
-                setIsSwapFinished(true);
-            }, 5000);
-        };
-
-        delayLoading();
-    }, []);
+        if (!swapActive) {
+            setFlowrateUnit(flowrates[1]);
+        }
+    }, [setFlowrateUnit, swapActive]);
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
-        <div
+        <button
+            type="button"
             className={`${
                 swapActive ? " flex" : "hidden"
             } flex-col w-full h-full items-start justify-start ease-in-out duration-300 rounded-[2rem] px-4`}
@@ -132,14 +121,14 @@ const SwapResult = ({
                 />
             </div>
             <div className="w-full flex items-center justify-center px-3 py-3 mt-[35%]">
-                {/*<StyledLoader swapTheme={swapTheme} />*/}
+                {/* <StyledLoader swapTheme={swapTheme} /> */}
                 <GridCircleLoader swapTheme={swapTheme} />
-                {/*<NinjaLoader swapTheme={swapTheme} />*/}
+                {/* <NinjaLoader swapTheme={swapTheme} /> */}
             </div>
             <div className="w-full text-white text-2xl flex justify-center items-center font-bold mt-12">
                 <h1 className="ml-2">Processing transaction</h1>
             </div>
-        </div>
+        </button>
     );
 };
 

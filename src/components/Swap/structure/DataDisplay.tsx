@@ -21,7 +21,7 @@ const DataDisplay = ({
     endTime,
     outgoingFlowRate,
 }: DataDisplayProps) => {
-    const store = useStore();
+    const { outboundToken } = useStore();
 
     return (
         <div
@@ -55,7 +55,7 @@ const DataDisplay = ({
                         }}
                     >
                         {startDate}
-                        <span style={{ marginRight: "10px" }}></span>
+                        <span style={{ marginRight: "10px" }} />
                         {startTime}
                     </p>
                 </div>
@@ -68,19 +68,23 @@ const DataDisplay = ({
                         }}
                     >
                         {endDate}
-                        <span style={{ marginRight: "10px" }}></span>
+                        <span style={{ marginRight: "10px" }} />
                         {endTime}
                     </p>
                 </div>
                 <div className="flex flex-row space-x-5">
-                    <p>{store.outboundToken?.symbol} Flowrate: </p>
+                    <p>{outboundToken?.symbol} Flowrate: </p>
                     <p
                         className="opacity-75"
                         style={{
                             color: swapTheme.primaryText,
                         }}
                     >
-                        -{outgoingFlowRate.toFixed(8)} / sec
+                        -
+                        {Number.isNaN(outgoingFlowRate)
+                            ? "0.0"
+                            : outgoingFlowRate.toFixed(8)}{" "}
+                        / sec
                     </p>
                 </div>
             </div>

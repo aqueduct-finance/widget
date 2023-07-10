@@ -1,17 +1,14 @@
 import React from "react";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { TokenOption } from "../../../types/TokenOption";
+import styled from "styled-components";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
-import styled from "styled-components";
 import { ExplicitAny } from "../../../types/ExplicitAny";
+import { useStore } from "../../../store";
 
 interface FlowRateRowProps {
-    options: GenericDropdownOption[] | TokenOption[];
-    setDropdownValue:
-        | ((value: GenericDropdownOption) => void)
-        | ((token: TokenOption) => void);
-    theme?: Theme;
+    flowRateUnit: FlowRateOption[];
+    theme: Theme;
     setFlowRateDropDown: (value: boolean) => void;
 }
 
@@ -51,11 +48,11 @@ const Container = styled.div<{ theme: ExplicitAny }>`
 `;
 
 const FlowRateRow = ({
-    options,
-    setDropdownValue,
+    flowRateUnit,
     theme,
     setFlowRateDropDown,
 }: FlowRateRowProps) => {
+    const { setFlowrateUnit } = useStore();
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
@@ -65,12 +62,13 @@ const FlowRateRow = ({
                 backgroundColor: swapTheme.streamLengthBox,
             }}
         >
-            {options.map((option) => (
-                <div
+            {flowRateUnit.map((option) => (
+                <button
+                    type="button"
                     className="w-full px-3 py-3 flex items-center justify-center mt-3 text-lg cursor-pointer"
                     key={option.value}
                     onClick={() => {
-                        setDropdownValue(option);
+                        setFlowrateUnit(option);
                         setFlowRateDropDown(false);
                     }}
                     style={{
@@ -82,7 +80,7 @@ const FlowRateRow = ({
                     }}
                 >
                     <h1 className="opacity-75">{option.label}</h1>
-                </div>
+                </button>
             ))}
         </Container>
     );

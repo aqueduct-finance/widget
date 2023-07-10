@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { BsPlus } from "react-icons/bs";
+import { ethers } from "ethers";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
-import { BsPlus } from "react-icons/bs";
 
 interface DynamicInputBoxProps {
     swapTheme: Theme;
@@ -13,6 +14,7 @@ interface DynamicInputBoxProps {
     setSwapAmount: (value: number) => void;
     setDynamicInput: (value: string) => void;
     dynamicInput: string;
+    setSwapFlowRate: (value: string) => void;
 }
 
 const DynamicInputBox = ({
@@ -24,8 +26,9 @@ const DynamicInputBox = ({
     setSwapAmount,
     setDynamicInput,
     dynamicInput,
+    setSwapFlowRate,
 }: DynamicInputBoxProps) => {
-    const store = useStore();
+    const { flowrateUnit, outboundToken } = useStore();
     const inputRef = useRef(null);
 
     const parentRef = useRef<HTMLDivElement>(null);
@@ -45,7 +48,7 @@ const DynamicInputBox = ({
         const numericValue = parseFloat(dynamicInput.replace(/[^0-9.]/g, ""));
         setSwapAmount(numericValue);
 
-        if (isNaN(numericValue)) {
+        if (Number.isNaN(numericValue)) {
             setDivScrollLeft(0);
             return;
         }
@@ -89,7 +92,14 @@ const DynamicInputBox = ({
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
         }
-    }, [swapAmount, dynamicInput, divScrollLeft]);
+    }, [
+        swapAmount,
+        dynamicInput,
+        divScrollLeft,
+        setSwapAmount,
+        dynamicFontSize,
+        paddingPercentage,
+    ]);
 
     const handleInput = (e) => {
         const inputValue = e.target.value;
@@ -110,20 +120,55 @@ const DynamicInputBox = ({
         setDynamicInput(numericValue);
     };
 
+    const setFormattedNumberCallback = useCallback(
+        async (newValue: string) => {
+            function setFormattedNumber() {
+                if (newValue === "") {
+                    setSwapFlowRate("");
+                    return;
+                }
+
+                if (
+                    newValue.match("^[0-9]*[.]?[0-9]*$") != null &&
+                    newValue !== "."
+                ) {
+                    let formattedValue = ethers.utils.parseUnits(
+                        newValue,
+                        "ether"
+                    );
+
+                    formattedValue = formattedValue.div(flowrateUnit.value);
+
+                    setSwapFlowRate(formattedValue.toString());
+                }
+            }
+
+            setFormattedNumber();
+        },
+        [setSwapFlowRate, flowrateUnit.value]
+    );
+
+    useEffect(() => {
+        setFormattedNumberCallback(dynamicInput);
+    }, [dynamicInput, setFormattedNumberCallback]);
+
     return (
         <div
-            className={`w-full h-full`}
+            role="button"
+            className="w-full h-full"
             style={{ color: swapTheme.primaryText }}
             onClick={activateInput}
+            onKeyUp={activateInput}
+            tabIndex={0}
         >
             <div
                 ref={parentRef}
                 className="w-full h-full flex items-center justify-end overflow-hidden space-x-2"
             >
                 <div className="w-[30px] h-[30px] mb-12 cursor-pointer z-10">
-                    {store.outboundToken ? (
+                    {outboundToken ? (
                         <Image
-                            src={store.outboundToken.logoURI}
+                            src={outboundToken.logoURI}
                             width="40"
                             height="40"
                             alt="OutboundToken"

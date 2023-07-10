@@ -1,22 +1,30 @@
 import React from "react";
-import { useStore } from "../../../store";
 import { HiCheckCircle } from "react-icons/hi";
 import { BiTime } from "react-icons/bi";
+import { useAccount } from "wagmi";
+import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
+import { FlowRateOption } from "../../../types/FlowRateOption";
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
     outgoingFlowRate: number;
+    tx: string;
+    endFlow: FlowRateOption;
 }
 
 const TransactionSuccess = ({
     swapTheme,
     outgoingFlowRate,
+    tx,
+    endFlow,
 }: TransactionSuccessProps) => {
-    const store = useStore();
+    const { outboundToken, inboundToken } = useStore();
+
+    const { address } = useAccount();
 
     const importTokens = async () => {
-        const ethereum = window.ethereum;
+        const { ethereum } = window;
 
         try {
             ethereum.request({
@@ -24,9 +32,9 @@ const TransactionSuccess = ({
                 params: {
                     type: "ERC20",
                     options: {
-                        address: store.outboundToken?.address,
-                        symbol: store.outboundToken?.symbol,
-                        decimals: store.outboundToken?.decimals,
+                        address: outboundToken?.address,
+                        symbol: outboundToken?.symbol,
+                        decimals: outboundToken?.decimals,
                         image: "https://foo.io/token-image.svg",
                     },
                 },
@@ -36,6 +44,12 @@ const TransactionSuccess = ({
         }
     };
 
+    const etherScanBaseUrl = "https://goerli.etherscan.io/tx";
+
+    const userTX = `${etherScanBaseUrl}/${tx}`;
+
+    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${outboundToken?.address}/${inboundToken?.address}`;
+
     return (
         <div
             className="w-full h-full flex flex-col items-center justify-center"
@@ -43,9 +57,9 @@ const TransactionSuccess = ({
                 fontFamily: swapTheme.textFont,
             }}
         >
-            <div className="flex items-center justify-center h-40 w-full 2bg-red-500">
+            <div className="flex items-center justify-center h-44 w-full mt-[70px]">
                 <HiCheckCircle
-                    className="w-2/3 h-3/4"
+                    className="w-5/6 h-5/6"
                     style={{
                         color: swapTheme.successColor,
                     }}
@@ -61,11 +75,7 @@ const TransactionSuccess = ({
                 <h1 className="text-2xl">Transaction Submitted</h1>
             </div>
             <div className="flex items-center justify-center w-full pt-2">
-                <a
-                    href="https://www.aqueduct.fi"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
+                <a href={userTX} target="_blank" rel="noopener noreferrer">
                     <p
                         className="hover:underline"
                         style={{
@@ -98,13 +108,12 @@ const TransactionSuccess = ({
                             }}
                         >
                             Swapping {outgoingFlowRate.toFixed(5)}{" "}
-                            {store.outboundToken?.symbol} /{" "}
-                            {store.flowrateUnit.sublabel}
+                            {outboundToken?.symbol} / {endFlow?.sublabel}
                         </p>
                     </div>
                     <div className="flex items-center justify-center">
                         <a
-                            href="https://www.aqueduct.fi"
+                            href={aqueductUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -121,7 +130,8 @@ const TransactionSuccess = ({
                 </div>
             </div>
             <button
-                className={`w-full ease-in-out`}
+                type="button"
+                className="w-full ease-in-out"
                 onClick={importTokens}
                 style={{
                     backgroundColor: swapTheme.swapButton,

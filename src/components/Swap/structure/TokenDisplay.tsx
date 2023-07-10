@@ -1,18 +1,16 @@
-import { TokenTypes } from "../../../types/TokenOption";
-import { Theme } from "../../../theme";
-import { defaultTheme } from "../../../theme/theme";
-import TokenRow from "./TokenRow";
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import styled from "styled-components";
+import { TokenTypes } from "../../../types/TokenOption";
+import { Theme } from "../../../theme";
+import { defaultTheme } from "../../../theme/theme";
+import TokenRow from "./TokenRow";
 
 interface TokenDisplayProps {
     tokenOption: TokenTypes[];
     display: boolean;
     theme: Theme;
-    setOutboundToken: (token: TokenTypes) => void;
-    setInboundToken: (token: TokenTypes) => void;
     setDisplay: (value: boolean) => void;
     outbound: boolean;
 }
@@ -59,8 +57,6 @@ const TokenDisplay = ({
     display,
     theme,
     setDisplay,
-    setOutboundToken,
-    setInboundToken,
     outbound,
 }: TokenDisplayProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
@@ -91,7 +87,7 @@ const TokenDisplay = ({
     };
 
     return (
-        <Container display={display ? display : undefined}>
+        <Container display={display || undefined}>
             <div className="w-full flex items-start justify-between px-4 py-1">
                 <h1
                     className="text-xl"
@@ -173,8 +169,6 @@ const TokenDisplay = ({
                         index={index}
                         isHover={isHover}
                         swapTheme={swapTheme}
-                        setOutboundToken={setOutboundToken}
-                        setInboundToken={setInboundToken}
                         outbound={outbound}
                         setDisplay={setDisplay}
                         handleMouseEnter={handleMouseEnter}

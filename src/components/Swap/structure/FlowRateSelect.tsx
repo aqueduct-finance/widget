@@ -1,27 +1,26 @@
 import React from "react";
 import { HiChevronDown } from "react-icons/hi";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
+import { useStore } from "../../../store";
 
 interface SelectProps {
-    dropdownValue: GenericDropdownOption | TokenOption;
-    theme?: Theme;
+    theme: Theme;
     setFlowRateDropDown: (value: boolean) => void;
     flowRateDropDown: boolean;
 }
 
 const FlowRateSelect = ({
-    dropdownValue,
     theme,
     setFlowRateDropDown,
     flowRateDropDown,
 }: SelectProps) => {
+    const { flowrateUnit } = useStore();
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
-        <div
+        <button
+            type="button"
             className="w-full flex flex-row py-3 cursor-pointer"
             style={{
                 backgroundColor: swapTheme.streamLengthBox,
@@ -46,7 +45,7 @@ const FlowRateSelect = ({
                         color: swapTheme.TitleColor,
                     }}
                 >
-                    {dropdownValue.label}
+                    {flowrateUnit.label}
                 </h1>
             </div>
             <div
@@ -65,7 +64,7 @@ const FlowRateSelect = ({
                     }}
                 />
             </div>
-        </div>
+        </button>
     );
 };
 

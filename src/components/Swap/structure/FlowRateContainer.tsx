@@ -1,7 +1,7 @@
 import React from "react";
+import { CSSTransition } from "react-transition-group";
 import { Theme } from "../../../theme";
 import flowrates from "../../../utils/flowrates";
-import { CSSTransition } from "react-transition-group";
 import { useStore } from "../../../store";
 import FlowRateRow from "./FlowRateRow";
 
@@ -18,12 +18,12 @@ const FlowRateContainer = ({
     flowRateDropDown,
     setFlowRateDropDown,
 }: FlowRateContainerProps) => {
-    const store = useStore();
+    const { flowrateUnit } = useStore();
 
     return (
         <div
             className={`${
-                store.flowrateUnit?.label === "Pay Once"
+                flowrateUnit?.label === "Pay Once"
                     ? `${isEntered ? "h-[59%]" : "h-[51.5%]"}`
                     : `${isEntered ? "h-[53.5%]" : "h-[43.5%]"}`
             } ${flowRateDropDown ? "" : "hidden"} 
@@ -34,7 +34,7 @@ const FlowRateContainer = ({
         >
             <CSSTransition
                 in={flowRateDropDown}
-                appear={true}
+                appear
                 timeout={300}
                 classNames={{
                     enter: "opacity-0",
@@ -48,8 +48,7 @@ const FlowRateContainer = ({
             >
                 <FlowRateRow
                     theme={swapTheme}
-                    setDropdownValue={store.setFlowrateUnit}
-                    options={flowrates}
+                    flowRateUnit={flowrates}
                     setFlowRateDropDown={setFlowRateDropDown}
                 />
             </CSSTransition>

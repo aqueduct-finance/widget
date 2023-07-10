@@ -1,13 +1,13 @@
-import { Theme } from "../../../theme";
-import { defaultTheme } from "../../../theme/theme";
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import SettingsOption from "./SettingsOption";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { useDisconnect } from "wagmi";
+import SettingsOption from "./SettingsOption";
+import { defaultTheme } from "../../../theme/theme";
+import { Theme } from "../../../theme";
 
 interface SettingsProps {
-    theme?: Theme;
+    theme: Theme;
     display: boolean;
     setDisplay: (value: boolean) => void;
     autoWrap: boolean;
@@ -98,6 +98,7 @@ const Settings = ({
                         item={option}
                         index={index}
                         swapTheme={swapTheme}
+                        // eslint-disable-next-line react/no-array-index-key
                         key={index}
                     />
                 ))}

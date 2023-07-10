@@ -1,5 +1,6 @@
 import { Theme } from "./index";
 
+// eslint-disable-next-line import/prefer-default-export
 export const defaultTheme: Theme = {
     TitleColor: "#ffffff",
     bgColor: "#000000",

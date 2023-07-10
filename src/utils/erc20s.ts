@@ -1,5 +1,6 @@
 import { TokenTypes } from "../types/TokenOption";
 
+// eslint-disable-next-line import/prefer-default-export
 export const TestTokens: TokenTypes[] = [
     {
         name: "USD Coin",

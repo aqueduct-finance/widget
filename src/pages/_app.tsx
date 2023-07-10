@@ -1,6 +1,5 @@
 import type { AppProps } from "next/app";
 import React from "react";
-import "@rainbow-me/rainbowkit/styles.css";
 import "../styles/globals.css";
 // import { getDefaultConfig } from "connectkit";
 // import { createConfig } from "wagmi";
@@ -22,20 +21,19 @@ import "../styles/globals.css";
 //     })
 // );
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
-    return (
-        <div>
-            <div className="w-full h-screen poppins-font bg-black">
-                <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
-                    <main className="flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll">
-                        <div className="md:h-[50%]" />
-                        <Component {...pageProps} />
-                        <div className="md:h-[50%]" />
-                    </main>
-                </div>
+const MyApp = ({ Component, pageProps }: AppProps) => (
+    <div>
+        <div className="w-full h-screen poppins-font bg-black">
+            <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
+                <main className="flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll">
+                    <div className="md:h-[50%]" />
+                    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+                    <Component {...pageProps} />
+                    <div className="md:h-[50%]" />
+                </main>
             </div>
         </div>
-    );
-};
+    </div>
+);
 
 export default MyApp;
