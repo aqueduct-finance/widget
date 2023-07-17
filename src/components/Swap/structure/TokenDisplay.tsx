@@ -21,7 +21,6 @@ const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, o
     const [searchQuery, setSearchQuery] = useState("");
     const [isExitHover, setIsExitHover] = useState(false);
     const [isInputHover, setIsInputHover] = useState(false);
-    console.log("display", display);
 
     const filteredTokens = tokenOption.filter(
         (token) =>
