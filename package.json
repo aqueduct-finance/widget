@@ -2,7 +2,7 @@
     "name": "aqueduct-widget",
     "version": "0.5.3",
     "private": false,
-    "main": "dist/components/Swap/index.tsx",
+    "main": "dist/components/Swap/index.jsx",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
