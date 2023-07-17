@@ -15,6 +15,7 @@
         "isolatedModules": true,
         "jsx": "react",
         "outDir": "dist",
+        "declaration": true,
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules", "dist"]
