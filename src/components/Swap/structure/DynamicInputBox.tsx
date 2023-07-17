@@ -3,34 +3,29 @@ import Image from "next/image";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
 import { BsPlus } from "react-icons/bs";
+import { CollapseState } from "../../../types/CollapseState";
 
 interface DynamicInputBoxProps {
     swapTheme: Theme;
-    setShowModal: (value: boolean) => void;
-    setOutbound: (value: boolean) => void;
-    swapAmount: number;
+    dynamicInput: number;
     paddingPercentage: number;
-    setSwapAmount: (value: number) => void;
-    setDynamicInput: (value: string) => void;
-    dynamicInput: string;
+    setDynamicInput: (value: number) => void;
 }
 
 const DynamicInputBox = ({
     swapTheme,
-    setShowModal,
-    setOutbound,
-    swapAmount,
-    paddingPercentage,
-    setSwapAmount,
-    setDynamicInput,
     dynamicInput,
+    paddingPercentage,
+    setDynamicInput
 }: DynamicInputBoxProps) => {
     const store = useStore();
     const inputRef = useRef(null);
 
     const parentRef = useRef<HTMLDivElement>(null);
-    const [divScrollLeft, setDivScrollLeft] = useState(0);
+    const [divScrollLeft, setDivScrollLeft] = useState(21.5);
     const [dynamicFontSize, setDynamicFontSize] = useState(72); // in px
+
+    const START_SCROLL = 21.5;
 
     const activateInput = () => {
         inputRef.current.focus();
@@ -38,23 +33,14 @@ const DynamicInputBox = ({
 
     const regex = /\./g;
 
-    // FIXME: remove useEffect
     useEffect(() => {
         // width computation + animation
-
-        const numericValue = parseFloat(dynamicInput.replace(/[^0-9.]/g, ""));
-        setSwapAmount(numericValue);
-
-        if (isNaN(numericValue)) {
-            setDivScrollLeft(0);
-            return;
-        }
-
+        const dynamicInputString = dynamicInput ? dynamicInput.toString() : '';
         const computedStyle = window.getComputedStyle(inputRef.current);
 
         const getWidth = (fontSize: string) => {
             const div = document.createElement("div");
-            div.innerText = dynamicInput;
+            div.innerText = dynamicInputString;
             div.style.fontSize = fontSize;
             div.style.fontWeight = computedStyle.fontWeight;
             div.style.fontFamily = computedStyle.fontFamily;
@@ -82,14 +68,15 @@ const DynamicInputBox = ({
                 setDynamicFontSize(newFontSize);
             }
 
-            if (dynamicInput === "") {
-                setDivScrollLeft(0);
-                setDynamicFontSize(72);
+            if (dynamicInputString === "") {
+                setDivScrollLeft(START_SCROLL)
+                setDynamicFontSize(72)
             } else {
                 setDivScrollLeft(getWidth(`${newFontSize}px`) / 2);
             }
         }
-    }, [swapAmount, dynamicInput, divScrollLeft]);
+    }, [dynamicInput, divScrollLeft]);
+
 
     const handleInput = (e) => {
         const inputValue = e.target.value;
@@ -97,8 +84,8 @@ const DynamicInputBox = ({
         const numericValue = inputValue.replace(/[^0-9.]/g, "");
 
         if (inputValue === "") {
-            setDivScrollLeft(0);
-            setDynamicFontSize(72);
+            setDivScrollLeft(START_SCROLL)
+            setDynamicFontSize(72)
         }
 
         const periodsCount = (inputValue.match(regex) || []).length;
@@ -106,9 +93,15 @@ const DynamicInputBox = ({
         if (periodsCount > 1) {
             return;
         }
+/*
+        if (isNaN(numericValue)) {
+            setDivScrollLeft(START_SCROLL)
+            return;
+        }
+*/
 
-        setDynamicInput(numericValue);
-    };
+        setDynamicInput(numericValue)
+    }
 
     return (
         <div
@@ -128,8 +121,7 @@ const DynamicInputBox = ({
                             height="40"
                             alt="OutboundToken"
                             onClick={() => {
-                                setOutbound(true);
-                                setShowModal(true);
+                                store.setCollapseState(CollapseState.OUTBOUND_TOKEN_SELECT);
                             }}
                         />
                     ) : (
@@ -142,13 +134,9 @@ const DynamicInputBox = ({
                                 borderRadius: swapTheme.itemBorderRadius,
                             }}
                         >
-                            <BsPlus
-                                className="w-full h-full"
-                                onClick={() => {
-                                    setOutbound(true);
-                                    setShowModal(true);
-                                }}
-                            />
+                            <BsPlus className="w-full h-full" onClick={() => {
+                                store.setCollapseState(CollapseState.OUTBOUND_TOKEN_SELECT);
+                            }} />
                         </div>
                     )}
                 </div>
@@ -167,6 +155,7 @@ const DynamicInputBox = ({
                     className="outline-none transition-all"
                     onChange={handleInput}
                     value={dynamicInput}
+                    placeholder="0"
                 />
             </div>
         </div>

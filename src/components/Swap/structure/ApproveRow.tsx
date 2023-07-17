@@ -12,22 +12,23 @@ interface ApproveRowProps {
 
 const ApproveRow = ({ item, index, swapTheme }: ApproveRowProps) => {
     return (
-        <div
-            className="w-full flex flex-row items-start justify-start space-x-5"
-            key={index}
-            style={{
-                color: swapTheme.secondaryText,
-            }}
-        >
-            <h1
+        <div className='w-full flex flex-row items-start justify-start space-x-5' key={index} >
+            <p
+                className='font-light'
                 style={{
-                    color: swapTheme.TitleColor,
-                    fontWeight: swapTheme.accentFontWeight,
+                    //fontWeight: swapTheme.accentFontWeight,
+                    color: swapTheme.accentText,
                 }}
             >
                 {item.title}:
-            </h1>
-            <h1 className="opacity-80">{item.data}</h1>
+            </p>
+            <p 
+                style={{
+                    color: swapTheme.primaryText,
+                }}
+            >
+                {item.data}
+            </p>
         </div>
     );
 };

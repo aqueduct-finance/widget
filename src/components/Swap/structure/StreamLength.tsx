@@ -1,15 +1,17 @@
 import { Theme } from "../../../theme";
-import { defaultTheme } from "../../../theme/theme";
-import React from "react";
+import { defaultTheme } from '../../../theme/theme'
+import { useStore } from "../../../store";
+import React from 'react'
 
 interface StreamLengthProps {
-    length: number;
-    setLength: (value: number) => void;
     theme?: Theme;
 }
 
-const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
+const StreamLength = ({ theme }: StreamLengthProps) => {
+
     const swapTheme: Theme = { ...defaultTheme, ...theme };
+
+    const store = useStore()
 
     return (
         <div
@@ -41,9 +43,7 @@ const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
                         style={{
                             fontFamily: swapTheme.numberFont,
                         }}
-                    >
-                        {length}
-                    </p>
+                    >{store.payOnceLength}</p>
                     <p
                         style={{
                             fontFamily: swapTheme.textFont,
@@ -64,9 +64,9 @@ const StreamLength = ({ setLength, theme, length }: StreamLengthProps) => {
                     type="range"
                     min={1}
                     max={720}
-                    value={length}
+                    value={store.payOnceLength}
                     onChange={(e) => {
-                        setLength(parseInt(e.target.value));
+                        store.setPayOnceLength(parseInt(e.target.value))
                     }}
                 />
             </div>

@@ -1,73 +1,103 @@
 import { Theme } from "../../../theme";
 import { defaultTheme } from "../../../theme/theme";
 import React, { useState } from "react";
-import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { IoMdClose } from "react-icons/io";
-import { TokenTypes } from "../../../types/TokenOption";
 import ApproveRow from "./ApproveRow";
 import { BsCheckLg } from "react-icons/bs";
 import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
+import { useEthersProvider } from "../../../providers/provider";
+import { useEthersSigner } from "../../../providers/signer";
+import getPoolAddress from "../helpers/getPool";
+import { Framework, WrapperSuperToken } from "@superfluid-finance/sdk-core";
+import { mumbaiChainId } from "../../../utils/constants";
+import { CollapseState } from "../../../types/CollapseState";
+import { FiChevronLeft } from "react-icons/fi";
+import { parseEther } from 'viem'
+import toLocale from "../../../utils/toLocale";
 
-interface ApproveSwapProps {
-    flowrateUnit: GenericDropdownOption;
-    flowrate: number;
-    theme: Theme;
-    outboundToken: TokenTypes | undefined;
-    inboundToken: TokenTypes | undefined;
-    swapAmount: number;
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    endTime: string;
-    autoWrap: boolean;
-    swapActive: boolean;
-    setSwapActive: (value: boolean) => void;
+interface BufferMessageProps {
+    swapTheme: Theme;
     isBufferAccepted: boolean;
-    setIsBufferAccepted: (value: boolean) => void;
-    setIsApproved: (value: boolean) => void;
-    buffer: number;
+    setIsBufferAccepted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Approve = ({
-    flowrateUnit,
-    flowrate,
-    theme,
-    outboundToken,
-    inboundToken,
-    swapAmount,
-    startDate,
-    startTime,
-    endDate,
-    endTime,
-    autoWrap,
-    swapActive,
-    setSwapActive,
-    isBufferAccepted,
-    setIsBufferAccepted,
-    setIsApproved,
-    buffer,
-}: ApproveSwapProps) => {
-    const [isExitHover, setIsExitHover] = useState(false);
-    const [showAnimation, setShowAnimation] = useState(false);
+const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: BufferMessageProps) => {
 
     const store = useStore();
 
+    return (
+        <div 
+            className="flex flex-col rounded-3xl bg-red-500/50 p-6 text-sm space-y-4 items-center justify-center"
+            style={{
+                //borderRadius: swapTheme.primaryBorderRadius
+                backgroundColor: swapTheme.streamLengthBox,
+                color: swapTheme.accentText,
+            }}
+        >
+            {
+                store.flowrateUnit.sublabel == 'once' ?
+                <p className="text-xs leading-5">
+                    {`${toLocale(store.getExpectedDeposit())} ${store.outboundToken?.symbol} will be locked by Superfluid as a deposit, which you will get back at the end of your swap. If you unwrap your tokens early, you may lose this deposit.`}
+                </p>
+                :
+                <p className="text-xs leading-5">
+                    {`If you do not cancel your swap before your balance reaches zero, you will lose your ${store.getExpectedDeposit().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.symbol} deposit.`}
+                </p>
+            }
+            <div className="flex items-end justify-between w-full">
+                <p
+                    className="opacity-80"
+                    style={{
+                        color: swapTheme.primaryText,
+                        fontWeight: swapTheme.accentFontWeight
+                    }}
+                >
+                    Yes, I understand.
+                </p>
+                <button
+                    className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
+                    style={{
+                        backgroundColor: isBufferAccepted ? "white" : "transparent",
+                        borderColor: "white",
+                        borderRadius: swapTheme.checkBorderRadius,
+                        transitionDuration: swapTheme.primaryDuration
+                    }}
+                    onClick={() => {
+                        setIsBufferAccepted(!isBufferAccepted)
+                    }}
+                >
+                    {isBufferAccepted && <BsCheckLg style={{ color: swapTheme.swapButton }} className="w-full h-full" />}
+                </button>
+            </div>
+        </div>
+    );
+}
+
+interface ApproveSwapProps {
+    theme: Theme;
+}
+
+const Approve = ({
+    theme
+}: ApproveSwapProps) => {
+    const [isBufferAccepted, setIsBufferAccepted] = useState(false);
+    const [showAnimation, setShowAnimation] = useState(false)
+    const provider = useEthersProvider()
+    const signer = useEthersSigner()
+    const store = useStore()
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     const options = [
-        { title: "Spending", data: swapAmount + " " + outboundToken?.symbol },
-        { title: "Receiving", data: inboundToken?.symbol },
-        {
-            title: "Flowrate",
-            data: flowrate.toFixed(8) + " / " + flowrateUnit.sublabel,
-        },
-        { title: "Start Date", data: startDate },
+        { title: "Spending", data: store.getSwapAmountAsLocaleString() + " " + store.outboundToken?.symbol + (store.flowrateUnit.sublabel != 'once' ? (" /" + store.flowrateUnit.sublabel) : '') },
+        { title: "Receiving", data: store.inboundToken?.symbol },
+        { title: "Flowrate", data: parseFloat(store.getEffectiveFlowRate()).toFixed(8) + " /s" },
+        { title: "Wrapping", data: toLocale(store.getAmountNeededToWrap()) + ' ' + store.outboundToken?.underlyingToken.symbol },
+        /*{ title: "Start Date", data: startDate },
         { title: "Start Time", data: startTime },
         { title: "End Date", data: endDate },
         { title: "End Time", data: endTime },
-        { title: "Auto Wrap", data: autoWrap ? "On" : "Off" },
-    ];
+        { title: "Auto Wrap", data: autoWrap ? "On" : "Off" },*/
+    ]
 
     const filteredOptions = options.filter(
         (option) =>
@@ -78,9 +108,66 @@ const Approve = ({
             )
     );
 
+    const swap = async () => {
+        const pool = getPoolAddress(
+            store.inboundToken?.address,
+            store.outboundToken?.address
+        );
+
+        const token = store.outboundToken.address;
+
+        try {
+            const superfluid = await Framework.create({
+                chainId: mumbaiChainId,
+                provider: provider,
+            });
+            const sender = await signer.getAddress();
+            const swapFlowRate = parseEther(`${parseFloat(store.getEffectiveFlowRate())}`).toString()
+            const currentFlowRate = parseFloat((
+                await superfluid.cfaV1.getFlow({
+                    superToken: token,
+                    sender: sender,
+                    receiver: pool,
+                    providerOrSigner: signer,
+                })
+            ).flowRate);
+
+            const amountNeededToWrap = parseEther(`${store.getAmountNeededToWrap()}`).toString()
+            const superToken = (await superfluid.loadSuperToken(token)) as WrapperSuperToken;
+            const upgradeOperation = superToken.upgrade({ amount: amountNeededToWrap });
+            const flowOperation = currentFlowRate > 0 ? 
+                superfluid.cfaV1.updateFlow({
+                    receiver: pool,
+                    flowRate: swapFlowRate,
+                    superToken: token,
+                    sender,
+                }) :
+                superfluid.cfaV1.createFlow({
+                    receiver: pool,
+                    flowRate: swapFlowRate,
+                    superToken: token,
+                    sender,
+                });
+
+            // magical batch call
+            const superfluidCall = store.getAmountNeededToWrap() > 0 ? superfluid.batchCall([upgradeOperation, flowOperation]) : flowOperation;
+            const result = await superfluidCall.exec(signer);
+            const transactionReceipt = await result.wait();
+            console.log(transactionReceipt.transactionHash)
+            store.setLastSwapTx(transactionReceipt.transactionHash)
+
+            store.setCollapseState(CollapseState.SWAP_SUCCESS);
+        } catch (error) {
+            store.setCollapseState(CollapseState.SWAP_FAILURE);
+            console.log(error)
+        }
+    };
+
     const handleApproveClick = () => {
         if (isBufferAccepted) {
-            setIsApproved(true);
+            store.setCollapseState(CollapseState.SWAP_SUBMITTING);
+            setIsBufferAccepted(false);
+            swap()
         } else {
             setShowAnimation(true);
             setTimeout(() => {
@@ -90,59 +177,41 @@ const Approve = ({
     };
 
     return (
-        <div
-            className={`${
-                swapActive ? " flex" : "hidden"
-            } flex-col w-full h-full items-start justify-start ease-in-out rounded-[3rem] px-4`}
+        <div className={`flex flex-col w-full items-start justify-start 2px-2 2md:px-6 2py-5 space-y-8 `}
             style={{
                 transitionDuration: swapTheme.primaryDuration,
             }}
         >
-            <div
-                className="w-full flex flex-row items-center justify-between px-3 text-2xl"
-                style={{
-                    color: swapTheme.TitleColor,
-                    fontWeight: swapTheme.accentFontWeight,
-                }}
-            >
-                <h1>Approve Swap</h1>
-                <IoMdClose
-                    className="text-3xl cursor-pointer ease-in-out"
-                    onMouseEnter={() => {
-                        setIsExitHover(true);
-                    }}
-                    onMouseLeave={() => {
-                        setIsExitHover(false);
-                    }}
+            <div className="px-2 md:px-6 pt-5 space-y-8 w-full">
+                <div className="w-full flex flex-col 2flex-row 2items-center justify-between text-2xl"
                     style={{
-                        color: isExitHover
-                            ? swapTheme.accentText
-                            : swapTheme.primaryText,
-                        transitionDuration: swapTheme.secondaryDuration,
-                    }}
-                    onClick={() => {
-                        setSwapActive(false);
-                        setIsBufferAccepted(false);
-                    }}
-                />
-            </div>
-            <div
-                className="w-full h-full flex flex-col items-center justify-between space-y-0 px-2 pt-4 pb-5"
-                style={{
-                    borderRadius: swapTheme.accentBorderRadius,
-                }}
-            >
-                <div
-                    className="w-full flex flex-col space-y-9 px-3 pt-6 pb-0 ease-in-out duration-200 mt-8"
-                    style={{
-                        backgroundColor: "transparent",
-                        borderRadius: swapTheme.accentBorderRadius,
+                        color: swapTheme.TitleColor,
+                        fontWeight: swapTheme.accentFontWeight
                     }}
                 >
-                    <div
-                        className="w-full flex flex-col space-y-3 px-3 py-0"
+                    <button 
+                        className="flex items-center justify-center space-x-1 text-xs w-min pr-4 pl-3 py-2 rounded-full -ml-2 mb-2 hover:scale-105 duration-300 transition-all"
+                        onClick={() => {
+                            store.setCollapseState(CollapseState.NONE)
+                            setIsBufferAccepted(false);
+                        }}
                         style={{
-                            borderRadius: swapTheme.accentBorderRadius,
+                            backgroundColor: swapTheme.streamLengthBox,
+                            color: swapTheme.accentText,
+
+                        }}
+                    >
+                        <FiChevronLeft />
+                        <p>back</p>
+                    </button>
+                    <h1>Approve Swap</h1>
+                </div>
+                <div className="space-y-4">
+                    <div className="w-full flex flex-col space-y-3 px-8 py-6 rounded-3xl text-sm"
+                        style={{
+                            //borderRadius: swapTheme.primaryBorderRadius
+                            backgroundColor: swapTheme.streamLengthBox,
+                            color: swapTheme.accentText,
                         }}
                     >
                         {filteredOptions.map((option, index) => (
@@ -153,85 +222,27 @@ const Approve = ({
                                 key={index}
                             />
                         ))}
-                    </div>
-                    <div
-                        className="w-full flex flex-col justify-start items-start py-4 px-4 space-y-4 leading-relaxed"
-                        style={{
-                            backgroundColor: isBufferAccepted
-                                ? swapTheme.secondaryMain
-                                : swapTheme.useMaxButton,
-                            borderRadius: swapTheme.accentBorderRadius,
-                        }}
-                    >
-                        <p
-                            className="opacity-90"
-                            style={{
-                                color: swapTheme.primaryText,
-                            }}
-                        >
-                            If you do not cancel your swap before your balance
-                            reaches zero, you will lose your {buffer.toFixed(5)}{" "}
-                            {store.outboundToken?.underlyingToken?.symbol}{" "}
-                            buffer.
-                        </p>
-                        <div className="flex flex-row space-x-2 items-center font-bold">
-                            <button
-                                className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
-                                style={{
-                                    backgroundColor: isBufferAccepted
-                                        ? "white"
-                                        : "transparent",
-                                    borderColor: "white",
-                                    borderRadius: swapTheme.checkBorderRadius,
-                                    transitionDuration:
-                                        swapTheme.primaryDuration,
-                                }}
-                                onClick={() => {
-                                    setIsBufferAccepted(!isBufferAccepted);
-                                }}
-                            >
-                                {isBufferAccepted && (
-                                    <BsCheckLg
-                                        style={{ color: swapTheme.swapButton }}
-                                        className="w-full h-full"
-                                    />
-                                )}
-                            </button>
-                            <p
-                                className="opacity-80"
-                                style={{
-                                    color: swapTheme.primaryText,
-                                    fontWeight: swapTheme.accentFontWeight,
-                                }}
-                            >
-                                Yes, I understand the risk.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <button
-                    className={`${
-                        isBufferAccepted ? "" : "opacity-60"
-                    } w-full mt-4 ease-in-out`}
-                    onClick={handleApproveClick}
-                    style={{
-                        backgroundColor: swapTheme.swapButton,
-                        color: swapTheme.swapButtonText,
-                        fontSize: swapTheme.swapButtonFontSize,
-                        padding: swapTheme.swapButtonPadding,
-                        fontWeight: swapTheme.secondaryFontWeight,
-                        borderRadius: swapTheme.itemBorderRadius,
-                        transitionDuration: swapTheme.primaryDuration,
-                    }}
-                >
-                    <SwapText
+                    </div> 
+                    <BufferMessage
                         swapTheme={swapTheme}
-                        showAnimation={showAnimation}
-                    >
-                        Approve
-                    </SwapText>
-                </button>
+                        isBufferAccepted={isBufferAccepted}
+                        setIsBufferAccepted={setIsBufferAccepted}
+                    />
+                </div>
             </div>
+            <button className={`${isBufferAccepted ? '' : 'opacity-60'} w-full `}
+                onClick={handleApproveClick}
+                style={{
+                    backgroundColor: swapTheme.swapButton,
+                    color: swapTheme.swapButtonText,
+                    fontSize: swapTheme.swapButtonFontSize,
+                    padding: swapTheme.swapButtonPadding,
+                    fontWeight: swapTheme.secondaryFontWeight,
+                    borderRadius: swapTheme.itemBorderRadius,
+                    transitionDuration: swapTheme.primaryDuration
+                }}>
+                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Approve</SwapText>
+            </button>
         </div>
     );
 };

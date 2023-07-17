@@ -1,43 +1,27 @@
-import React from "react";
-import Image from "next/image";
-import { Theme } from "../../../theme";
-import { useStore } from "../../../store";
-import { BsPlus } from "react-icons/bs";
-import { UseMaxText } from "../../../theme/animation";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Theme } from '../../../theme';
+import { useStore } from '../../../store';
+import { BsPlus } from 'react-icons/bs';
+import { UseMaxText } from '../../../theme/animation';
+import { CollapseState } from '../../../types/CollapseState';
 
 interface OutboundBoxProps {
     swapTheme: Theme;
-    outboundBalance: string;
-    showMaxAnimation: boolean;
-    setShowMaxAnimation: (value: boolean) => void;
-    setShowModal: (value: boolean) => void;
-    setOutbound: (value: boolean) => void;
-    setSwapAmount: (value: number) => void;
-    setDynamicInput: (value: string) => void;
 }
 
 const OutboundBox = ({
-    swapTheme,
-    outboundBalance,
-    showMaxAnimation,
-    setShowModal,
-    setOutbound,
-    setShowMaxAnimation,
-    setSwapAmount,
-    setDynamicInput,
+    swapTheme
 }: OutboundBoxProps) => {
     const store = useStore();
 
-    const handleButtonClick = () => {
-        setShowModal(true);
-        setOutbound(true);
-    };
+    const [showMaxAnimation, setShowMaxAnimation] = useState(false);
 
     const handleUseMaxClick = (e) => {
         e.stopPropagation();
-        if (store.outboundToken && parseInt(outboundBalance) > 0) {
-            setSwapAmount(parseFloat(outboundBalance));
-            setDynamicInput(outboundBalance);
+        const outboundBalance = store.outboundTokenBalance + store.underlyingOutboundTokenBalance;
+        if (store.outboundToken && outboundBalance > 0) {
+            store.setSwapAmount(outboundBalance);
         } else {
             setShowMaxAnimation(true);
             setTimeout(() => {
@@ -47,16 +31,15 @@ const OutboundBox = ({
     };
 
     return (
-        <button
-            type="button"
-            className="flex p-3 mt-2 items-center hover:scale-[1.02] transition-all"
+        <div
+            //type="button"
+            className="flex p-3 items-center transition-all w-full"
             style={{
                 backgroundColor: swapTheme.tokenBox,
                 borderRadius: swapTheme.secondaryBorderRadius,
                 transitionDuration: swapTheme.accentDuration,
                 fontFamily: swapTheme.textFont,
             }}
-            onClick={handleButtonClick}
         >
             <div className="w-[40px] h-[40px]">
                 {store.outboundToken ? (
@@ -101,16 +84,15 @@ const OutboundBox = ({
                         fontFamily: swapTheme.numberFont,
                     }}
                 >
-                    {parseFloat(outboundBalance) === 0 ||
-                    !store.outboundToken ||
-                    outboundBalance === undefined ||
-                    isNaN(parseFloat(outboundBalance))
-                        ? "0.0"
-                        : parseFloat(outboundBalance).toFixed(5)}
+                    {
+                        (store.getCombinedOutboundBalance() === 0 || !store.outboundToken)
+                            ? "0.0"
+                            : (store.getCombinedOutboundBalance()).toFixed(5)
+                    }
                 </p>
             </div>
             <div
-                className="text-xs h-8 px-4 hover:scale-110 hover:-translate-x-1 transition-all flex items-center justify-center"
+                className={`text-xs h-8 px-4 hover:scale-110 hover:-translate-x-1 transition-all flex items-center justify-center ${store.collapseState == CollapseState.OUTBOUND_TOKEN_SELECT ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
                 style={{
                     backgroundColor: swapTheme.useMaxButton,
                     color: swapTheme.useMaxText,
@@ -120,15 +102,15 @@ const OutboundBox = ({
                 }}
                 onClick={handleUseMaxClick}
             >
-                <UseMaxText
-                    swapTheme={swapTheme}
+                <UseMaxText 
+                    swapTheme={swapTheme} 
                     showMaxAnimation={showMaxAnimation}
                 >
                     Use Max
                 </UseMaxText>
             </div>
-        </button>
-    );
-};
+        </div>
+    )
+}
 
 export default OutboundBox;

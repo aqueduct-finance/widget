@@ -1,22 +1,28 @@
-import React from "react";
-import { useStore } from "../../../store";
-import { HiCheckCircle } from "react-icons/hi";
-import { BiTime } from "react-icons/bi";
-import { Theme } from "../../../theme";
+import React from 'react';
+import { useStore } from '../../../store';
+import { HiCheckCircle } from 'react-icons/hi';
+import { Theme } from '../../../theme';
+import { useAccount } from 'wagmi';
+import Link from 'next/link';
+import { CollapseState } from '../../../types/CollapseState';
+import { FiChevronLeft } from 'react-icons/fi';
+import Image from 'next/image';
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
-    outgoingFlowRate: number;
 }
 
 const TransactionSuccess = ({
-    swapTheme,
-    outgoingFlowRate,
+    swapTheme
 }: TransactionSuccessProps) => {
     const store = useStore();
 
-    const importTokens = async () => {
-        const ethereum = window.ethereum;
+    const { address } = useAccount()
+    const tx = store.lastSwapTx;
+
+    const importOutbound = async () => {
+
+        const ethereum = window.ethereum
 
         try {
             ethereum.request({
@@ -35,6 +41,35 @@ const TransactionSuccess = ({
             console.log(err);
         }
     };
+    
+    const importInbound = async () => {
+
+        const ethereum = window.ethereum
+
+        try {
+            ethereum
+                .request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: store.inboundToken?.address,
+                            symbol: store.inboundToken?.symbol,
+                            decimals: store.inboundToken?.decimals,
+                            image: 'https://foo.io/token-image.svg',
+                        },
+                    },
+                })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const etherScanBaseUrl = 'https://mumbai.polygonscan.com/tx';
+
+    const userTX = `${etherScanBaseUrl}/${tx}`
+
+    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`
 
     return (
         <div
@@ -43,9 +78,23 @@ const TransactionSuccess = ({
                 fontFamily: swapTheme.textFont,
             }}
         >
-            <div className="flex items-center justify-center h-40 w-full 2bg-red-500">
+            <div className='px-2 pt-4 w-full'>
+                <button 
+                    className="flex items-center justify-center space-x-1 text-xs w-min pr-4 pl-3 py-2 rounded-full mb-2 hover:scale-105 duration-300 transition-all"
+                    onClick={() => store.setCollapseState(CollapseState.NONE)}
+                    style={{
+                        backgroundColor: swapTheme.streamLengthBox,
+                        color: swapTheme.accentText,
+
+                    }}
+                >
+                    <FiChevronLeft />
+                    <p>back</p>
+                </button>
+            </div>
+            <div className="flex items-center justify-center h-44 w-full mt-6">
                 <HiCheckCircle
-                    className="w-2/3 h-3/4"
+                    className="w-5/6 h-5/6"
                     style={{
                         color: swapTheme.successColor,
                     }}
@@ -61,68 +110,65 @@ const TransactionSuccess = ({
                 <h1 className="text-2xl">Transaction Submitted</h1>
             </div>
             <div className="flex items-center justify-center w-full pt-2">
-                <a
-                    href="https://www.aqueduct.fi"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <p
-                        className="hover:underline"
+                <a href={userTX} target="_blank" rel="noopener noreferrer">
+                    <p className="hover:underline"
                         style={{
                             color: swapTheme.embeddedLink,
                         }}
-                    >
-                        View on Etherscan
-                    </p>
+                    >View on block explorer</p>
                 </a>
             </div>
-            <div className="flex grow" />
-            <div
-                className="w-full flex flex-row justify-between py-3 mt-4"
-                style={{
-                    borderTopColor: swapTheme.borderColor,
-                    borderTopWidth: swapTheme.primaryBorderWidth,
-                }}
-            >
-                <div className="w-full flex flex-row items-center px-2 py-1 justify-between">
-                    <div className="flex flex-row items-center justify-center space-x-3">
-                        <BiTime
-                            className="w-[20px] h-[20px]"
-                            style={{
-                                color: swapTheme.primaryText,
-                            }}
+            <div className='px-8 pt-6 pb-10 w-full space-x-2 flex'>
+                {
+                    store.outboundToken &&
+                    <button 
+                        className='flex space-x-3 items-center justify-center p-4 w-1/2 text-xs hover:scale-[1.02] duration-300 transition-all'
+                        style={{
+                            backgroundColor: swapTheme.streamLengthBox,
+                            color: swapTheme.accentText,
+                            borderRadius: swapTheme.secondaryBorderRadius
+                        }}
+                        onClick={importOutbound}
+                    >
+                        <Image
+                            src={store.outboundToken.logoURI}
+                            width="20"
+                            height="20"
+                            alt="token"
+                            className='opacity-80'
                         />
-                        <p
-                            style={{
-                                color: swapTheme.accentText,
-                            }}
-                        >
-                            Swapping {outgoingFlowRate.toFixed(5)}{" "}
-                            {store.outboundToken?.symbol} /{" "}
-                            {store.flowrateUnit.sublabel}
+                        <p>
+                            Import {store.outboundToken.symbol}  
                         </p>
-                    </div>
-                    <div className="flex items-center justify-center">
-                        <a
-                            href="https://www.aqueduct.fi"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <p
-                                className="hover:underline"
-                                style={{
-                                    color: swapTheme.embeddedLink,
-                                }}
-                            >
-                                View
-                            </p>
-                        </a>
-                    </div>
-                </div>
+                    </button>
+                }
+                {
+                    store.inboundToken &&
+                    <button 
+                        className='flex space-x-3 items-center justify-center p-4 w-1/2 text-xs hover:scale-[1.02] duration-300 transition-all'
+                        style={{
+                            backgroundColor: swapTheme.streamLengthBox,
+                            color: swapTheme.accentText,
+                            borderRadius: swapTheme.secondaryBorderRadius
+                        }}
+                        onClick={importInbound}
+                    >
+                        <Image
+                            src={store.inboundToken.logoURI}
+                            width="20"
+                            height="20"
+                            alt="token"
+                            className='opacity-80'
+                        />
+                        <p>
+                            Import {store.inboundToken.symbol}  
+                        </p>
+                    </button>
+                }
             </div>
-            <button
-                className={`w-full ease-in-out`}
-                onClick={importTokens}
+            <Link 
+                href={aqueductUrl}
+                className={`w-full ease-in-out text-center`}
                 style={{
                     backgroundColor: swapTheme.swapButton,
                     color: swapTheme.swapButtonText,
@@ -130,11 +176,11 @@ const TransactionSuccess = ({
                     padding: swapTheme.swapButtonPadding,
                     fontWeight: swapTheme.primaryFontWeight,
                     transitionDuration: swapTheme.primaryDuration,
-                    borderRadius: swapTheme.itemBorderRadius,
+                    borderRadius: swapTheme.itemBorderRadius
                 }}
             >
-                Import Tokens
-            </button>
+                View Position
+            </Link>
         </div>
     );
 };

@@ -3,8 +3,8 @@ import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
-import styled from "styled-components";
-import { ExplicitAny } from "../../../types/ExplicitAny";
+import { useStore } from "../../../store";
+import { CollapseState } from "../../../types/CollapseState";
 
 interface FlowRateRowProps {
     options: GenericDropdownOption[] | TokenOption[];
@@ -12,66 +12,32 @@ interface FlowRateRowProps {
         | ((value: GenericDropdownOption) => void)
         | ((token: TokenOption) => void);
     theme?: Theme;
-    setFlowRateDropDown: (value: boolean) => void;
 }
-
-const Container = styled.div<{ theme: ExplicitAny }>`
-    display: flex;
-    overflow: auto;
-    padding-top: 10px;
-    padding-bottom: 16px;
-    padding-left: 14px;
-    padding-right: 8px;
-    margin-top: 8px;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    border-radius: 0px 0px ${({ theme }) => theme.secondaryBorderRadius}
-        ${({ theme }) => theme.secondaryBorderRadius};
-
-    &::-webkit-scrollbar {
-        width: 0.5rem;
-        background-color: transparent;
-    }
-
-    /* Hide scrollbar thumb on hover */
-    &::-webkit-scrollbar-thumb:hover {
-        background-color: transparent;
-    }
-
-    /* Hide scrollbar thumb when inactive */
-    &::-webkit-scrollbar-thumb {
-        background-color: transparent;
-    }
-
-    /* Hide scrollbar track */
-    &::-webkit-scrollbar-track {
-        background-color: transparent;
-    }
-`;
 
 const FlowRateRow = ({
     options,
     setDropdownValue,
-    theme,
-    setFlowRateDropDown,
+    theme
 }: FlowRateRowProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
+    const store = useStore();
+
     return (
-        <Container
-            theme={swapTheme}
+        <div
+            //theme={swapTheme}
+            //className="p-2"
             style={{
-                backgroundColor: swapTheme.streamLengthBox,
+                //backgroundColor: swapTheme.streamLengthBox,
+                borderRadius: swapTheme.secondaryBorderRadius,
             }}
         >
             {options.map((option) => (
-                <div
-                    className="w-full px-3 py-3 flex items-center justify-center mt-3 text-lg cursor-pointer"
-                    key={option.value}
+                <div className="w-full px-3 py-3 flex items-center justify-center mt-3 text-lg cursor-pointer"
+                    key={option.sublabel}
                     onClick={() => {
-                        setDropdownValue(option);
-                        setFlowRateDropDown(false);
+                        setDropdownValue(option)
+                        store.setCollapseState(CollapseState.NONE)
                     }}
                     style={{
                         backgroundColor: swapTheme.useMaxButton,
@@ -84,8 +50,8 @@ const FlowRateRow = ({
                     <h1 className="opacity-75">{option.label}</h1>
                 </div>
             ))}
-        </Container>
-    );
-};
+        </div>
+    )
+}
 
 export default FlowRateRow;

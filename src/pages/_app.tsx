@@ -1,40 +1,50 @@
+/* eslint-disable react/jsx-max-depth */
+
 import type { AppProps } from "next/app";
 import React from "react";
-import "@rainbow-me/rainbowkit/styles.css";
-import "../styles/globals.css";
-// import { getDefaultConfig } from "connectkit";
-// import { createConfig } from "wagmi";
-// import { goerli } from "wagmi/chains";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import { WagmiConfig, createConfig } from "wagmi";
+import { polygonMumbai } from "wagmi/chains";
+import '../styles/globals.css';
 
-// prOs@agOtOfritre5HA66fi?OCHo8athixAz#d7fRastlh*ca1u=Odr!dreW7
+// we will not be using _app.tsx for swap widget. This is strictly for testing.
 
-// const chains = [goerli];
+const chains = [polygonMumbai];
 
-// const config = createConfig(
-//     getDefaultConfig({
-//         // Required API Keys
-//         alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_KEY, // or infuraId
-//         walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
 
-//         // Required
-//         appName: "Your App Name",
-//         chains,
-//     })
-// );
+const config = createConfig(
+    getDefaultConfig({
+        // Required API Keys
+        alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_KEY, // or infuraId
+        walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
+
+        // Required
+        appName: "Aqueduct",
+        chains
+    }),
+);
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
-        <div>
-            <div className="w-full h-screen poppins-font bg-black">
-                <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
-                    <main className="flex flex-col items-center space-y-4 md:space-y-16 px-4 w-full overflow-y-scroll">
-                        <div className="md:h-[50%]" />
-                        <Component {...pageProps} />
-                        <div className="md:h-[50%]" />
-                    </main>
+        <WagmiConfig config={config}>
+            <ConnectKitProvider>
+                <div>
+                    <div className="w-full h-screen poppins-font bg-black">
+                        <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
+                            <main
+                                className='flex flex-col items-center space-y-4 md:space-y-16 w-full overflow-y-scroll'
+                            >
+                                <div className="md:h-[50%]" />
+                                <Component
+                                    {...pageProps}
+                                />
+                                <div className="md:h-[50%]" />
+                            </main>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </ConnectKitProvider>
+        </WagmiConfig>
     );
 };
 

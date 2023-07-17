@@ -14,16 +14,14 @@ const ConnectWalletButton = ({ theme }: ConnectWalletButtonProps) => {
         <ConnectKitButton.Custom>
             {({ show }) => {
                 return (
-                    <button
-                        onClick={show}
-                        className="font-semibold rounded-full mt-4"
+                    <button onClick={show} className="rounded-full mt-4 w-full"
                         style={{
                             backgroundColor: swapTheme.swapButton,
                             color: swapTheme.swapButtonText,
                             fontSize: swapTheme.swapButtonFontSize,
                             padding: swapTheme.swapButtonPadding,
-                        }}
-                    >
+                            fontWeight: swapTheme.titleFontWeight
+                        }}>
                         Connect Wallet
                     </button>
                 );
