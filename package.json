@@ -1,8 +1,8 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "private": false,
-    "main": "src/components/Swap/index.tsx",
+    "main": "dist/components/Swap/index.tsx",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
@@ -12,7 +12,8 @@
         "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
         "format": "prettier --check .",
         "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-        "format:fix": "prettier --write ."
+        "format:fix": "prettier --write .",
+        "prepublish": "tsc"
     },
     "dependencies": {
         "@babel/core": "^7.22.1",
