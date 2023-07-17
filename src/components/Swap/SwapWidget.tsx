@@ -7,7 +7,6 @@ import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
 import ConnectWalletButton from "../ConnectWallet/ConnectWalletButton";
 import FlowRateSelect from "./structure/FlowRateSelect";
-import '../../styles/SwapWidget.module.css'
 import WidgetTitle from "./structure/WidgetTitle";
 import OutboundBox from "./structure/OutboundBox";
 import ActivateSwapArrow from "./structure/ActivateSwapArrow";
