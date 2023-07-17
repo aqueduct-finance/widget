@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { WalletClient, getContract } from "viem";
 import { usePublicClient, useWalletClient } from "wagmi";
 
-const useErc20Contract = (tokenAddress: string | undefined) => {
+const useErc20Contract = (tokenAddress: string | undefined): any => {
     const publicClient = usePublicClient({ chainId: 80001 });
     const { data: walletClientData } = useWalletClient({ chainId: 80001 });
     const walletClient = walletClientData as WalletClient;
