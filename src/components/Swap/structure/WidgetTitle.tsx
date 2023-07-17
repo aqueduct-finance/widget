@@ -4,28 +4,17 @@ import { TbSettings } from 'react-icons/tb';
 
 interface WidgetTitleProps {
     swapTheme: Theme;
-    setShowSettings: (value: boolean) => void;
 }
 
 const WidgetTitle = ({
-    swapTheme,
-    setShowSettings
+    swapTheme
 }: WidgetTitleProps) => (
-    <div className="flex">
+    <div className="flex md:pt-5">
         <p style={{
             color: swapTheme.TitleColor,
-            fontWeight: swapTheme.primaryFontWeight
+            fontWeight: swapTheme.titleFontWeight
         }} className={`text-2xl ml-2`}>Swap</p>
         <div className="flex grow" />
-        <button
-            className={`hover:animate-spin-slow`}
-            style={{ color: swapTheme.icons }}
-            type="button"
-        >
-            <TbSettings size={25} onClick={() => {
-                setShowSettings(true);
-            }} />
-        </button>
     </div>
 )
 

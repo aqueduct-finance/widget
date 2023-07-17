@@ -8,34 +8,21 @@ import { BigNumber } from 'ethers';
 
 interface OutboundBoxProps {
     swapTheme: Theme;
-    inboundBalance: string;
-    setShowModal: (value: boolean) => void;
-    setOutbound: (value: boolean) => void;
-    isEntered: boolean;
 }
 
 const InboundBox = ({
-    swapTheme,
-    inboundBalance,
-    setShowModal,
-    setOutbound,
-    isEntered
+    swapTheme
 }: OutboundBoxProps) => {
 
     const store = useStore();
 
     return (
-        <button
-            type="button"
-            className={`${isEntered ? "" : "hover:scale-[1.02]"} flex p-3 -mt-3 items-center transition-all`}
+        <div
+            className={`flex p-3 items-center transition-all w-full`}
             style={{
                 backgroundColor: swapTheme.tokenBox,
                 borderRadius: swapTheme.secondaryBorderRadius,
                 transitionDuration: swapTheme.accentDuration
-            }}
-            onClick={() => {
-                setShowModal(true)
-                setOutbound(false)
             }}
         >
             <div className="w-[40px] h-[40px]">
@@ -79,16 +66,14 @@ const InboundBox = ({
                         fontFamily: swapTheme.numberFont
                     }}
                 >
-                    {parseFloat(
-                        inboundBalance
-                    ) === 0 || !store.inboundToken || inboundBalance === undefined || isNaN(parseFloat(inboundBalance))
-                        ? "0.0"
-                        : (
-                            parseFloat(inboundBalance)
-                        ).toFixed(5)}
+                    {
+                        (store.getCombinedInboundBalance() === 0 || !store.inboundToken)
+                            ? "0.0"
+                            : (store.getCombinedInboundBalance()).toFixed(5)
+                    }
                 </p>
             </div>
-        </button>
+        </div>
     )
 }
 

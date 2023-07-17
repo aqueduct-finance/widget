@@ -90,14 +90,15 @@ export const darkTheme: Theme = {
     streamLengthBox: "#121212",
     tokenBox: "#121212",
 
-    dataDisplayBg: "#0D0D0D",
+    dataDisplayBg: "#00000090",
 
     primaryText: "#FFFFFF",
     secondaryText: "#FFFFFF",
 
     primaryFontWeight: "700",
+    titleFontWeight: "500",
     secondaryFontWeight: "500",
-    accentFontWeight: "700",
+    accentFontWeight: "500",
 
     swapButton: "#0460CE",
     swapButtonText: "#FFFFFF",

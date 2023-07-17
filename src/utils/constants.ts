@@ -4,7 +4,7 @@ export const ETHxpfDAIxpPool = "0x1";
 
 export const fDAIxpETHxpPool = "0x2";
 
-export const fDAIxfUSDCxPool = "0xe2F7f29C9EAe30CE770e4c3D23363bDce4ea55d8";
+export const fDAIxfUSDCxPool = "0xAEB68ab0E283d79CC65445Cd183A44599f6B4ED6";
 
 export const fDAI = "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7";
 
@@ -21,8 +21,10 @@ export const fTokenDistributor = "0x422230026b1f13487Ce8e52Ee5da8db815F5F95C";
 export const deleteFlowResolverTaskCreator =
     "0x84CB8098e82dd16B21866f69A2406E60FE64F98b";
 
+export const streamScheduler = "0xF18825d412C061aEfEFB4dF46a1c077636dA50bf";
+
 export const goerliChainId = 5;
 
 export const mumbaiChainId = 80001;
 
-export const DEFAULT_PAY_ONCE = 24;
+export const DEFAULT_PAY_ONCE = 3600 * 24;

@@ -1,7 +1,7 @@
 import type { AppProps } from "next/app";
 import React from "react";
-import { getDefaultConfig } from "connectkit";
-import { createConfig } from "wagmi";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import { WagmiConfig, createConfig } from "wagmi";
 import { polygonMumbai } from "wagmi/chains";
 
 // we will not be using _app.tsx for swap widget. This is strictly for testing.
@@ -15,28 +15,32 @@ const config = createConfig(
         walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
 
         // Required
-        appName: "Your App Name",
+        appName: "Aqueduct",
         chains
     }),
 );
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
-        <div>
-            <div className="w-full h-screen poppins-font bg-black">
-                <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
-                    <main
-                        className='flex flex-col items-center space-y-4 md:space-y-16 w-full overflow-y-scroll'
-                    >
-                        <div className="md:h-[50%]" />
-                        <Component
-                            {...pageProps}
-                        />
-                        <div className="md:h-[50%]" />
-                    </main>
+        <WagmiConfig config={config}>
+            <ConnectKitProvider>
+                <div>
+                    <div className="w-full h-screen poppins-font bg-black">
+                        <div className="flex flex-col md:flex-row h-full items-center md:items-stretch">
+                            <main
+                                className='flex flex-col items-center space-y-4 md:space-y-16 w-full overflow-y-scroll'
+                            >
+                                <div className="md:h-[50%]" />
+                                <Component
+                                    {...pageProps}
+                                />
+                                <div className="md:h-[50%]" />
+                            </main>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </ConnectKitProvider>
+        </WagmiConfig>
     );
 };
 

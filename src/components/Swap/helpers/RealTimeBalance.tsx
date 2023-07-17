@@ -82,7 +82,7 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped, setIsNew, i
                         abi: tokenABI,
                         functionName: 'realtimeBalanceOf',
                         args: [address, currentTimestampBigNumber.div(1000).add((REFRESH_INTERVAL * ANIMATION_MINIMUM_STEP_TIME) / 1000).toString()]
-                    })
+                    });
 
                     const futureBalance = futureResult[0];
 

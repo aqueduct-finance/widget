@@ -42,6 +42,7 @@ export interface Theme {
     accentText?: string;
 
     primaryFontWeight?: string;
+    titleFontWeight?: string;
     secondaryFontWeight?: string;
     accentFontWeight?: string;
 
