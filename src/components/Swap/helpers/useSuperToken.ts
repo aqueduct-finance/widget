@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getContract } from "viem";
 import { usePublicClient } from "wagmi";
 
-const useSuperToken = (tokenAddress: string | undefined) => {
+const useSuperToken = (tokenAddress: string | undefined): any => {
     const publicClient = usePublicClient({ chainId: 80001 });
 
     if (!tokenAddress) { return }
