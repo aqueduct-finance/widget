@@ -3,10 +3,9 @@ import { GenericDropdownOption } from "./types/GenericDropdownOption";
 import Token from "./types/Token";
 import { TokenOption, TokenTypes } from "./types/TokenOption";
 import flowrates from "./utils/flowrates";
-import tokens from "./utils/tokens";
 import { DEFAULT_PAY_ONCE } from "./utils/constants";
 import { CollapseState } from "./types/CollapseState";
-import getErc20Contract from "./components/Swap/helpers/getERC20Contract";
+import getErc20Contract from "./components/Swap/helpers/getErc20Contract";
 import { fetchBalance, getAccount } from '@wagmi/core'
 import { decodeAllowanceRes } from "./components/Swap/helpers/decodeAllowanceRes";
 import { decodeBalanceRes } from "./components/Swap/helpers/decodeBalanceRes";
