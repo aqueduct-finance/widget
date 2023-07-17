@@ -1,5 +1,4 @@
 import React from "react";
-import { HiChevronDown } from "react-icons/hi";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";

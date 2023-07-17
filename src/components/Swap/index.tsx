@@ -1,5 +1,4 @@
 import SwapWidget from "./SwapWidget";
-import { polygonMumbai } from "wagmi/chains";
 import { useStore } from "../../store";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Theme } from "../../theme";
@@ -11,13 +10,10 @@ import { useAccount } from "wagmi";
 import { decodeRealTimeBalanceRes } from "./helpers/decodeRealTimeBalanceRes";
 import { ethers } from "ethers";
 
-const chains = [polygonMumbai];
-
 interface ExportedWidgetProps {
     theme?: Theme;
     tokenOption?: TokenTypes[];
     defaultTokens?: boolean;
-    Web3Key: string;
     chainName?: string;
     width?: string;
     outboundToken?: string;
@@ -29,7 +25,6 @@ const TWAMMWidget = ({
     theme,
     tokenOption,
     defaultTokens,
-    Web3Key,
     width,
     outboundToken,
     inboundToken,
@@ -62,7 +57,7 @@ const TWAMMWidget = ({
 
 
     // get account
-    const { address, isConnected, isDisconnected } = useAccount();
+    const { address } = useAccount();
     
     // realtime balance
     const tokenContractInbound = useSuperToken(store.inboundToken?.address);
@@ -116,7 +111,6 @@ const TWAMMWidget = ({
             store.setOutboundTokenBalance(initialBalanceOut);
             outboundFlowRate.current = (futureBalanceOut - initialBalanceOut) / REFRESH_INTERVAL;
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [address, tokenContractInbound?.address, tokenContractOutbound?.address]);
 
     // REFRESH(in milliseconds) = REFRESH_INTERVAL * ANIMATION_MINIMUM_STEP_TIME

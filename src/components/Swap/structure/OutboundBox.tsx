@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Theme } from '../../../theme';
 import { useStore } from '../../../store';
 import { BsPlus } from 'react-icons/bs';
-import { ethers } from 'ethers';
 import { UseMaxText } from '../../../theme/animation';
-import { BigNumber } from 'ethers';
 import { CollapseState } from '../../../types/CollapseState';
 
 interface OutboundBoxProps {

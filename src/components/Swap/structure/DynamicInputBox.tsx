@@ -36,10 +36,10 @@ const DynamicInputBox = ({
     useEffect(() => {
         // width computation + animation
         const dynamicInputString = dynamicInput ? dynamicInput.toString() : '';
-        let computedStyle = window.getComputedStyle(inputRef.current);
+        const computedStyle = window.getComputedStyle(inputRef.current);
 
-        let getWidth = (fontSize: string) => {
-            let div = document.createElement("div");
+        const getWidth = (fontSize: string) => {
+            const div = document.createElement("div");
             div.innerText = dynamicInputString;
             div.style.fontSize = fontSize;
             div.style.fontWeight = computedStyle.fontWeight;

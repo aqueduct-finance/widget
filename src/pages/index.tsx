@@ -4,8 +4,6 @@ import { Theme } from "../theme";
 import { TokenTypes } from "../types/TokenOption";
 import { darkTheme } from "../theme/defaultThemes";
 
-const Web3Key = process.env.NEXT_PUBLIC_ALCHEMY_KEY;
-
 const theme: Theme = {
   ...darkTheme,
   TitleColor: "#FFFFFF",
@@ -29,7 +27,6 @@ function Home() {
   return (
     <div className="w-full flex items-center justify-center">
       <TWAMMWidget
-          Web3Key={Web3Key}
           theme={theme}
           tokenOption={tokens}
           width="26.5rem"

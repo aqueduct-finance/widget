@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-max-depth */
+
 import type { AppProps } from "next/app";
 import React from "react";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
 import { polygonMumbai } from "wagmi/chains";
+import '../styles/globals.css';
 
 // we will not be using _app.tsx for swap widget. This is strictly for testing.
 

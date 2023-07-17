@@ -10,6 +10,29 @@ import useErc20Contract from "../helpers/useErc20Contract";
 import { parseEther } from 'viem'
 import { waitForTransaction } from '@wagmi/core'
 
+const WrapTokensMessage = ({swapTheme}: {swapTheme: Theme}) => {
+
+    const store = useStore();
+
+    return (
+        <div 
+            className="flex rounded-2xl bg-red-500/50 p-4 text-sm space-x-4 items-center justify-center"
+            style={{
+                //borderRadius: swapTheme.primaryBorderRadius
+                backgroundColor: swapTheme.streamLengthBox,
+                color: swapTheme.accentText,
+            }}
+        >
+            <div className="text-white/30">
+                <AiOutlineInfoCircle size={20} />
+            </div>
+            <p className="">
+                {`You need to wrap at least ${store.getAmountNeededToWrap().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.underlyingToken?.symbol} into ${store.outboundToken?.symbol} to cover ${store.flowrateUnit.sublabel == 'once' ? 'your swap.' : '10 hours of streaming.'} To avoid this step in the future, approve the max amount.`}
+            </p>
+        </div>
+    );
+}
+
 interface WrapTokensProps {
     theme: Theme;
 }
@@ -37,7 +60,7 @@ const WrapTokens = ({
                 store.setUnderlyingOutboundTokenAllowance(minAmountToWrap);
                 store.setCollapseState(CollapseState.SWAP_APPROVE);
             } catch (e) {
-
+                console.log(e)
             }
         }
     };
@@ -89,30 +112,6 @@ const WrapTokens = ({
         </div>
     )
 
-}
-
-
-const WrapTokensMessage = ({swapTheme}: {swapTheme: Theme}) => {
-
-    const store = useStore();
-
-    return (
-        <div 
-            className="flex rounded-2xl bg-red-500/50 p-4 text-sm space-x-4 items-center justify-center"
-            style={{
-                //borderRadius: swapTheme.primaryBorderRadius
-                backgroundColor: swapTheme.streamLengthBox,
-                color: swapTheme.accentText,
-            }}
-        >
-            <div className="text-white/30">
-                <AiOutlineInfoCircle size={20} />
-            </div>
-            <p className="">
-                {`You need to wrap at least ${store.getAmountNeededToWrap().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.underlyingToken?.symbol} into ${store.outboundToken?.symbol} to cover ${store.flowrateUnit.sublabel == 'once' ? 'your swap.' : '10 hours of streaming.'} To avoid this step in the future, approve the max amount.`}
-            </p>
-        </div>
-    );
 }
 
 export default WrapTokens;

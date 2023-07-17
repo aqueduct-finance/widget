@@ -1,12 +1,13 @@
-import { BigNumber, ethers } from "ethers";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ethers } from "ethers";
 
-export interface realTimeBalanceRes {
+export interface RealTimeBalanceRes {
     availableBalance: number;
     deposit: number;
     owedDeposit: number;
 }
 
-export const decodeRealTimeBalanceRes = (returnArray: unknown): realTimeBalanceRes => {
+export const decodeRealTimeBalanceRes = (returnArray: unknown): RealTimeBalanceRes => {
     const array = returnArray as any[];
 
     if (!array || array.length < 3) {

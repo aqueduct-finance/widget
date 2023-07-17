@@ -1,5 +1,4 @@
 import { TokenTypes } from "../types/TokenOption";
-import Token from "../types/Token";
 
 export const TestTokens: TokenTypes[] = [
     {

@@ -15,6 +15,64 @@ import { FiChevronLeft } from "react-icons/fi";
 import { parseEther } from 'viem'
 import toLocale from "../../../utils/toLocale";
 
+interface BufferMessageProps {
+    swapTheme: Theme;
+    isBufferAccepted: boolean;
+    setIsBufferAccepted: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: BufferMessageProps) => {
+
+    const store = useStore();
+
+    return (
+        <div 
+            className="flex flex-col rounded-3xl bg-red-500/50 p-6 text-sm space-y-4 items-center justify-center"
+            style={{
+                //borderRadius: swapTheme.primaryBorderRadius
+                backgroundColor: swapTheme.streamLengthBox,
+                color: swapTheme.accentText,
+            }}
+        >
+            {
+                store.flowrateUnit.sublabel == 'once' ?
+                <p className="text-xs leading-5">
+                    {`${toLocale(store.getExpectedDeposit())} ${store.outboundToken?.symbol} will be locked by Superfluid as a deposit, which you will get back at the end of your swap. If you unwrap your tokens early, you may lose this deposit.`}
+                </p>
+                :
+                <p className="text-xs leading-5">
+                    {`If you do not cancel your swap before your balance reaches zero, you will lose your ${store.getExpectedDeposit().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.symbol} deposit.`}
+                </p>
+            }
+            <div className="flex items-end justify-between w-full">
+                <p
+                    className="opacity-80"
+                    style={{
+                        color: swapTheme.primaryText,
+                        fontWeight: swapTheme.accentFontWeight
+                    }}
+                >
+                    Yes, I understand.
+                </p>
+                <button
+                    className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
+                    style={{
+                        backgroundColor: isBufferAccepted ? "white" : "transparent",
+                        borderColor: "white",
+                        borderRadius: swapTheme.checkBorderRadius,
+                        transitionDuration: swapTheme.primaryDuration
+                    }}
+                    onClick={() => {
+                        setIsBufferAccepted(!isBufferAccepted)
+                    }}
+                >
+                    {isBufferAccepted && <BsCheckLg style={{ color: swapTheme.swapButton }} className="w-full h-full" />}
+                </button>
+            </div>
+        </div>
+    );
+}
+
 interface ApproveSwapProps {
     theme: Theme;
 }
@@ -188,63 +246,5 @@ const Approve = ({
         </div>
     );
 };
-
-interface BufferMessageProps {
-    swapTheme: Theme;
-    isBufferAccepted: boolean;
-    setIsBufferAccepted: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: BufferMessageProps) => {
-
-    const store = useStore();
-
-    return (
-        <div 
-            className="flex flex-col rounded-3xl bg-red-500/50 p-6 text-sm space-y-4 items-center justify-center"
-            style={{
-                //borderRadius: swapTheme.primaryBorderRadius
-                backgroundColor: swapTheme.streamLengthBox,
-                color: swapTheme.accentText,
-            }}
-        >
-            {
-                store.flowrateUnit.sublabel == 'once' ?
-                <p className="text-xs leading-5">
-                    {`${toLocale(store.getExpectedDeposit())} ${store.outboundToken?.symbol} will be locked by Superfluid as a deposit, which you will get back at the end of your swap. If you unwrap your tokens early, you may lose this deposit.`}
-                </p>
-                :
-                <p className="text-xs leading-5">
-                    {`If you do not cancel your swap before your balance reaches zero, you will lose your ${store.getExpectedDeposit().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.symbol} deposit.`}
-                </p>
-            }
-            <div className="flex items-end justify-between w-full">
-                <p
-                    className="opacity-80"
-                    style={{
-                        color: swapTheme.primaryText,
-                        fontWeight: swapTheme.accentFontWeight
-                    }}
-                >
-                    Yes, I understand.
-                </p>
-                <button
-                    className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
-                    style={{
-                        backgroundColor: isBufferAccepted ? "white" : "transparent",
-                        borderColor: "white",
-                        borderRadius: swapTheme.checkBorderRadius,
-                        transitionDuration: swapTheme.primaryDuration
-                    }}
-                    onClick={() => {
-                        setIsBufferAccepted(!isBufferAccepted)
-                    }}
-                >
-                    {isBufferAccepted && <BsCheckLg style={{ color: swapTheme.swapButton }} className="w-full h-full" />}
-                </button>
-            </div>
-        </div>
-    );
-}
 
 export default Approve;

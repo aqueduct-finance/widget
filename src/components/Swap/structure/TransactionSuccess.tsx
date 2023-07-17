@@ -1,9 +1,7 @@
 import React from 'react';
 import { useStore } from '../../../store';
 import { HiCheckCircle } from 'react-icons/hi';
-import { BiTime } from 'react-icons/bi';
 import { Theme } from '../../../theme';
-import { GenericDropdownOption } from '../../../types/GenericDropdownOption';
 import { useAccount } from 'wagmi';
 import Link from 'next/link';
 import { CollapseState } from '../../../types/CollapseState';

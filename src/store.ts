@@ -6,10 +6,9 @@ import flowrates from "./utils/flowrates";
 import { DEFAULT_PAY_ONCE } from "./utils/constants";
 import { CollapseState } from "./types/CollapseState";
 import getErc20Contract from "./components/Swap/helpers/getErc20Contract";
-import { fetchBalance, getAccount } from '@wagmi/core'
+import { getAccount } from '@wagmi/core'
 import { decodeAllowanceRes } from "./components/Swap/helpers/decodeAllowanceRes";
 import { decodeBalanceRes } from "./components/Swap/helpers/decodeBalanceRes";
-import { formatEther, parseEther } from "viem";
 
 interface StoreState {
     swapAmount: number;
@@ -80,12 +79,12 @@ export const useStore = create<StoreState>()((set, get) => ({
         const erc20Contract = getErc20Contract(outboundToken.underlyingToken.address)
         if (!erc20Contract) { return; }
 
-        const [_balance, _allowance] = await Promise.all([
+        const [balanceRes, allowanceRes] = await Promise.all([
             erc20Contract.read.balanceOf([account]),
             erc20Contract.read.allowance([account, outboundToken.address]),
         ]);
-        const balance = decodeBalanceRes(_balance).balance;
-        const allowance = decodeAllowanceRes(_allowance).allowance;
+        const balance = decodeBalanceRes(balanceRes).balance;
+        const allowance = decodeAllowanceRes(allowanceRes).allowance;
         set((state) => ({ ...state, underlyingOutboundTokenBalance: balance, underlyingOutboundTokenWrapperAllowance: allowance }));
     },
     setInboundToken: async (inboundToken: TokenTypes) => {
@@ -98,10 +97,10 @@ export const useStore = create<StoreState>()((set, get) => ({
         const erc20Contract = getErc20Contract(inboundToken.underlyingToken.address)
         if (!erc20Contract) { return; }
 
-        const [_balance] = await Promise.all([
+        const [balanceRes] = await Promise.all([
             erc20Contract.read.balanceOf([account])
         ]);
-        const balance = decodeBalanceRes(_balance).balance;
+        const balance = decodeBalanceRes(balanceRes).balance;
         set((state) => ({ ...state, underlyingInboundTokenBalance: balance }));
     },
     setOutboundTokenBalance: (outboundTokenBalance: number) =>

@@ -4,8 +4,6 @@ import { defaultTheme } from "../../../theme/theme";
 import TokenRow from "./TokenRow";
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { IoMdClose } from "react-icons/io";
-import styled from "styled-components";
 
 interface TokenDisplayProps {
     tokenOption: TokenTypes[];
@@ -19,7 +17,6 @@ const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, o
     const swapTheme: Theme = { ...defaultTheme, ...theme };
     const [isHover, setIsHover] = useState(tokenOption.map(() => false));
     const [searchQuery, setSearchQuery] = useState("");
-    const [isExitHover, setIsExitHover] = useState(false);
     const [isInputHover, setIsInputHover] = useState(false);
 
     const filteredTokens = tokenOption.filter(

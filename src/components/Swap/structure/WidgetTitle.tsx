@@ -1,6 +1,5 @@
 import React from "react";
 import { Theme } from "../../../theme";
-import { TbSettings } from "react-icons/tb";
 
 interface WidgetTitleProps {
     swapTheme: Theme;

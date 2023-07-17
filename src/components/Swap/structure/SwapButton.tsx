@@ -16,6 +16,16 @@ const SwapButton = ({
     const [poolExists, setPoolExists] = useState(false);
     const [showAnimation, setShowAnimation] = useState(false);
 
+    // helper function to get the text that should be shown in the swap button
+    function getButtonText() {
+        // order is intentional here
+        if (!store.inboundToken || !store.outboundToken) { return 'Select tokens'}
+        if (!poolExists) { return 'Pool does not exist'}
+        if (store.swapAmount <= 0) { return 'Enter amount'}
+        if (store.isBalanceUnderSwapAmount()) { return `Insufficient ${store.outboundToken?.symbol} balance` }
+        return 'Swap';
+    }
+
     const handleSwapClick = () => {
         if (getButtonText() == 'Swap') {
             if (store.getAmountNeededToApproveForWrap() > 0) {
@@ -42,16 +52,6 @@ const SwapButton = ({
             setPoolExists(false)
         }
     }, [store.inboundToken, store.outboundToken])
-
-    // helper function to get the text that should be shown in the swap button
-    function getButtonText() {
-        // order is intentional here
-        if (!store.inboundToken || !store.outboundToken) { return 'Select tokens'}
-        if (!poolExists) { return 'Pool does not exist'}
-        if (store.swapAmount <= 0) { return 'Enter amount'}
-        if (store.isBalanceUnderSwapAmount()) { return `Insufficient ${store.outboundToken?.symbol} balance` }
-        return 'Swap';
-    }
 
     return (
         <button className={`${getButtonText() != 'Swap' ? "opacity-50" : ""} mt-4 w-full`}

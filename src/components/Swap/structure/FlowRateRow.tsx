@@ -3,7 +3,6 @@ import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
-import styled from "styled-components";
 import { useStore } from "../../../store";
 import { CollapseState } from "../../../types/CollapseState";
 
