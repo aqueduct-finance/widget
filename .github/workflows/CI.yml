@@ -19,7 +19,9 @@ jobs:
             - name: setup node
               uses: actions/setup-node@v3
               with:
+                  registry-url: 'https://registry.npmjs.org'
                   node-version: 16.x
+                  always-auth: true
 
             - name: Install Node dependencies
               run: yarn install --frozen-lockfile
