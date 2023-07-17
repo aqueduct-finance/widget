@@ -1,12 +1,12 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.5.11",
+    "version": "0.5.12",
     "private": false,
     "main": "dist/components/Swap/index.js",
     "files": [
-      "public/**/*",
-      "dist/**/*",
-      "src/**/*"
+        "public/**/*",
+        "dist/**/*",
+        "src/**/*"
     ],
     "scripts": {
         "dev": "next dev",
@@ -18,7 +18,8 @@
         "format": "prettier --check .",
         "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
         "format:fix": "prettier --write .",
-        "prepublish": "tsc"
+        "prepublish": "tsc && npm run copy-styles",
+        "copy-styles": "ncp src/styles dist/styles"
     },
     "dependencies": {
         "@babel/core": "^7.22.1",
@@ -37,6 +38,7 @@
         "connectkit": "^1.4.0",
         "ethers": "^5.7.2",
         "graphql": "^16.6.0",
+        "ncp": "^2.0.0",
         "next": "13.4.4",
         "polished": "^4.2.2",
         "react": "18.2.0",
