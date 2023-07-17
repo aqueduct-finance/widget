@@ -1,12 +1,8 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.5.9",
+    "version": "0.5.10",
     "private": false,
     "main": "dist/components/Swap/index.js",
-    "files": [
-      "public/**/*",
-      "dist/**/*"
-    ],
     "scripts": {
         "dev": "next dev",
         "build": "next build",
