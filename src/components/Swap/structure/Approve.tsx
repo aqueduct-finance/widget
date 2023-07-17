@@ -1,8 +1,8 @@
 import { Theme } from "../../../theme";
-import { defaultTheme } from '../../../theme/theme'
+import { defaultTheme } from "../../../theme/theme";
 import React, { useState } from "react";
 import ApproveRow from "./ApproveRow";
-import { BsCheckLg } from 'react-icons/bs'
+import { BsCheckLg } from "react-icons/bs";
 import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
 import { useEthersProvider } from "../../../providers/provider";
@@ -44,7 +44,8 @@ const Approve = ({
     const filteredOptions = options.filter(
         (option) =>
             !(
-                (option.title === "End Date" && option.data === "Not scheduled") ||
+                (option.title === "End Date" &&
+                    option.data === "Not scheduled") ||
                 (option.title === "End Time" && option.data === "")
             )
     );
@@ -120,7 +121,7 @@ const Approve = ({
     return (
         <div className={`flex flex-col w-full items-start justify-start 2px-2 2md:px-6 2py-5 space-y-8 `}
             style={{
-                transitionDuration: swapTheme.primaryDuration
+                transitionDuration: swapTheme.primaryDuration,
             }}
         >
             <div className="px-2 md:px-6 pt-5 space-y-8 w-full">
@@ -185,8 +186,8 @@ const Approve = ({
                 <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Approve</SwapText>
             </button>
         </div>
-    )
-}
+    );
+};
 
 interface BufferMessageProps {
     swapTheme: Theme;

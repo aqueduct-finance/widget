@@ -2,7 +2,7 @@ import React from "react";
 import { HiChevronDown } from "react-icons/hi";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
-import { defaultTheme } from '../../../theme/theme'
+import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
 
 interface SelectProps {
@@ -14,7 +14,6 @@ const FlowRateSelect = ({
     dropdownValue,
     theme
 }: SelectProps) => {
-
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
@@ -23,7 +22,7 @@ const FlowRateSelect = ({
                 backgroundColor: swapTheme.streamLengthBox,
                 borderRadius: swapTheme.secondaryBorderRadius,
                 fontFamily: swapTheme.textFont,
-                fontWeight: swapTheme.accentFontWeight
+                fontWeight: swapTheme.accentFontWeight,
             }}
         >
             <h1 className="text-xl opacity-75"
@@ -32,7 +31,7 @@ const FlowRateSelect = ({
                 }}>{dropdownValue.label}
             </h1>
         </div>
-    )
-}
+    );
+};
 
-export default FlowRateSelect
+export default FlowRateSelect;

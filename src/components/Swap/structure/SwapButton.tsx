@@ -71,7 +71,7 @@ const SwapButton = ({
                 {getButtonText()}
             </SwapText>
         </button>
-    )
-}
+    );
+};
 
-export default SwapButton
+export default SwapButton;

@@ -8,6 +8,7 @@ import { polygonMumbai } from "wagmi/chains";
 
 const chains = [polygonMumbai];
 
+
 const config = createConfig(
     getDefaultConfig({
         // Required API Keys

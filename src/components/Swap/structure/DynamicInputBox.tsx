@@ -50,7 +50,7 @@ const DynamicInputBox = ({
             div.style.position = "fixed";
             div.style.overflow = "auto";
             document.body.append(div);
-            let width = div.offsetWidth;
+            const width = div.offsetWidth;
             div.remove();
             return width;
         };
@@ -58,15 +58,14 @@ const DynamicInputBox = ({
         if (parentRef.current) {
             let newFontSize =
                 dynamicFontSize *
-                (parentRef.current.clientWidth *
-                    (1 - paddingPercentage) /
+                ((parentRef.current.clientWidth * (1 - paddingPercentage)) /
                     getWidth(`${dynamicFontSize}px`));
             newFontSize = parseFloat(newFontSize.toFixed(2));
             if (newFontSize > 72) {
-                setDynamicFontSize(72)
+                setDynamicFontSize(72);
                 newFontSize = 72;
             } else {
-                setDynamicFontSize(newFontSize)
+                setDynamicFontSize(newFontSize);
             }
 
             if (dynamicInputString === "") {
@@ -132,7 +131,7 @@ const DynamicInputBox = ({
                                 borderColor: swapTheme.plusBorder,
                                 borderWidth: swapTheme.secondaryBorderWidth,
                                 color: swapTheme.plusColor,
-                                borderRadius: swapTheme.itemBorderRadius
+                                borderRadius: swapTheme.itemBorderRadius,
                             }}
                         >
                             <BsPlus className="w-full h-full" onClick={() => {
@@ -150,17 +149,17 @@ const DynamicInputBox = ({
                         fontWeight: swapTheme.primaryFontWeight,
                         backgroundColor: "transparent",
                         color: swapTheme.primaryText,
-                        transitionDuration: swapTheme.accentDuration
+                        transitionDuration: swapTheme.accentDuration,
                     }}
                     type="text"
-                    className='outline-none transition-all'
+                    className="outline-none transition-all"
                     onChange={handleInput}
                     value={dynamicInput}
                     placeholder="0"
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default DynamicInputBox;

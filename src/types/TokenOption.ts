@@ -17,4 +17,4 @@ export type TokenTypes = {
     chainId: number;
     underlyingToken?: TokenTypes;
     logoURI: string;
-}
+};

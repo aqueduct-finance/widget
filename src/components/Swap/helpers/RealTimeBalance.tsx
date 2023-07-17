@@ -7,7 +7,7 @@ import React, {
     useState,
 } from "react";
 import { useAccount, useBalance } from "wagmi";
-import { publicClient } from '../../../providers/wagmiConfig';
+import { publicClient } from "../../../providers/wagmiConfig";
 import { TokenTypes } from "../../../types/TokenOption";
 
 const ANIMATION_MINIMUM_STEP_TIME = 100;
@@ -35,7 +35,7 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped, setIsNew, i
     const outboundBalance = useBalance({
         address: address,
         token: token?.underlyingToken?.address,
-    })
+    });
 
     const updateRealTimeBalanceCallback = useCallback(async () => {
         async function updateRealTimeBalance() {
@@ -50,16 +50,16 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped, setIsNew, i
                         name: "realtimeBalanceOf",
                         inputs: [
                             { name: "account", type: "address" },
-                            { name: "timestamp", type: "uint256" }
+                            { name: "timestamp", type: "uint256" },
                         ],
                         outputs: [
                             { name: "availableBalance", type: "int256" },
                             { name: "deposit", type: "uint256" },
-                            { name: "owedDeposit", type: "uint256" }
+                            { name: "owedDeposit", type: "uint256" },
                         ],
                         stateMutability: "view",
-                        type: "function"
-                    }
+                        type: "function",
+                    },
                 ];
 
                 if (address) {
@@ -86,13 +86,19 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped, setIsNew, i
 
                     const futureBalance = futureResult[0];
 
-                    const futureBalanceBN = ethers.BigNumber.from(futureBalance);
+                    const futureBalanceBN =
+                        ethers.BigNumber.from(futureBalance);
 
                     setIsNotSuper(false)
                     setBalance(initialBalance);
-                    setunWrapped(parseFloat(ethers.utils.formatEther(initialBalance)) + parseFloat(outboundBalance.data?.formatted))
+                    setunWrapped(
+                        parseFloat(ethers.utils.formatEther(initialBalance)) +
+                            parseFloat(outboundBalance.data?.formatted)
+                    );
                     setFlowRate(
-                        futureBalanceBN.sub(initialBalance).div(REFRESH_INTERVAL)
+                        futureBalanceBN
+                            .sub(initialBalance)
+                            .div(REFRESH_INTERVAL)
                     );
                     setIsNew(false)
                 }
@@ -149,4 +155,4 @@ const RealTimeBalance = ({ token, setBalance, balance, setunWrapped, setIsNew, i
     return <div />;
 };
 
-export default RealTimeBalance; 
+export default RealTimeBalance;

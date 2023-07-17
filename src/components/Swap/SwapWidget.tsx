@@ -5,7 +5,6 @@ import { defaultTheme } from '../../theme/theme'
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
-import 'tailwindcss/tailwind.css'
 import ConnectWalletButton from "../ConnectWallet/ConnectWalletButton";
 import FlowRateSelect from "./structure/FlowRateSelect";
 import '../../styles/SwapWidget.module.css'
@@ -40,8 +39,13 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
-    const tokenList: TokenTypes[] = defaultTokens ? tokenOption ? [...TestTokens, ...tokenOption] :
-        [...TestTokens] : tokenOption ? [...tokenOption] : [];
+    const tokenList: TokenTypes[] = defaultTokens
+        ? tokenOption
+            ? [...TestTokens, ...tokenOption]
+            : [...TestTokens]
+        : tokenOption
+        ? [...tokenOption]
+        : [];
 
     const store = useStore();
     const { address, isConnected } = useAccount();

@@ -1,10 +1,10 @@
 import { TokenTypes } from "../../../types/TokenOption";
 import { Theme } from "../../../theme";
-import { defaultTheme } from '../../../theme/theme'
+import { defaultTheme } from "../../../theme/theme";
 import TokenRow from "./TokenRow";
 import React, { useState } from "react";
-import { FiSearch } from 'react-icons/fi';
-import { IoMdClose } from 'react-icons/io'
+import { FiSearch } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
 import styled from "styled-components";
 
 interface TokenDisplayProps {
@@ -18,18 +18,20 @@ interface TokenDisplayProps {
 const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, outbound }: TokenDisplayProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
     const [isHover, setIsHover] = useState(tokenOption.map(() => false));
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
     const [isExitHover, setIsExitHover] = useState(false);
     const [isInputHover, setIsInputHover] = useState(false);
+    console.log("display", display);
 
-    const filteredTokens = tokenOption.filter((token) =>
-        token.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        token.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredTokens = tokenOption.filter(
+        (token) =>
+            token.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            token.symbol.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const tokensToRender = searchQuery ? filteredTokens : tokenOption;
 
-    const handleMouseEnter = (index) => {
+    const handleMouseEnter = (index: number) => {
         setIsHover((prevStates) =>
             prevStates.map((state, i) => (i === index ? true : state))
         );
@@ -47,21 +49,24 @@ const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, o
                 <div className="w-full h-14 items-center flex flex-row space-x-2 ease-in-out"
                     style={{
                         backgroundColor: swapTheme.streamLengthBox,
-                        borderColor: isInputHover ? 'transparent' : swapTheme.borderColor,
+                        borderColor: isInputHover
+                            ? "transparent"
+                            : swapTheme.borderColor,
                         borderWidth: swapTheme.primaryBorderWidth,
                         borderRadius: swapTheme.accentBorderRadius,
-                        transitionDuration: swapTheme.primaryDuration
+                        transitionDuration: swapTheme.primaryDuration,
                     }}
                     onMouseEnter={() => {
-                        setIsInputHover(true)
+                        setIsInputHover(true);
                     }}
                     onMouseLeave={() => {
-                        setIsInputHover(false)
+                        setIsInputHover(false);
                     }}
                 >
-                    <FiSearch className="ml-2 h-6 w-6 cursor-text"
+                    <FiSearch
+                        className="ml-2 h-6 w-6 cursor-text"
                         style={{
-                            color: swapTheme.primaryText
+                            color: swapTheme.primaryText,
                         }}
                     />
                     <input
@@ -81,7 +86,7 @@ const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, o
             <div
                 className="w-full space-y-0 py-4"
                 style={{
-                    backgroundColor: "transparent"
+                    backgroundColor: "transparent",
                 }}
             >
                 {tokensToRender.map((item, index) => (

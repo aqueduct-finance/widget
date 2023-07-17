@@ -17,7 +17,7 @@ interface TransactionSuccessProps {
 const TransactionSuccess = ({
     swapTheme
 }: TransactionSuccessProps) => {
-    const store = useStore()
+    const store = useStore();
 
     const { address } = useAccount()
     const tx = store.lastSwapTx;
@@ -27,24 +27,23 @@ const TransactionSuccess = ({
         const ethereum = window.ethereum
 
         try {
-            ethereum
-                .request({
-                    method: 'wallet_watchAsset',
-                    params: {
-                        type: 'ERC20',
-                        options: {
-                            address: store.outboundToken?.address,
-                            symbol: store.outboundToken?.symbol,
-                            decimals: store.outboundToken?.decimals,
-                            image: 'https://foo.io/token-image.svg',
-                        },
+            ethereum.request({
+                method: "wallet_watchAsset",
+                params: {
+                    type: "ERC20",
+                    options: {
+                        address: store.outboundToken?.address,
+                        symbol: store.outboundToken?.symbol,
+                        decimals: store.outboundToken?.decimals,
+                        image: "https://foo.io/token-image.svg",
                     },
-                })
+                },
+            });
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
-
+    };
+    
     const importInbound = async () => {
 
         const ethereum = window.ethereum
@@ -78,7 +77,7 @@ const TransactionSuccess = ({
         <div
             className="w-full h-full flex flex-col items-center justify-center"
             style={{
-                fontFamily: swapTheme.textFont
+                fontFamily: swapTheme.textFont,
             }}
         >
             <div className='px-2 pt-4 w-full'>
@@ -99,14 +98,15 @@ const TransactionSuccess = ({
                 <HiCheckCircle
                     className="w-5/6 h-5/6"
                     style={{
-                        color: swapTheme.successColor
+                        color: swapTheme.successColor,
                     }}
                 />
             </div>
-            <div className="w-full flex items-center justify-center"
+            <div
+                className="w-full flex items-center justify-center"
                 style={{
                     color: swapTheme.primaryText,
-                    fontWeight: swapTheme.primaryFontWeight
+                    fontWeight: swapTheme.primaryFontWeight,
                 }}
             >
                 <h1 className="text-2xl">Transaction Submitted</h1>
@@ -115,7 +115,7 @@ const TransactionSuccess = ({
                 <a href={userTX} target="_blank" rel="noopener noreferrer">
                     <p className="hover:underline"
                         style={{
-                            color: swapTheme.embeddedLink
+                            color: swapTheme.embeddedLink,
                         }}
                     >View on block explorer</p>
                 </a>
@@ -184,7 +184,7 @@ const TransactionSuccess = ({
                 View Position
             </Link>
         </div>
-    )
-}
+    );
+};
 
 export default TransactionSuccess;

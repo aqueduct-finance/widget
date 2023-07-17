@@ -8,16 +8,13 @@ interface ActivateSwapArrowProps {
     overBalance: boolean;
 }
 
-const ActivateSwapArrow = ({
-    swapTheme,
-}: ActivateSwapArrowProps) => {
-
-    const store = useStore()
+const ActivateSwapArrow = ({ swapTheme }: ActivateSwapArrowProps) => {
+    const store = useStore();
 
     const handleSwitch = () => {
-        store.setOutboundToken(store.inboundToken)
-        store.setInboundToken(store.outboundToken)
-    }
+        store.setOutboundToken(store.inboundToken);
+        store.setInboundToken(store.outboundToken);
+    };
 
     return (
         <div className="flex w-full items-center justify-center">
@@ -25,17 +22,18 @@ const ActivateSwapArrow = ({
                 onClick={handleSwitch}
                 style={{
                     backgroundColor: swapTheme.useMaxButton,
-                    borderRadius: swapTheme.accentBorderRadius
+                    borderRadius: swapTheme.accentBorderRadius,
                 }}
             >
-                <HiSwitchVertical className="text-xl"
+                <HiSwitchVertical
+                    className="text-xl"
                     style={{
-                        color: swapTheme.accentText
+                        color: swapTheme.accentText,
                     }}
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ActivateSwapArrow;

@@ -15,7 +15,6 @@ interface OutboundBoxProps {
 const OutboundBox = ({
     swapTheme
 }: OutboundBoxProps) => {
-
     const store = useStore();
 
     const [showMaxAnimation, setShowMaxAnimation] = useState(false);
@@ -31,7 +30,7 @@ const OutboundBox = ({
                 setShowMaxAnimation(false);
             }, 300);
         }
-    }
+    };
 
     return (
         <div
@@ -41,7 +40,7 @@ const OutboundBox = ({
                 backgroundColor: swapTheme.tokenBox,
                 borderRadius: swapTheme.secondaryBorderRadius,
                 transitionDuration: swapTheme.accentDuration,
-                fontFamily: swapTheme.textFont
+                fontFamily: swapTheme.textFont,
             }}
         >
             <div className="w-[40px] h-[40px]">
@@ -59,7 +58,7 @@ const OutboundBox = ({
                             borderColor: swapTheme.plusBorder,
                             color: swapTheme.plusColor,
                             borderWidth: swapTheme.secondaryBorderWidth,
-                            borderRadius: swapTheme.itemBorderRadius
+                            borderRadius: swapTheme.itemBorderRadius,
                         }}
                     >
                         <BsPlus className="w-full h-full" />
@@ -67,22 +66,24 @@ const OutboundBox = ({
                 )}
             </div>
             <div className="flex flex-col grow pl-3 space-y-1 items-start justify-center">
-                <p className="leading-none text-sm"
+                <p
+                    className="leading-none text-sm"
                     style={{
                         color: swapTheme.secondaryText,
                         fontWeight: swapTheme.secondaryFontWeight,
-                        fontFamily: swapTheme.textFont
+                        fontFamily: swapTheme.textFont,
                     }}
                 >
                     {store.outboundToken
                         ? store.outboundToken.name
                         : "You pay with:"}
                 </p>
-                <p className="leading-none text-xs"
+                <p
+                    className="leading-none text-xs"
                     style={{
                         color: swapTheme.accentText,
                         fontWeight: swapTheme.secondaryFontWeight,
-                        fontFamily: swapTheme.numberFont
+                        fontFamily: swapTheme.numberFont,
                     }}
                 >
                     {
@@ -99,7 +100,7 @@ const OutboundBox = ({
                     color: swapTheme.useMaxText,
                     fontWeight: swapTheme.primaryFontWeight,
                     borderRadius: swapTheme.itemBorderRadius,
-                    transitionDuration: swapTheme.accentDuration
+                    transitionDuration: swapTheme.accentDuration,
                 }}
                 onClick={handleUseMaxClick}
             >

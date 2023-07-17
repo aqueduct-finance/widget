@@ -1,5 +1,5 @@
-import React from 'react'
-import { defaultTheme } from '../../theme/theme'
+import React from "react";
+import { defaultTheme } from "../../theme/theme";
 import { Theme } from "../../theme";
 import { ConnectKitButton } from "connectkit";
 
@@ -8,10 +8,7 @@ interface ConnectWalletButtonProps {
 }
 
 const ConnectWalletButton = ({ theme }: ConnectWalletButtonProps) => {
-
     const swapTheme: Theme = { ...defaultTheme, ...theme };
-
-
 
     return (
         <ConnectKitButton.Custom>
@@ -30,7 +27,7 @@ const ConnectWalletButton = ({ theme }: ConnectWalletButtonProps) => {
                 );
             }}
         </ConnectKitButton.Custom>
-    )
-}
+    );
+};
 
 export default ConnectWalletButton;

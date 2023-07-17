@@ -33,7 +33,7 @@ const TWAMMWidget = ({
     width,
     outboundToken,
     inboundToken,
-    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap"
+    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap",
 }: ExportedWidgetProps) => {
 
     // init store
@@ -46,11 +46,9 @@ const TWAMMWidget = ({
         token => token.address === outboundToken
     );
 
-    const inboundTokenWithAddress = TestTokens.find(
-        token => token.address === inboundToken
-    ) || tokenOption.find(
-        token => token.address === inboundToken
-    );
+    const inboundTokenWithAddress =
+        TestTokens.find((token) => token.address === inboundToken) ||
+        tokenOption.find((token) => token.address === inboundToken);
 
     useEffect(() => {
         if (outboundTokenWithAddress) {

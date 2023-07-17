@@ -1,7 +1,7 @@
 import React from "react";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
 import { TokenOption } from "../../../types/TokenOption";
-import { defaultTheme } from '../../../theme/theme'
+import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
 import styled from "styled-components";
 import { useStore } from "../../../store";
@@ -10,8 +10,8 @@ import { CollapseState } from "../../../types/CollapseState";
 interface FlowRateRowProps {
     options: GenericDropdownOption[] | TokenOption[];
     setDropdownValue:
-    | ((value: GenericDropdownOption) => void)
-    | ((token: TokenOption) => void);
+        | ((value: GenericDropdownOption) => void)
+        | ((token: TokenOption) => void);
     theme?: Theme;
 }
 
@@ -20,7 +20,6 @@ const FlowRateRow = ({
     setDropdownValue,
     theme
 }: FlowRateRowProps) => {
-
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     const store = useStore();
@@ -46,7 +45,7 @@ const FlowRateRow = ({
                         color: swapTheme.primaryText,
                         borderRadius: swapTheme.accentBorderRadius,
                         fontWeight: swapTheme.accentFontWeight,
-                        fontFamily: swapTheme.textFont
+                        fontFamily: swapTheme.textFont,
                     }}
                 >
                     <h1 className="opacity-75">{option.label}</h1>
