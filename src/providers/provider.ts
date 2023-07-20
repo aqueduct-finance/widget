@@ -10,13 +10,8 @@ export function publicClientToProvider(publicClient: PublicClient) {
         name: chain.name,
         ensAddress: chain.contracts?.ensRegistry?.address,
     }
-    if (transport.type === 'fallback')
-        return new providers.FallbackProvider(
-            (transport.transports as ReturnType<HttpTransport>[]).map(
-                ({ value }) => new providers.JsonRpcProvider(value?.url, network),
-            ),
-        )
-    return new providers.JsonRpcProvider(transport.url, network)
+    const url = transport.type === 'fallback' ? transport.transports[0].value.url : transport.url;
+    return new providers.JsonRpcProvider(url, network)
 }
 
 /** Hook to convert a viem Public Client to an ethers.js Provider. */
