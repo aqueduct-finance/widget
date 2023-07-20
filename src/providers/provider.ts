@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { type PublicClient, usePublicClient } from 'wagmi'
 import { providers } from 'ethers'
-import { type HttpTransport } from 'viem'
 
 export function publicClientToProvider(publicClient: PublicClient) {
     const { chain, transport } = publicClient
