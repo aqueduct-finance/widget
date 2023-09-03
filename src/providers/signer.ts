@@ -2,6 +2,16 @@ import * as React from 'react'
 import { type WalletClient, useWalletClient } from 'wagmi'
 import { providers } from 'ethers'
 
+type ExternalProvider = {
+    isMetaMask?: boolean;
+    isStatus?: boolean;
+    host?: string;
+    path?: string;
+    sendAsync?: (request: { method: string, params?: Array<any> }, callback: (error: any, response: any) => void) => void
+    send?: (request: { method: string, params?: Array<any> }, callback: (error: any, response: any) => void) => void
+    request?: (request: { method: string, params?: Array<any> }) => Promise<any>
+}
+
 export function walletClientToSigner(walletClient: WalletClient) {
     const { account, chain, transport } = walletClient
     const network = {
@@ -9,7 +19,7 @@ export function walletClientToSigner(walletClient: WalletClient) {
         name: chain.name,
         ensAddress: chain.contracts?.ensRegistry?.address,
     }
-    const provider = new providers.Web3Provider(transport, network)
+    const provider = new providers.Web3Provider(transport as ExternalProvider, network)
     const signer = provider.getSigner(account.address)
     return signer
 }
