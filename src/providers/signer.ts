@@ -2,6 +2,7 @@ import * as React from 'react'
 import { type WalletClient, useWalletClient } from 'wagmi'
 import { providers } from 'ethers'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type ExternalProvider = {
     isMetaMask?: boolean;
     isStatus?: boolean;
@@ -11,6 +12,7 @@ type ExternalProvider = {
     send?: (request: { method: string, params?: Array<any> }, callback: (error: any, response: any) => void) => void
     request?: (request: { method: string, params?: Array<any> }) => Promise<any>
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export function walletClientToSigner(walletClient: WalletClient) {
     const { account, chain, transport } = walletClient
