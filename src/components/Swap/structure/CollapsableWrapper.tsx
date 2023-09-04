@@ -13,7 +13,7 @@ const CollapsableWrapper = ({defaultStyle, children}: CollapsableWrapperProps) =
 
     return (
         <div
-            className={`${store.collapseState == CollapseState.NONE ? ('max-h-96 opacity-100 ' + (defaultStyle ? defaultStyle : '')) : 'max-h-0 opacity-0'} transition-all duration-500 overflow-hidden -mx-2 px-2`}
+            className={`${store.collapseState == CollapseState.NONE ? ('max-h-96 opacity-100 duration-[550ms] ' + (defaultStyle ? defaultStyle : '')) : 'max-h-0 opacity-0 duration-[500ms]'} transition-all overflow-hidden -mx-2 px-2`}
         >
             {children}
         </div>

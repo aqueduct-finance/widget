@@ -21,7 +21,7 @@ const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonC
                 `${
                     store.collapseState == collapseId ? (openedStyle ? openedStyle : '') : (store.collapseState == CollapseState.NONE ? (defaultStyle ? defaultStyle : '') : '')
                 } 
-                transition-all duration-500 -mx-2 px-2 overflow-hidden`
+                transition-all duration-[550ms] -mx-2 px-2 overflow-hidden`
             }
         >
             <button
@@ -29,10 +29,10 @@ const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonC
                     const newCollapseState = store.collapseState == collapseId ? CollapseState.NONE : collapseId;
                     store.setCollapseState(newCollapseState);
                 }}
-                className={`${store.collapseState == CollapseState.NONE || store.collapseState == collapseId ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} flex items-center w-full transition-all duration-500 hover:scale-[1.02]`}
+                className={`${store.collapseState == CollapseState.NONE || store.collapseState == collapseId ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} flex items-center w-full transition-all duration-[500ms] hover:scale-[1.02]`}
             >
                 <div
-                    className={`${store.collapseState == collapseId ? 'max-w-xs opacity-100' : 'max-w-0 opacity-0'} flex items-center w-12 h-8 text-white duration-500 transition-all`}
+                    className={`${store.collapseState == collapseId ? 'max-w-xs opacity-100 duration-[2000ms]' : 'max-w-0 opacity-0 duration-[750ms]'} flex items-center w-12 h-8 text-white transition-all`}
                 >
                     <div className="bg-white/10 rounded-full p-1 text-white/75 w-min text-2xl">
                         <BsArrowLeftShort />
@@ -41,7 +41,7 @@ const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonC
                 {buttonContent}
             </button>
             <div
-                className={`${store.collapseState == collapseId ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} w-full transition-all duration-500 overflow-hidden`}
+                className={`${store.collapseState == collapseId ? 'max-h-96 opacity-100 duration-[550ms]' : 'max-h-0 opacity-0 duration-[500ms]'} w-full transition-all overflow-hidden`}
             >
                 {modal}
             </div>
