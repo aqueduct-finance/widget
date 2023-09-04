@@ -1,5 +1,5 @@
 import React from "react";
-import { HiSwitchVertical } from "react-icons/hi";
+import { HiArrowSmDown } from "react-icons/hi";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
 
@@ -18,20 +18,20 @@ const ActivateSwapArrow = ({ swapTheme }: ActivateSwapArrowProps) => {
 
     return (
         <div className="flex w-full items-center justify-center">
-            <div className="px-1.5 py-1.5 opacity-80 hover:opacity-100 cursor-pointer"
+            <button className="px-1.5 py-1.5 opacity-90 hover:opacity-100"
                 onClick={handleSwitch}
                 style={{
                     backgroundColor: swapTheme.useMaxButton,
                     borderRadius: swapTheme.accentBorderRadius,
                 }}
             >
-                <HiSwitchVertical
+                <HiArrowSmDown
                     className="text-xl"
                     style={{
                         color: swapTheme.accentText,
                     }}
                 />
-            </div>
+            </button>
         </div>
     );
 };

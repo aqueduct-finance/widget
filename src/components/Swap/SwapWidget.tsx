@@ -85,7 +85,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
             <CollapsableModalWrapper 
                 collapseId={CollapseState.TIMEFRAME_SELECT} 
                 defaultStyle="pt-6"
-                openedStyle="space-y-2"
+                openedStyle="space-y-2 pt-2"
                 buttonContent={
                     <FlowRateSelect
                         dropdownValue={store.flowrateUnit}
@@ -98,7 +98,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                         setDropdownValue={store.setFlowrateUnit}
                         options={flowrates}
                     />
-                }                
+                }        
+                customModalHeight='max-h-[32rem]'        
             />
             <CollapsableModalWrapper 
                 collapseId={CollapseState.OUTBOUND_TOKEN_SELECT} 
