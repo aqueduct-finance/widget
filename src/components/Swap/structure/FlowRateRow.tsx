@@ -22,9 +22,8 @@ const OptionButton = ({option, setDropdownValue, theme, isSelected} : OptionButt
     return (
         <button 
             className={`w-full px-3 py-2 flex items-center justify-center opacity-75 hover:opacity-100 transition-all duration-300  bg-white/10 ${isSelected ? 'outline outline-2 outline-blue-500' : ''}`}
-            onClick={async () => {
+            onClick={() => {
                 setDropdownValue(option)
-                await new Promise(resolve => setTimeout(resolve, 200));
                 store.setCollapseState(CollapseState.NONE)
             }}
             style={{
