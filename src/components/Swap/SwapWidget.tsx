@@ -12,7 +12,6 @@ import WidgetTitle from "./structure/WidgetTitle";
 import OutboundBox from "./structure/OutboundBox";
 import ActivateSwapArrow from "./structure/ActivateSwapArrow";
 import InboundBox from "./structure/InboundBox";
-import StreamLengthContainer from "./structure/StreamLengthContainer";
 import SwapButton from "./structure/SwapButton";
 import DynamicInputBox from "./structure/DynamicInputBox";
 import CollapsableModalWrapper from "./structure/CollapsableModalWrapper";
@@ -27,6 +26,9 @@ import WrapTokens from "./structure/WrapTokens";
 import TransactionSuccess from "./structure/TransactionSuccess";
 import TransactionFailed from "./structure/TransactionFailed";
 import SubmittingSwap from "./SubmittingSwap";
+import DateTimeSelectButton from "./structure/DateTimeSelectButton";
+import DateTimeSelect from "./structure/DateTimeSelect";
+import { DatePickerStateProvider } from "@rehookify/datepicker";
 
 interface SwapWidgetProps {
     theme?: Theme;
@@ -57,155 +59,209 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
         }
     }, [address])
 
+    const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+
+    const onDatesChange = (d: Date[]) => {
+        setSelectedDates(d);
+
+        if (d && d.length > 0) {
+            const now = new Date();
+            const diff = (d[0].getTime() - now.getTime()) / 1000; // in milliseconds, convert to seconds
+            store.setPayOnceLength(diff);
+        }
+    }
+
     return (
-        <div className="relative flex flex-col p-3 md:p-5 z-10 overflow-hidden border-none md:border-solid"
-            style={{
-                width: width,
-                fontFamily: swapTheme.textFont,
-                //backgroundColor: swapTheme.bgColor,
-                borderColor: swapTheme.borderColor,
-                borderWidth: swapTheme.primaryBorderWidth,
-                borderRadius: swapTheme.primaryBorderRadius
+        <DatePickerStateProvider 
+            config={{
+                selectedDates,
+                onDatesChange,
+                time: {
+                    interval: 1
+                },
+                dates: {
+                mode: 'single',
+                minDate: new Date()
+                },
+                locale: {
+                options: {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                },
+                },
             }}
         >
-            <CollapsableWrapper>
-                <WidgetTitle
-                    swapTheme={swapTheme}
-                />
-                <div className="h-[104px] flex items-center justify-center monospace-font font-bold mt-8" >
-                    <DynamicInputBox
-                        swapTheme={swapTheme}
-                        paddingPercentage={0.15}
-                        setDynamicInput={store.setSwapAmount}
-                        dynamicInput={store.swapAmount}
-                    />
-                </div>
-            </CollapsableWrapper>
-            
-            <CollapsableModalWrapper 
-                collapseId={CollapseState.TIMEFRAME_SELECT} 
-                defaultStyle="pt-6"
-                openedStyle="space-y-2 pt-2"
-                buttonContent={
-                    <FlowRateSelect
-                        dropdownValue={store.flowrateUnit}
-                        theme={swapTheme}
-                    />
-                } 
-                modal={
-                    <FlowRateRow
-                        theme={swapTheme}
-                        setDropdownValue={store.setFlowrateUnit}
-                        options={flowrates}
-                    />
-                }        
-                customModalHeight='max-h-[32rem]'        
-            />
-            <CollapsableModalWrapper 
-                collapseId={CollapseState.OUTBOUND_TOKEN_SELECT} 
-                defaultStyle="pt-2"
-                openedStyle="space-y-4 pt-2"
-                buttonContent={
-                    <OutboundBox
+            <div className="relative flex flex-col p-3 md:p-5 z-10 overflow-hidden border-none md:border-solid"
+                style={{
+                    width: width,
+                    fontFamily: swapTheme.textFont,
+                    //backgroundColor: swapTheme.bgColor,
+                    borderColor: swapTheme.borderColor,
+                    borderWidth: swapTheme.primaryBorderWidth,
+                    borderRadius: swapTheme.primaryBorderRadius
+                }}
+            >
+                <CollapsableWrapper>
+                    <WidgetTitle
                         swapTheme={swapTheme}
                     />
-                } 
-                modal={
-                    <div className="h-96 overflow-y-auto">
-                        <TokenDisplay
-                            tokenOption={tokenList}
-                            theme={swapTheme}
-                            setOutboundToken={store.setOutboundToken}
-                            setInboundToken={store.setInboundToken}
-                            outbound={true}
+                    <div className="h-[104px] flex items-center justify-center monospace-font font-bold mt-8" >
+                        <DynamicInputBox
+                            swapTheme={swapTheme}
+                            paddingPercentage={0.15}
+                            setDynamicInput={store.setSwapAmount}
+                            dynamicInput={store.swapAmount}
                         />
                     </div>
-                }                
-            />
-            
-            <CollapsableWrapper
-                defaultStyle="relative z-50 -my-3"
-            >
-                <ActivateSwapArrow
-                    swapTheme={swapTheme}
-                    overBalance={store.isBalanceUnderSwapAmount()}
+                </CollapsableWrapper>
+                
+                <CollapsableModalWrapper 
+                    collapseId={CollapseState.TIMEFRAME_SELECT} 
+                    defaultStyle="pt-6"
+                    openedStyle="space-y-2 pt-2"
+                    buttonContent={
+                        <FlowRateSelect
+                            dropdownValue={store.flowrateUnit}
+                            theme={swapTheme}
+                        />
+                    } 
+                    modal={
+                        <FlowRateRow
+                            theme={swapTheme}
+                            setDropdownValue={store.setFlowrateUnit}
+                            options={flowrates}
+                        />
+                    }        
+                    customModalHeight='max-h-[30rem]'        
                 />
-            </CollapsableWrapper>
 
-            <CollapsableModalWrapper 
-                collapseId={CollapseState.INBOUND_TOKEN_SELECT} 
-                defaultStyle=""
-                openedStyle="space-y-4 pt-2"
-                buttonContent={
-                    <InboundBox
-                        swapTheme={swapTheme}
+                {
+                    store.flowrateUnit?.label === "Pay Once" &&
+                    <CollapsableModalWrapper 
+                        collapseId={CollapseState.DATE_TIME_SELECT} 
+                        defaultStyle="pt-2"
+                        openedStyle="space-y-2 pt-2"
+                        buttonContent={
+                            <DateTimeSelectButton
+                                theme={swapTheme}
+                            />
+                        } 
+                        modal={
+                            <DateTimeSelect
+                                theme={swapTheme}
+                            />
+                        }        
+                        customModalHeight='max-h-[36rem]'        
                     />
-                } 
-                modal={
-                    <div className="h-96 overflow-y-auto">
-                        <TokenDisplay
-                            tokenOption={tokenList}
-                            theme={swapTheme}
-                            setOutboundToken={store.setOutboundToken}
-                            setInboundToken={store.setInboundToken}
-                            outbound={false}
+                }
+
+                <CollapsableModalWrapper 
+                    collapseId={CollapseState.OUTBOUND_TOKEN_SELECT} 
+                    defaultStyle="pt-2"
+                    openedStyle="space-y-4 pt-2"
+                    buttonContent={
+                        <OutboundBox
+                            swapTheme={swapTheme}
                         />
-                    </div>
-                }                
-            />
-            <CollapsableWrapper>
-                <StreamLengthContainer
-                    swapTheme={swapTheme}
+                    } 
+                    modal={
+                        <div className="h-96 overflow-y-auto">
+                            <TokenDisplay
+                                tokenOption={tokenList}
+                                theme={swapTheme}
+                                setOutboundToken={store.setOutboundToken}
+                                setInboundToken={store.setInboundToken}
+                                outbound={true}
+                            />
+                        </div>
+                    }                
                 />
-                {!isLoading && isConnected ? (
-                    <SwapButton
+                
+                <CollapsableWrapper
+                    defaultStyle="relative z-50 -my-3"
+                >
+                    <ActivateSwapArrow
                         swapTheme={swapTheme}
+                        overBalance={store.isBalanceUnderSwapAmount()}
                     />
-                ) : (
-                    <ConnectWalletButton theme={theme} />
-                )}
-            </CollapsableWrapper>
-            <ReverseCollapsableWrapper
-                collapseId={CollapseState.WRAP_TOKENS}
-                expectedMaxHeight='max-h-[30rem]'
-            >
-                <WrapTokens 
-                    theme={swapTheme} 
+                </CollapsableWrapper>
+
+                <CollapsableModalWrapper 
+                    collapseId={CollapseState.INBOUND_TOKEN_SELECT} 
+                    defaultStyle=""
+                    openedStyle="space-y-4 pt-2"
+                    buttonContent={
+                        <InboundBox
+                            swapTheme={swapTheme}
+                        />
+                    } 
+                    modal={
+                        <div className="h-96 overflow-y-auto">
+                            <TokenDisplay
+                                tokenOption={tokenList}
+                                theme={swapTheme}
+                                setOutboundToken={store.setOutboundToken}
+                                setInboundToken={store.setInboundToken}
+                                outbound={false}
+                            />
+                        </div>
+                    }                
                 />
-            </ReverseCollapsableWrapper>
-            <ReverseCollapsableWrapper
-                collapseId={CollapseState.SWAP_APPROVE}
-                expectedMaxHeight='max-h-[36rem]'
-            >
-                <Approve 
-                    theme={swapTheme} 
-                />
-            </ReverseCollapsableWrapper>
-            <ReverseCollapsableWrapper
-                collapseId={CollapseState.SWAP_SUBMITTING}
-                expectedMaxHeight='max-h-[30rem]'
-            >
-                <SubmittingSwap 
-                    theme={swapTheme} 
-                />
-            </ReverseCollapsableWrapper>
-            <ReverseCollapsableWrapper
-                collapseId={CollapseState.SWAP_SUCCESS}
-                expectedMaxHeight='max-h-[35rem]'
-            >
-                <TransactionSuccess 
-                    swapTheme={swapTheme} 
-                />
-            </ReverseCollapsableWrapper>
-            <ReverseCollapsableWrapper
-                collapseId={CollapseState.SWAP_FAILURE}
-                expectedMaxHeight='max-h-[35rem]'
-            >
-                <TransactionFailed 
-                    swapTheme={swapTheme} 
-                />
-            </ReverseCollapsableWrapper>
-        </div>
+                <CollapsableWrapper>
+                    {!isLoading && isConnected ? (
+                        <SwapButton
+                            swapTheme={swapTheme}
+                        />
+                    ) : (
+                        <ConnectWalletButton theme={theme} />
+                    )}
+                </CollapsableWrapper>
+                <ReverseCollapsableWrapper
+                    collapseId={CollapseState.WRAP_TOKENS}
+                    expectedMaxHeight='max-h-[30rem]'
+                >
+                    <WrapTokens 
+                        theme={swapTheme} 
+                    />
+                </ReverseCollapsableWrapper>
+                <ReverseCollapsableWrapper
+                    collapseId={CollapseState.SWAP_APPROVE}
+                    expectedMaxHeight='max-h-[36rem]'
+                >
+                    <Approve 
+                        theme={swapTheme} 
+                    />
+                </ReverseCollapsableWrapper>
+                <ReverseCollapsableWrapper
+                    collapseId={CollapseState.SWAP_SUBMITTING}
+                    expectedMaxHeight='max-h-[30rem]'
+                >
+                    <SubmittingSwap 
+                        theme={swapTheme} 
+                    />
+                </ReverseCollapsableWrapper>
+                <ReverseCollapsableWrapper
+                    collapseId={CollapseState.SWAP_SUCCESS}
+                    expectedMaxHeight='max-h-[35rem]'
+                >
+                    <TransactionSuccess 
+                        swapTheme={swapTheme} 
+                    />
+                </ReverseCollapsableWrapper>
+                <ReverseCollapsableWrapper
+                    collapseId={CollapseState.SWAP_FAILURE}
+                    expectedMaxHeight='max-h-[35rem]'
+                >
+                    <TransactionFailed 
+                        swapTheme={swapTheme} 
+                    />
+                </ReverseCollapsableWrapper>
+            </div>
+        </DatePickerStateProvider>
     );
 };
 

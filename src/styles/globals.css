@@ -15,6 +15,52 @@
 }
 
 @layer components {
+    .mask-top-bottom {
+        backdrop-filter: blur(2px);
+        mask: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 1) 50%,
+            rgba(0, 0, 0, 1) 50%,
+            rgba(0, 0, 0, 0) 100%
+        );
+    }
+
+    .gradient-blur {
+        position: fixed;
+        z-index: 5;
+        inset: auto 0 0 0;
+        height: 65%;
+        pointer-events: none;
+      }
+      .gradient-blur > div,
+      .gradient-blur::before,
+      .gradient-blur::after {
+        position: absolute;
+        inset: 0;
+      }
+      .gradient-blur::before {
+        content: "";
+        z-index: 1;
+        backdrop-filter: blur(10px);
+        mask: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 1) 12.5%,
+          rgba(0, 0, 0, 1) 29%,
+          rgba(0, 0, 0, 0) 37.5%
+        );
+      }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .hide-scrollbar {
+        scrollbar-width: none; /* For Firefox */
+        -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    }
+
     .centered-shadow {
         box-shadow: 0px 0px 15px rgba(225, 225, 225);
     }
