@@ -15,7 +15,7 @@ const ReverseCollapsableWrapper = ({style, children, collapseId, expectedMaxHeig
 
     return (
         <div
-            className={`${store.collapseState == collapseId ? ((expectedMaxHeight ? expectedMaxHeight : 'max-h-96') + ' opacity-100 duration-[600ms] ' + (style ? style : '')) : 'max-h-0 opacity-0 duration-500'} transition-all overflow-hidden -mx-2 px-2`}
+            className={`${store.collapseState == collapseId ? ((expectedMaxHeight ? expectedMaxHeight : 'max-h-96') + ' opacity-100 duration-[600ms] ' + (style ? style : '')) : 'max-h-0 invisible opacity-0 duration-500'} transition-all overflow-hidden -mx-2 px-2`}
         >
             {children}
         </div>
