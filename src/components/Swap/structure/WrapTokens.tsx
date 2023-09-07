@@ -4,11 +4,12 @@ import React from "react";
 import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
 import { CollapseState } from "../../../types/CollapseState";
-import { FiChevronLeft } from "react-icons/fi";
+import { FiChevronLeft, FiExternalLink } from "react-icons/fi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import useErc20Contract from "../helpers/useErc20Contract";
 import { parseEther } from 'viem'
 import { waitForTransaction } from '@wagmi/core'
+import Image from "next/image";
 
 const WrapTokensMessage = ({swapTheme}: {swapTheme: Theme}) => {
 
@@ -66,13 +67,13 @@ const WrapTokens = ({
     };
 
     return (
-        <div className={`flex flex-col w-full items-start justify-start 2px-2 2md:px-6 2py-5 space-y-8 `}
+        <div className={`flex flex-col w-full items-start justify-start 2px-2 2md:px-6 2py-5 space-y-10 `}
             style={{
                 transitionDuration: swapTheme.primaryDuration
             }}
         >
-            <div className="px-2 md:px-6 pt-5 space-y-6 w-full">
-                <div className="w-full flex flex-col 2flex-row 2items-center justify-between text-2xl"
+            <div className="px-2 md:px-6 pt-5 space-y-3 w-full">
+                <div className="w-full flex flex-col 2flex-row 2items-center justify-between text-2xl pb-6"
                     style={{
                         color: swapTheme.TitleColor,
                         fontWeight: swapTheme.accentFontWeight
@@ -92,6 +93,24 @@ const WrapTokens = ({
                     </button>
                     <h1>Approve Wrapper</h1>
                 </div>
+                <a 
+                    href={"https://docs.superfluid.finance/superfluid/developers/super-tokens"}
+                    className="group pl-5 pr-4 py-4 flex grow items-center justify-center space-x-2 rounded-xl text-white text-sm opacity-75 hover:opacity-100 bg-white/10 transition-all duration-300 hover:scale-[1.02]"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
+                    <p className="flex grow">
+                        What is a super token?
+                    </p>
+                    <FiExternalLink />
+                    <Image
+                        src={'/superfluid-logo.png'}
+                        width="20"
+                        height="20"
+                        alt="superfluid logo"
+                        className="2opacity-75 2group-hover:opacity-100 2transition-all 2duration-300"
+                    />
+                </a>
                 <WrapTokensMessage
                     swapTheme={swapTheme}
                 />

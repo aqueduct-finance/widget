@@ -42,7 +42,7 @@ const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonC
                 {buttonContent}
             </button>
             <div
-                className={`${store.collapseState == collapseId ? ((customModalHeight ? customModalHeight : 'max-h-96') + ' opacity-100 duration-[550ms]') : 'max-h-0 opacity-0 duration-[500ms]'} w-full transition-all overflow-hidden`}
+                className={`${store.collapseState == collapseId ? ((customModalHeight ? customModalHeight : 'max-h-96') + ' opacity-100 duration-[550ms]') : 'max-h-0 opacity-0 duration-[500ms]'} w-full transition-all`}
             >
                 {modal}
             </div>

@@ -57,7 +57,7 @@ const FlowRateRow = ({
     const [firstOption, ...remainingOptions] = options;
 
     return (
-        <div className="pt-4 2px-2">
+        <div className="pt-4">
             <a 
                 href={"https://docs.superfluid.finance/superfluid/protocol-overview/in-depth-overview/super-agreements/constant-flow-agreement-cfa"}
                 className="group pl-5 pr-4 py-4 flex grow items-center justify-center space-x-2 rounded-xl text-white text-sm opacity-75 hover:opacity-100 bg-white/10 transition-all duration-300 hover:scale-[1.02]"

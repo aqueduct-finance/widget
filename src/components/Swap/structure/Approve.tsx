@@ -35,11 +35,15 @@ const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: Buffe
             }}
         >
             {
-                store.flowrateUnit.sublabel == 'once' ?
-                <p className="text-xs leading-5">
-                    {`${toLocale(store.getExpectedDeposit())} ${store.outboundToken?.symbol} will be locked by Superfluid as a deposit, which you will get back at the end of your swap. If you unwrap your tokens early, you may lose this deposit.`}
-                </p>
-                :
+                /*
+                    automated stream cancellation not added yet - once we are sure that deposits won't be lost, display this for 'pay once'
+
+                    store.flowrateUnit.sublabel == 'once' ?
+                        <p className="text-xs leading-5">
+                            {`${toLocale(store.getExpectedDeposit())} ${store.outboundToken?.symbol} will be locked by Superfluid as a deposit, which you will get back at the end of your swap. If you unwrap your tokens early, you may lose this deposit.`}
+                        </p>
+                        :
+                */
                 <p className="text-xs leading-5">
                     {`If you do not cancel your swap before your balance reaches zero, you will lose your ${store.getExpectedDeposit().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.symbol} deposit.`}
                 </p>
@@ -204,7 +208,7 @@ const Approve = ({
                         <FiChevronLeft />
                         <p>back</p>
                     </button>
-                    <h1>Approve Swap</h1>
+                    <h1>Confirm Swap</h1>
                 </div>
                 <div className="space-y-4">
                     <div className="w-full flex flex-col space-y-3 px-8 py-6 rounded-3xl text-sm"
@@ -241,7 +245,7 @@ const Approve = ({
                     borderRadius: swapTheme.itemBorderRadius,
                     transitionDuration: swapTheme.primaryDuration
                 }}>
-                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Approve</SwapText>
+                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Confirm Swap</SwapText>
             </button>
         </div>
     );
