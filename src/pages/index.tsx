@@ -28,7 +28,6 @@ function Home() {
     <div className="w-full flex items-center justify-center">
       <TWAMMWidget
           theme={theme}
-          tokenOption={tokens}
           width="26.5rem"
           fontUrl={fontUrl}
       />

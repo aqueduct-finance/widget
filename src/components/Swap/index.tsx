@@ -37,13 +37,13 @@ const TWAMMWidget = ({
     // if specific tokens are specified, select those
     const outboundTokenWithAddress = TestTokens.find(
         token => token.address === outboundToken
-    ) || tokenOption.find(
+    ) || tokenOption && tokenOption.find(
         token => token.address === outboundToken
     );
 
     const inboundTokenWithAddress =
         TestTokens.find((token) => token.address === inboundToken) ||
-        tokenOption.find((token) => token.address === inboundToken);
+        tokenOption && tokenOption.find((token) => token.address === inboundToken);
 
     useEffect(() => {
         if (outboundTokenWithAddress) {
