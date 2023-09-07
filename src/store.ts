@@ -9,6 +9,7 @@ import getErc20Contract from "./components/Swap/helpers/getErc20Contract";
 import { getAccount } from '@wagmi/core'
 import { decodeAllowanceRes } from "./components/Swap/helpers/decodeAllowanceRes";
 import { decodeBalanceRes } from "./components/Swap/helpers/decodeBalanceRes";
+import { parseEther } from "viem";
 
 interface StoreState {
     swapAmount: number;
@@ -41,6 +42,7 @@ interface StoreState {
     incrementInboundTokenBalance: (amount: number) => void;
 
     // helpers
+    getEffectiveFlowRateEther: () => string;
     getEffectiveFlowRate: () => string;
     isBalanceUnderSwapAmount: () => boolean;
     isBalanceUnderBuffer: () => boolean;
@@ -132,6 +134,11 @@ export const useStore = create<StoreState>()((set, get) => ({
         set((state) => ({ ...state, inboundTokenBalance: get().inboundTokenBalance + amount })),
 
     // helper functions
+    getEffectiveFlowRateEther: () => {
+        const flowRate = get().flowrateUnit.sublabel == 'once' ? get().swapAmount / get().payOnceLength : get().swapAmount / get().flowrateUnit.value;
+        const flowRate18Decimals = flowRate.toFixed(18);
+        return parseEther(flowRate18Decimals).toString();
+    },
     getEffectiveFlowRate: () => {
         const flowRate = get().flowrateUnit.sublabel == 'once' ? get().swapAmount / get().payOnceLength : get().swapAmount / get().flowrateUnit.value;
         return flowRate.toString();

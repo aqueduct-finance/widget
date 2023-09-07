@@ -126,7 +126,7 @@ const Approve = ({
                 provider: provider,
             });
             const sender = await signer.getAddress();
-            const swapFlowRate = parseEther(`${parseFloat(store.getEffectiveFlowRate())}`).toString()
+            const swapFlowRate = store.getEffectiveFlowRateEther();//parseEther(`${parseFloat(store.getEffectiveFlowRate())}`).toString()
             const currentFlowRate = parseFloat((
                 await superfluid.cfaV1.getFlow({
                     superToken: token,
