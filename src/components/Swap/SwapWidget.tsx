@@ -151,9 +151,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                             />
                         } 
                         modal={
-                            <DateTimeSelect
-                                theme={swapTheme}
-                            />
+                            <DateTimeSelect />
                         }        
                         customModalHeight='max-h-[36rem]'        
                     />

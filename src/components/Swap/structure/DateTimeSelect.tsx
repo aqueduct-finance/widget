@@ -10,7 +10,6 @@ import {
     useContextDatePickerOffsetPropGetters
 } from '@rehookify/datepicker';
 import React, { FC, ReactNode } from 'react';
-import { Theme } from "../../../theme";
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 
 const getDayClassName = (
@@ -119,13 +118,7 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar }) => 
     );
 }
 
-interface DateTimeSelectProps {
-    theme?: Theme;
-}
-
-const DateTimeSelect = ({
-    theme
-}: DateTimeSelectProps) => {
+const DateTimeSelect = () => {
     const { calendars } = useContextCalendars();
     const { subtractOffset, addOffset } = useContextDatePickerOffsetPropGetters()
 
