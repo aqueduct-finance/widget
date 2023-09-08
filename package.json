@@ -1,6 +1,6 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.5.25",
+    "version": "0.5.26",
     "private": false,
     "main": "dist/index.es.js",
     "type": "module",
@@ -54,7 +54,8 @@
     },
     "peerDependencies": {
         "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react-dom": "18.2.0",
+        "react-icons": "^4.8.0"
     },
     "devDependencies": {
         "@types/styled-components": "^5.1.26",
