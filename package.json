@@ -1,6 +1,6 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.5.23",
+    "version": "0.5.25",
     "private": false,
     "main": "dist/index.es.js",
     "type": "module",
@@ -16,8 +16,7 @@
         "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
         "format": "prettier --check .",
         "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-        "format:fix": "prettier --write .",
-        "prepublish": "tsc"
+        "format:fix": "prettier --write ."
     },
     "dependencies": {
         "@babel/core": "^7.22.1",
