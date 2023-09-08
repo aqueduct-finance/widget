@@ -1,8 +1,8 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.5.17",
+    "version": "0.5.18",
     "private": false,
-    "main": "dist/components/Swap/index.jsx",
+    "main": "dist/index.es.js",
     "type": "module",
     "exports": {
         "import": "./dist/index.es.js"
