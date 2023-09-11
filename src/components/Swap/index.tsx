@@ -8,7 +8,7 @@ import useSuperToken from "./helpers/useSuperToken";
 import { useAccount } from "wagmi";
 import { decodeRealTimeBalanceRes } from "./helpers/decodeRealTimeBalanceRes";
 import { ethers } from "ethers";
-import { darkTheme as defaultTheme } from "../../theme/defaultThemes";
+import { lightTheme, darkTheme } from "../../theme/defaultThemes";
 import '../../styles/globals.css';
 
 interface ExportedWidgetProps {
@@ -22,7 +22,7 @@ interface ExportedWidgetProps {
 }
 
 const TWAMMWidget = ({
-    theme = defaultTheme,
+    theme = darkTheme,
     tokenOption,
     defaultTokens,
     width,
@@ -155,3 +155,5 @@ const TWAMMWidget = ({
 }
 
 export default TWAMMWidget;
+
+export { lightTheme, darkTheme };
