@@ -4,7 +4,6 @@ import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
 import { CollapseState } from "../../../types/CollapseState";
-import Image from "next/image";
 import { FiExternalLink } from "react-icons/fi";
 
 interface OptionButtonProps {
@@ -68,7 +67,7 @@ const FlowRateRow = ({
                     What is a stream?
                 </p>
                 <FiExternalLink />
-                <Image
+                <img
                     src={'/superfluid-logo.png'}
                     width="20"
                     height="20"

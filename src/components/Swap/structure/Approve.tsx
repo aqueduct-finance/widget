@@ -3,7 +3,7 @@ import { defaultTheme } from "../../../theme/theme";
 import React, { useState } from "react";
 import ApproveRow from "./ApproveRow";
 import { BsCheckLg } from "react-icons/bs";
-import { SwapText } from "../../../theme/animation";
+//import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
 import { useEthersProvider } from "../../../providers/provider";
 import { useEthersSigner } from "../../../providers/signer";
@@ -245,7 +245,8 @@ const Approve = ({
                     borderRadius: swapTheme.itemBorderRadius,
                     transitionDuration: swapTheme.primaryDuration
                 }}>
-                <SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Confirm Swap</SwapText>
+                {/*<SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Confirm Swap</SwapText>*/}
+                Confirm Swap
             </button>
         </div>
     );

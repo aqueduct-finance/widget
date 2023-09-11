@@ -3,10 +3,8 @@ import { useStore } from '../../../store';
 import { HiCheckCircle } from 'react-icons/hi';
 import { Theme } from '../../../theme';
 import { useAccount } from 'wagmi';
-import Link from 'next/link';
 import { CollapseState } from '../../../types/CollapseState';
 import { FiChevronLeft } from 'react-icons/fi';
-import Image from 'next/image';
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
@@ -69,7 +67,7 @@ const TransactionSuccess = ({
 
     const userTX = `${etherScanBaseUrl}/${tx}`
 
-    const aqueductUrl = `https://demo.aqueduct.fi/pair/goerli/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`
+    const aqueductUrl = `https://demo.aqueduct.fi/pair/mumbai/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`
 
     return (
         <div
@@ -130,7 +128,7 @@ const TransactionSuccess = ({
                         }}
                         onClick={importOutbound}
                     >
-                        <Image
+                        <img
                             src={store.outboundToken.logoURI}
                             width="20"
                             height="20"
@@ -153,7 +151,7 @@ const TransactionSuccess = ({
                         }}
                         onClick={importInbound}
                     >
-                        <Image
+                        <img
                             src={store.inboundToken.logoURI}
                             width="20"
                             height="20"
@@ -166,7 +164,7 @@ const TransactionSuccess = ({
                     </button>
                 }
             </div>
-            <Link 
+            <a 
                 href={aqueductUrl}
                 className={`w-full ease-in-out text-center`}
                 style={{
@@ -180,7 +178,7 @@ const TransactionSuccess = ({
                 }}
             >
                 View Position
-            </Link>
+            </a>
         </div>
     );
 };

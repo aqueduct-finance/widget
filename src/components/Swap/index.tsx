@@ -4,11 +4,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Theme } from "../../theme";
 import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
-import Head from "next/head";
 import useSuperToken from "./helpers/useSuperToken";
 import { useAccount } from "wagmi";
 import { decodeRealTimeBalanceRes } from "./helpers/decodeRealTimeBalanceRes";
 import { ethers } from "ethers";
+import { darkTheme as defaultTheme } from "../../theme/defaultThemes";
+import '../../styles/globals.css';
 
 interface ExportedWidgetProps {
     theme?: Theme;
@@ -18,17 +19,15 @@ interface ExportedWidgetProps {
     width?: string;
     outboundToken?: string;
     inboundToken?: string;
-    fontUrl?: string;
 }
 
 const TWAMMWidget = ({
-    theme,
+    theme = defaultTheme,
     tokenOption,
     defaultTokens,
     width,
     outboundToken,
     inboundToken,
-    fontUrl = "https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Red+Hat+Mono:wght@700&display=swap",
 }: ExportedWidgetProps) => {
 
     // init store
@@ -141,27 +140,17 @@ const TWAMMWidget = ({
         if (store.inboundToken) { store.setInboundToken(store.inboundToken); }
     }, [address])
 
-
-
-
-
-
-
-
     return (
-        <>
-            <Head>
-                <style>
-                    @import url({fontUrl});
-                </style>
-            </Head>
+        <div
+            className="aqueduct-widget"
+        >
             <SwapWidget
                 theme={theme}
                 tokenOption={tokenOption}
                 defaultTokens={defaultTokens}
                 width={width} 
             />
-        </>
+        </div>
     )
 }
 

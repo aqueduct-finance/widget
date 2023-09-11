@@ -19,7 +19,7 @@ module.exports = {
         ["@babel/preset-typescript", { isTSX: true, allExtensions: true }],
     ],
     plugins: [
-        "@babel/plugin-transform-runtime",
+        //"@babel/plugin-transform-runtime",
         "macros",
         [
             "module-resolver",

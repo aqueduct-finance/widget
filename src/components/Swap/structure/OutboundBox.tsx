@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { Theme } from '../../../theme';
 import { useStore } from '../../../store';
 import { BsPlus } from 'react-icons/bs';
-import { UseMaxText } from '../../../theme/animation';
+//import { UseMaxText } from '../../../theme/animation';
 import { CollapseState } from '../../../types/CollapseState';
 
 interface OutboundBoxProps {
@@ -43,7 +42,7 @@ const OutboundBox = ({
         >
             <div className="w-[40px] h-[40px]">
                 {store.outboundToken ? (
-                    <Image
+                    <img
                         src={store.outboundToken.logoURI}
                         width="40"
                         height="40"
@@ -102,12 +101,13 @@ const OutboundBox = ({
                 }}
                 onClick={handleUseMaxClick}
             >
-                <UseMaxText 
+                {/*<UseMaxText 
                     swapTheme={swapTheme} 
                     showMaxAnimation={showMaxAnimation}
                 >
                     Use Max
-                </UseMaxText>
+                </UseMaxText>*/}
+                Use Max
             </div>
         </div>
     )

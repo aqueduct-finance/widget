@@ -2,6 +2,8 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    //purge: ["./components/**/*.js"],
+    important: '.aqueduct-widget',
     darkMode: ["class"],
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx}",

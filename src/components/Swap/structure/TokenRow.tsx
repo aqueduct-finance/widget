@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image';
 import { useStore } from '../../../store';
 import { CollapseState } from '../../../types/CollapseState';
 import { Theme } from '../../../theme';
@@ -46,7 +45,7 @@ const TokenRow = ({ item, index, isHover, swapTheme, handleMouseEnter, handleMou
                     borderRadius: swapTheme.itemBorderRadius
                 }}
             >
-                <Image
+                <img
                     src={item.logoURI}
                     width={50}
                     height={50}

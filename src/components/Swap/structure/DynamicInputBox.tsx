@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useStore } from "../../../store";
 import { Theme } from "../../../theme";
 import { BsPlus } from "react-icons/bs";
@@ -115,7 +114,7 @@ const DynamicInputBox = ({
             >
                 <div className="w-[30px] h-[30px] mb-12 cursor-pointer z-10">
                     {store.outboundToken ? (
-                        <Image
+                        <img
                             src={store.outboundToken.logoURI}
                             width="40"
                             height="40"

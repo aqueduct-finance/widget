@@ -1,7 +1,7 @@
 import { Theme } from "../../../theme";
 import { defaultTheme } from '../../../theme/theme'
 import React from "react";
-import { SwapText } from "../../../theme/animation";
+//import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
 import { CollapseState } from "../../../types/CollapseState";
 import { FiChevronLeft, FiExternalLink } from "react-icons/fi";
@@ -9,7 +9,6 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import useErc20Contract from "../helpers/useErc20Contract";
 import { parseEther } from 'viem'
 import { waitForTransaction } from '@wagmi/core'
-import Image from "next/image";
 
 const WrapTokensMessage = ({swapTheme}: {swapTheme: Theme}) => {
 
@@ -103,7 +102,7 @@ const WrapTokens = ({
                         What is a super token?
                     </p>
                     <FiExternalLink />
-                    <Image
+                    <img
                         src={'/superfluid-logo.png'}
                         width="20"
                         height="20"
@@ -126,7 +125,8 @@ const WrapTokens = ({
                     borderRadius: swapTheme.itemBorderRadius,
                     transitionDuration: swapTheme.primaryDuration
                 }}>
-                <SwapText swapTheme={swapTheme} showAnimation={false}>Approve {store.outboundToken?.symbol}</SwapText>
+                {/*<SwapText swapTheme={swapTheme} showAnimation={false}>Approve {store.outboundToken?.symbol}</SwapText>*/}
+                Approve {store.outboundToken?.symbol}
             </button>
         </div>
     )

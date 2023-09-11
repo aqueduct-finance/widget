@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es2017",
+        "target": "ES2019",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
         "skipLibCheck": true,
@@ -9,12 +9,15 @@
         "noEmit": false,
         "incremental": true,
         "esModuleInterop": true,
-        "module": "esnext",
+        "module": "ESNext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "jsx": "preserve",
-        "outDir": "dist",
+        "jsx": "react-jsx",
+        "outDir": "./dist",
+        "allowSyntheticDefaultImports": true,
+        "declaration": true,
+        "declarationDir": "./dist"
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules", "dist"]

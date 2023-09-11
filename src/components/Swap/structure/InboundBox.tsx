@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
 import { BsPlus } from "react-icons/bs";
@@ -24,7 +23,7 @@ const InboundBox = ({
         >
             <div className="w-[40px] h-[40px]">
                 {store.inboundToken ? (
-                    <Image
+                    <img
                         src={store.inboundToken.logoURI}
                         width="40"
                         height="40"

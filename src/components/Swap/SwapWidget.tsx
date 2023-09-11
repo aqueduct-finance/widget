@@ -95,9 +95,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 },
             }}
         >
-            <div className="relative flex flex-col p-3 md:p-5 z-10 overflow-hidden border-none md:border-solid"
+            <div className={`relative flex flex-col p-3 md:p-5 z-10 overflow-hidden border-none md:border-solid w=[${width}]`}
                 style={{
-                    width: width,
                     fontFamily: swapTheme.textFont,
                     //backgroundColor: swapTheme.bgColor,
                     borderColor: swapTheme.borderColor,

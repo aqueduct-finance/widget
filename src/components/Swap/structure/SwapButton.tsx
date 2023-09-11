@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SwapText } from "../../../theme/animation";
+//import { SwapText } from "../../../theme/animation";
 import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
 import getPoolAddress from "../helpers/getPool";
@@ -64,12 +64,15 @@ const SwapButton = ({
                 borderRadius: swapTheme.swapButtonRadius,
                 fontWeight: swapTheme.titleFontWeight
             }}>
-            <SwapText 
+            {/*<SwapText 
                 swapTheme={swapTheme} 
                 showAnimation={showAnimation}
             >
                 {getButtonText()}
-            </SwapText>
+            </SwapText>*/}
+            {
+                getButtonText()
+            }
         </button>
     );
 };
