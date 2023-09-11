@@ -1,19 +1,21 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.5.57",
+    "version": "0.5.58",
     "private": false,
     "main": "dist/index.es.js",
     "type": "module",
     "files": [
         "dist/**/*",
-        "public/*"
+        "public/*",
+        "src/theme/*"
     ],
     "exports": {
         ".": {
             "import": "./dist/index.es.js"
         },
         "./types": "./dist/components/Swap/index.d.ts",
-        "./styles": "./dist/index.es.css"
+        "./styles": "./dist/index.es.css",
+        "./theme": "./src/theme/defaultThemes.ts"
     },
     "types": "./dist/components/Swap/index.d.ts",
     "scripts": {
