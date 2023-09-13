@@ -15,13 +15,13 @@ const StreamLengthContainer = ({
     return (
         <div
             className={`${
-                store.flowrateUnit?.label === "Pay Once" ? "mt-2" : "mt-0"
+                store.flowrateUnit?.label === "Total Amount" ? "mt-2" : "mt-0"
             } w-full bg-transparent`}
             style={{
                 borderRadius: swapTheme.accentBorderRadius,
             }}
         >
-            {store.flowrateUnit?.label === "Pay Once" ? (
+            {store.flowrateUnit?.label === "Total Amount" ? (
                 <div className="flex flex-row justify-between">
                     <StreamLength
                         theme={swapTheme}

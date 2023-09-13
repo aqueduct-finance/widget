@@ -1,7 +1,7 @@
 import { GenericDropdownOption } from "../types/GenericDropdownOption";
 
 const flowrates: GenericDropdownOption[] = [
-    { label: "Pay Once", value: 3600, sublabel: "once" },
+    { label: "Total Amount", value: 3600, sublabel: "once" },
     { label: "Per Second", value: 1, sublabel: "sec" },
     { label: "Per Minute", value: 60, sublabel: "min" },
     { label: "Per Hour", value: 3600, sublabel: "hour" },

@@ -36,7 +36,7 @@ const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: Buffe
         >
             {
                 /*
-                    automated stream cancellation not added yet - once we are sure that deposits won't be lost, display this for 'pay once'
+                    automated stream cancellation not added yet - once we are sure that deposits won't be lost, display this for 'Total Amount'
 
                     store.flowrateUnit.sublabel == 'once' ?
                         <p className="text-xs leading-5">

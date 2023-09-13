@@ -139,7 +139,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 />
 
                 {
-                    store.flowrateUnit?.label === "Pay Once" &&
+                    store.flowrateUnit?.label === "Total Amount" &&
                     <CollapsableModalWrapper 
                         collapseId={CollapseState.DATE_TIME_SELECT} 
                         defaultStyle="pt-2"
