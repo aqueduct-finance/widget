@@ -95,10 +95,10 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 },
             }}
         >
-            <div className={`relative flex flex-col p-3 md:p-5 z-10 overflow-hidden border-none md:border-solid w=[${width}]`}
+            <div className={`relative flex flex-col p-3 md:p-5 z-10 overflow-hidden bg-transparent md:bg-current border-none md:border-solid w=[${width}]`}
                 style={{
                     fontFamily: swapTheme.textFont,
-                    //backgroundColor: swapTheme.bgColor,
+                    color: swapTheme.bgColor,
                     borderColor: swapTheme.borderColor,
                     borderWidth: swapTheme.primaryBorderWidth,
                     borderRadius: swapTheme.primaryBorderRadius
@@ -150,7 +150,9 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                             />
                         } 
                         modal={
-                            <DateTimeSelect />
+                            <DateTimeSelect 
+                                theme={swapTheme}
+                            />
                         }        
                         customModalHeight='max-h-[36rem]'        
                     />

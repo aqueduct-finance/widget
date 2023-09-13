@@ -11,6 +11,7 @@ export interface Theme {
     secondaryBorderRadius?: string;
     accentBorderRadius?: string;
     checkBorderRadius?: string;
+    timeSelectBottomBorderRadius?: string;
     borderColor?: string;
     primaryBorderWidth?: string;
     secondaryBorderWidth?: string;

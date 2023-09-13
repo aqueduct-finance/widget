@@ -11,6 +11,8 @@ import {
 } from '@rehookify/datepicker';
 import React, { FC, ReactNode } from 'react';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { Theme } from '../../../theme';
+import { defaultTheme } from '../../../theme/theme';
 
 const getDayClassName = (
     className: string,
@@ -40,18 +42,26 @@ interface CalendarProps {
     prevButton?: ReactNode;
     nextButton?: ReactNode;
     calendar: DPCalendar;
+    theme?: Theme;
 }
 
-const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar }) => {
+const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar, theme }) => {
+    const swapTheme: Theme = { ...defaultTheme, ...theme };
     const { selectedDates } = useContextDays();
     const { weekDays } = useContextCalendars();
     const { dayButton } = useContextDaysPropGetters();
     const { days, month, year } = calendar;
     const { time } = useContextTime();
     const { timeButton } = useContextTimePropGetters();
+    
     return (
         <div className='space-y-2'>
-            <div className='bg-white/5 rounded-3xl pt-8 p-4 text-white'>
+            <div 
+                className='bg-white/5 pt-8 p-4 text-white'
+                style={{
+                    borderRadius: swapTheme.secondaryBorderRadius
+                }}
+            >
                 <div className='flex grow items-center justify-center pb-8'>
                     {prevButton}
                     <p className="text-center text-sm w-48 font-medium">{month + ' ' + year}</p>
@@ -71,7 +81,10 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar }) => 
                     {days.map((d) => (
                         <button 
                             key={d.$date.toString()} 
-                            className={getDayClassName("py-2 px-2 text-sm rounded-xl", d)}
+                            className={getDayClassName("py-2 px-2 text-sm", d)}
+                            style={{
+                                borderRadius: swapTheme.accentBorderRadius
+                            }}
                             {...dayButton(d)}
                         >
                             {d.day}
@@ -79,8 +92,16 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar }) => 
                     ))}
                 </main>
             </div>
-            <div className='relative bg-white/5 rounded-3xl 2pt-8 px-6 py-3 text-white'>
-                <div className='flex space-x-4 mask-top-bottom'>
+            <div 
+                className='relative bg-white/5 2pt-8 px-6 py-3 text-white'
+                style={{
+                    borderTopLeftRadius: swapTheme.secondaryBorderRadius,
+                    borderTopRightRadius: swapTheme.secondaryBorderRadius,
+                    borderBottomLeftRadius: swapTheme.timeSelectBottomBorderRadius,
+                    borderBottomRightRadius: swapTheme.timeSelectBottomBorderRadius
+                }}
+            >
+                <div className='flex space-x-4 fade-edges'>
                     <div 
                         className='flex flex-col w-full items-end overflow-y-scroll h-36 snap-y hide-scrollbar py-16 pr-3'
                     >
@@ -118,7 +139,11 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar }) => 
     );
 }
 
-const DateTimeSelect = () => {
+interface DateTimeSelectProps {
+    theme?: Theme;
+}
+
+const DateTimeSelect = ({ theme }: DateTimeSelectProps) => {
     const { calendars } = useContextCalendars();
     const { subtractOffset, addOffset } = useContextDatePickerOffsetPropGetters()
 
@@ -136,6 +161,7 @@ const DateTimeSelect = () => {
                     </button>
                 }
                 calendar={calendars[0]}
+                theme={theme}
             />
         </div>
     )
