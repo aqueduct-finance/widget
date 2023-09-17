@@ -3,22 +3,9 @@ import React from "react";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
 import { polygonMumbai } from "wagmi/chains";
-import dynamic from 'next/dynamic';
 import '../styles/globals.css';
 
 const chains = [polygonMumbai];
-/*
-const TWAMMWidget = dynamic(() => import('../../widget/src/components/Swap'), {
-  ssr: false
-});
-import { Theme } from "../../widget/src/theme";
-import { darkTheme } from "../../widget/src/theme/defaultThemes";
-
-const theme: Theme = {
-  ...darkTheme,
-  TitleColor: "#FFFFFF",
-}
-*/
 
 import TWAMMWidget from "aqueduct-widget";
 import { darkTheme } from "aqueduct-widget";
