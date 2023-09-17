@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 import '../styles/globals.css';
 
 const chains = [polygonMumbai];
-
+/*
 const TWAMMWidget = dynamic(() => import('../../widget/src/components/Swap'), {
   ssr: false
 });
@@ -15,6 +15,16 @@ import { Theme } from "../../widget/src/theme";
 import { darkTheme } from "../../widget/src/theme/defaultThemes";
 
 const theme: Theme = {
+  ...darkTheme,
+  TitleColor: "#FFFFFF",
+}
+*/
+
+import TWAMMWidget from "aqueduct-widget";
+import { darkTheme } from "aqueduct-widget";
+import 'aqueduct-widget/styles';
+
+const theme = {
   ...darkTheme,
   TitleColor: "#FFFFFF",
 }
@@ -42,10 +52,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                                 className='flex flex-col items-center space-y-4 md:space-y-16 w-full overflow-y-scroll'
                             >
                                 <div className="md:h-[50%]" />
-                                <TWAMMWidget
-                                    theme={theme}
-                                    width="26.5rem"
-                                />
+                                <div className="w-[40rem]">
+                                    <TWAMMWidget
+                                        theme={theme}
+                                    />
+                                  </div>
                                 <div className="md:h-[50%]" />
                             </main>
                         </div>
@@ -57,10 +68,3 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 };
 
 export default MyApp;
-
-<WagmiConfig config={config}>
-  <TWAMMWidget
-      theme={theme}
-      width="26.5rem"
-  />
-</WagmiConfig>

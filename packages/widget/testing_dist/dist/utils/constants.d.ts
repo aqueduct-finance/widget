@@ -1,0 +1,15 @@
+export declare const poolFactory = "";
+export declare const ETHxpfDAIxpPool = "0x1";
+export declare const fDAIxpETHxpPool = "0x2";
+export declare const fDAIxfUSDCxPool = "0x0794c89b0767d480965574Af38052aab32496E00";
+export declare const fDAI = "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7";
+export declare const fUSDC = "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2";
+export declare const ETHxp = "0x1";
+export declare const fDAIx = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
+export declare const fUSDCx = "0x42bb40bF79730451B11f6De1CbA222F17b87Afd7";
+export declare const fTokenDistributor = "0x422230026b1f13487Ce8e52Ee5da8db815F5F95C";
+export declare const deleteFlowResolverTaskCreator = "0x84CB8098e82dd16B21866f69A2406E60FE64F98b";
+export declare const streamScheduler = "0xF18825d412C061aEfEFB4dF46a1c077636dA50bf";
+export declare const goerliChainId = 5;
+export declare const mumbaiChainId = 80001;
+export declare const DEFAULT_PAY_ONCE: number;

@@ -22,7 +22,8 @@
         "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
         "format": "prettier --check .",
         "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-        "format:fix": "prettier --write ."
+        "format:fix": "prettier --write .",
+        "copy-local-package": ""
     },
     "dependencies": {
         "@babel/core": "^7.22.1",
@@ -51,6 +52,7 @@
         "react-tooltip": "^5.13.1",
         "react-transition-group": "^4.4.5",
         "rollup": "^3.29.0",
+        "rollup-plugin-copy": "^3.5.0",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-postcss": "^4.0.2",
         "rollup-plugin-typescript2": "^0.35.0",

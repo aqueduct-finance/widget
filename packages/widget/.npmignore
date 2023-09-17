@@ -1,0 +1,15 @@
+node_modules
+src
+.env
+.eslintignore
+.eslintrc.js
+.prettierignore
+.prettierrc.json
+babel.config.cjs
+postcss.config.cjs
+rollup.config.js
+tailwind.config.js
+tsconfig.json
+tsconfig.tsbuildinfo
+yarn-error.log
+yarn.lock
