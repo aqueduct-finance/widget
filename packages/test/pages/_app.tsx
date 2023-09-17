@@ -39,7 +39,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                                 className='flex flex-col items-center space-y-4 md:space-y-16 w-full overflow-y-scroll'
                             >
                                 <div className="md:h-[50%]" />
-                                <div className="w-[40rem]">
+                                <div className="w-[30rem]">
                                     <TWAMMWidget
                                         theme={theme}
                                     />
