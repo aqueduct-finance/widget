@@ -8,5 +8,5 @@ To test locally:
 2. run `npx rollup -c`
 3. this will generate the 'testing_dist' directory
 4. go to packages/test
-5. install node modules (e.g. `yarn`)
+5. install node modules (e.g. `yarn`, you may need to run `yarn upgrade aqueduct-widget` to force it to update local files)
 6. start the app with `yarn dev`
