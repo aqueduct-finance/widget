@@ -44,7 +44,8 @@ export default {
             { src: 'dist/*', dest: 'testing_dist/dist' },
             { src: 'public/*', dest: 'testing_dist/public' },
             { src: 'package.json', dest: 'testing_dist' }
-          ]
+          ],
+          overwrite: true
         })
     ],
 }
