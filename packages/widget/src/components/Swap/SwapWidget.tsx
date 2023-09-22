@@ -41,13 +41,18 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
-    const tokenList: TokenTypes[] = defaultTokens
-        ? tokenOption
-            ? [...TestTokens, ...tokenOption]
-            : [...TestTokens]
-        : tokenOption
-        ? [...tokenOption]
-        : [];
+    /*
+    ignore default tokens for now
+
+    const tokenList: TokenTypes[] = 
+        defaultTokens ? 
+            tokenOption ? 
+                [...TestTokens, ...tokenOption] : [...TestTokens]
+            : tokenOption ? 
+                [...tokenOption] : [];
+    */
+
+    const tokenList: TokenTypes[] = tokenOption ? [...tokenOption] : [];
 
     const store = useStore();
     const { address, isConnected } = useAccount();
