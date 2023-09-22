@@ -12,10 +12,6 @@
 # production
 /packages/widget/dist
 
-# test build
-/packages/widget/testing_dist
-/packages/widget/testing_dist/index.es.css
-
 # misc
 .DS_Store
 *.pem
