@@ -9,6 +9,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import useErc20Contract from "../helpers/useErc20Contract";
 import { parseEther } from 'viem'
 import { waitForTransaction } from '@wagmi/core'
+import superfluidLogo from "../../../../public/superfluid-logo.png";
 
 const WrapTokensMessage = ({swapTheme}: {swapTheme: Theme}) => {
 
@@ -103,7 +104,7 @@ const WrapTokens = ({
                     </p>
                     <FiExternalLink />
                     <img
-                        src={'/superfluid-logo.png'}
+                        src={superfluidLogo}
                         width="20"
                         height="20"
                         alt="superfluid logo"

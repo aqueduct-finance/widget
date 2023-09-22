@@ -5,6 +5,7 @@ import { Theme } from "../../../theme";
 import { useStore } from "../../../store";
 import { CollapseState } from "../../../types/CollapseState";
 import { FiExternalLink } from "react-icons/fi";
+import superfluidLogo from "../../../../public/superfluid-logo.png";
 
 interface OptionButtonProps {
     option: GenericDropdownOption;
@@ -68,7 +69,7 @@ const FlowRateRow = ({
                 </p>
                 <FiExternalLink />
                 <img
-                    src={'/superfluid-logo.png'}
+                    src={superfluidLogo}
                     width="20"
                     height="20"
                     alt="superfluid logo"
