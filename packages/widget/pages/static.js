@@ -5,8 +5,9 @@ import { polygonMumbai } from "wagmi/chains";
 
 const chains = [polygonMumbai];
 
-import TWAMMWidget, { darkTheme } from "../src/components/Swap";
-//import 'aqueduct-widget/styles';
+import TWAMMWidget from "aqueduct-widget";
+import { darkTheme } from "aqueduct-widget";
+import 'aqueduct-widget/styles';
 
 const theme = {
   ...darkTheme,

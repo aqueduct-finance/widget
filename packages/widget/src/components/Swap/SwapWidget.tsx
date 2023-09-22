@@ -7,7 +7,6 @@ import { TokenTypes } from "../../types/TokenOption";
 import { TestTokens } from "../../utils/erc20s";
 import ConnectWalletButton from "../ConnectWallet/ConnectWalletButton";
 import FlowRateSelect from "./structure/FlowRateSelect";
-import '../../styles/SwapWidget.module.css'
 import WidgetTitle from "./structure/WidgetTitle";
 import OutboundBox from "./structure/OutboundBox";
 import ActivateSwapArrow from "./structure/ActivateSwapArrow";
@@ -34,10 +33,9 @@ interface SwapWidgetProps {
     theme?: Theme;
     tokenOption?: TokenTypes[];
     defaultTokens?: boolean;
-    width: string;
 }
 
-const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" }: SwapWidgetProps) => {
+const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProps) => {
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -100,7 +98,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, width = "27rem" 
                 },
             }}
         >
-            <div className={`relative flex flex-col p-3 md:p-5 z-10 overflow-hidden bg-transparent md:bg-current border-none md:border-solid w=[${width}]`}
+            <div className={`relative flex flex-col p-3 md:p-5 z-10 overflow-hidden bg-transparent md:bg-current border-none md:border-solid`}
                 style={{
                     fontFamily: swapTheme.textFont,
                     color: swapTheme.bgColor,

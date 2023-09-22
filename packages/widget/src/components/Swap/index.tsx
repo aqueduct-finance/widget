@@ -9,14 +9,13 @@ import { useAccount } from "wagmi";
 import { decodeRealTimeBalanceRes } from "./helpers/decodeRealTimeBalanceRes";
 import { ethers } from "ethers";
 import { lightTheme, darkTheme } from "../../theme/defaultThemes";
-import '../../styles/globals.css';
+//import '../../styles/styles.module.css';
 
 interface ExportedWidgetProps {
     theme?: Theme;
     tokenOption?: TokenTypes[];
     defaultTokens?: boolean;
     chainName?: string;
-    width?: string;
     outboundToken?: string;
     inboundToken?: string;
 }
@@ -25,7 +24,6 @@ const TWAMMWidget = ({
     theme = darkTheme,
     tokenOption,
     defaultTokens,
-    width,
     outboundToken,
     inboundToken,
 }: ExportedWidgetProps) => {
@@ -142,7 +140,6 @@ const TWAMMWidget = ({
                 theme={theme}
                 tokenOption={tokenOption}
                 defaultTokens={defaultTokens}
-                width={width} 
             />
         </div>
     )
