@@ -21,6 +21,7 @@
 *.pem
 /packages/widget/.rollup.cache
 *.tgz
+.next
 
 # debug
 npm-debug.log*

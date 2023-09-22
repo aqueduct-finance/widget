@@ -53,8 +53,6 @@ const TWAMMWidget = ({
         }
     }, [outboundTokenWithAddress, inboundTokenWithAddress]);
 
-
-
     // get account
     const { address } = useAccount();
     
@@ -63,10 +61,6 @@ const TWAMMWidget = ({
     const tokenContractOutbound = useSuperToken(store.outboundToken?.address);
     const inboundFlowRate = useRef(0);
     const outboundFlowRate = useRef(0);
-    /*const underlyingTokenContractInbound = useBalance({ address: address, token: token?.underlyingToken?.address, })//useToken(store.inboundToken?.underlyingToken?.address);
-    const underlyingTokenContractOutbound = useToken(store.outboundToken?.underlyingToken?.address);*/
-    //const underlyingInBalance = useBalance({ address: address, token: store.inboundToken?.underlyingToken?.address, });
-    //const underlyingOutBalance = useBalance({ address: address, token: store.outboundToken?.underlyingToken?.address, });
 
     const ANIMATION_MINIMUM_STEP_TIME = 100;
     const REFRESH_INTERVAL = 300; // 300 * 100 = 30000 ms = 30 s

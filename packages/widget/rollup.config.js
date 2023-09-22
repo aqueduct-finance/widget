@@ -23,11 +23,11 @@ export default [
           /*inject(cssVariableName) {
             return `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`;
           }*/
-          extract: true
+          //extract: true
         }),
         typescript({ 
           useTsconfigDeclarationDir: true,
-          tsconfig: './tsconfig.json',
+          tsconfig: './tsconfig.prod.json',
         }),
         babel({
             babelHelpers: "bundled",
@@ -58,7 +58,7 @@ export default [
             path: "./postcss.config.js",
           },
           extensions: [".css"],
-          extract: true
+          //extract: true
         }),
         typescript({ 
           useTsconfigDeclarationDir: true,
@@ -68,6 +68,7 @@ export default [
             babelHelpers: "bundled",
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
             exclude: "node_modules/**",
+            configFile: './babel.customconfig.cjs'
         }),
         resolve({
           resolveOnly: ['react-icons']
