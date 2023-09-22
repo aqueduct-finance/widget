@@ -6,7 +6,6 @@ import { polygonMumbai } from "wagmi/chains";
 const chains = [polygonMumbai];
 
 import TWAMMWidget, { darkTheme } from "../src/components/Swap";
-//import 'aqueduct-widget/styles';
 
 const theme = {
   ...darkTheme,
@@ -24,6 +23,25 @@ const config = createConfig(
         chains
     }),
 );
+
+const customTokens = [
+    {
+        name: 'DAI Test',
+        address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
+        symbol: 'DTST',
+        decimals: 18,
+        chainId: 80001,
+        logoURI: '/dai-logo.png'
+    },
+    {
+        name: 'USDC Test',
+        address: '0x42bb40bF79730451B11f6De1CbA222F17b87Afd7',
+        symbol: 'UTST',
+        decimals: 18,
+        chainId: 80001,
+        logoURI: '/usdc-logo.png'
+    }
+]
 
 const MyApp = ({ Component, pageProps }) => {
     return (
@@ -43,6 +61,7 @@ const MyApp = ({ Component, pageProps }) => {
                     >
                         <TWAMMWidget
                             theme={theme}
+                            tokenOption={customTokens}
                         />
                     </div>
                 </div>

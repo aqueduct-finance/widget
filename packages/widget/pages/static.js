@@ -7,7 +7,6 @@ const chains = [polygonMumbai];
 
 import TWAMMWidget from "aqueduct-widget";
 import { darkTheme } from "aqueduct-widget";
-import 'aqueduct-widget/styles';
 
 const theme = {
   ...darkTheme,
@@ -44,6 +43,7 @@ const MyApp = ({ Component, pageProps }) => {
                     >
                         <TWAMMWidget
                             theme={theme}
+                            tokenOption={}
                         />
                     </div>
                 </div>
