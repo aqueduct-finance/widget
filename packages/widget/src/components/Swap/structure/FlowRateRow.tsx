@@ -21,17 +21,20 @@ const OptionButton = ({option, setDropdownValue, theme, isSelected} : OptionButt
 
     return (
         <button 
-            className={`w-full px-3 py-2 flex items-center justify-center opacity-75 hover:opacity-100 transition-all duration-300  bg-white/10 ${isSelected ? 'outline outline-2 outline-blue-500' : ''}`}
+            className={`w-full px-3 py-2 flex items-center justify-center opacity-75 hover:opacity-100 transition-all duration-300 ${isSelected ? 'outline outline-2' : ''}`}
             onClick={() => {
                 setDropdownValue(option)
                 store.setCollapseState(CollapseState.NONE)
             }}
             style={{
-                //backgroundColor: swapTheme.,
+                backgroundColor: swapTheme.tokenBox,
                 color: swapTheme.primaryText,
                 borderRadius: swapTheme.accentBorderRadius,
                 fontWeight: swapTheme.accentFontWeight,
                 fontFamily: swapTheme.textFont,
+                borderWidth: swapTheme.accentBorderWidth,
+                borderColor: swapTheme.accentBorderColor,
+                outlineColor: swapTheme.brandColor
             }}
         >
             <h1 className="opacity-75">{option.label}</h1>
@@ -60,9 +63,16 @@ const FlowRateRow = ({
         <div className="pt-4">
             <a 
                 href={"https://docs.superfluid.finance/superfluid/protocol-overview/in-depth-overview/super-agreements/constant-flow-agreement-cfa"}
-                className="group pl-5 pr-4 py-4 flex grow items-center justify-center space-x-2 rounded-xl text-white text-sm opacity-75 hover:opacity-100 bg-white/10 transition-all duration-300 hover:scale-[1.02]"
+                className="group pl-5 pr-4 py-4 flex grow items-center justify-center space-x-2 rounded-xl text-sm opacity-75 hover:opacity-100 transition-all duration-300 hover:scale-[1.02]"
                 target="_blank" 
                 rel="noopener noreferrer"
+                style={{
+                    color: swapTheme.secondaryText,
+                    backgroundColor: swapTheme.tokenBox,
+                    borderWidth: swapTheme.accentBorderWidth,
+                    borderColor: swapTheme.accentBorderColor,
+                    borderRadius: swapTheme.secondaryBorderRadius
+                }}
             >
                 <p className="flex grow">
                     What is a stream?
@@ -76,8 +86,19 @@ const FlowRateRow = ({
                     className="2opacity-75 2group-hover:opacity-100 2transition-all 2duration-300"
                 />
             </a>
-            <div className="border-[1px] p-3 space-y-2 rounded-[1.25rem] border-white/10 mt-6">
-                <p className="text-white/60 text-xs p-2">
+            <div 
+                className="p-3 space-y-2 rounded-[1.25rem] mt-6"
+                style={{
+                    borderWidth: swapTheme.accentBorderWidth,
+                    borderColor: swapTheme.accentBorderColor
+                }}
+            >
+                <p 
+                    className="opacity-60 text-xs p-2"
+                    style={{
+                        color: swapTheme.secondaryText,
+                    }}
+                >
                     For beginners - automatically wrap your tokens and calculate your flowrate based the selected duration
                 </p>
                 <OptionButton 
@@ -88,8 +109,19 @@ const FlowRateRow = ({
                     isSelected={store.flowrateUnit.label === firstOption.label}
                 />
             </div>
-            <div className="border-[1px] p-3 space-y-2 rounded-[1.25rem] border-white/10 mt-4 2mb-2">
-                <p className="text-white/60 text-xs p-2">
+            <div 
+                className="p-3 space-y-2 rounded-[1.25rem] mt-4"
+                style={{
+                    borderWidth: swapTheme.accentBorderWidth,
+                    borderColor: swapTheme.accentBorderColor
+                }}
+            >
+                <p 
+                    className="opacity-60 text-xs p-2"
+                    style={{
+                        color: swapTheme.secondaryText,
+                    }}
+                >
                     For advanced users - manually set your flowrate
                 </p>
                 <div

@@ -2,6 +2,8 @@ import React, { ReactNode } from "react";
 import { useStore } from "../../../store";
 import { CollapseState } from "../../../types/CollapseState";
 import { BsArrowLeftShort } from "react-icons/bs";
+import { Theme } from "../../../theme";
+import { defaultTheme } from "../../../theme/theme";
 
 interface CollapsableModalWrapperProps {
     defaultStyle?: string;
@@ -10,11 +12,13 @@ interface CollapsableModalWrapperProps {
     buttonContent: ReactNode;
     modal: ReactNode;
     customModalHeight?: string;
+    theme?: Theme;
 }
 
-const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonContent, modal, customModalHeight}: CollapsableModalWrapperProps) => {
+const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonContent, modal, customModalHeight, theme}: CollapsableModalWrapperProps) => {
 
     const store = useStore();
+    const swapTheme: Theme = { ...defaultTheme, ...theme };
 
     return (
         <div 
@@ -22,7 +26,7 @@ const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonC
                 `${
                     store.collapseState == collapseId ? (openedStyle ? openedStyle : '') : (store.collapseState == CollapseState.NONE ? (defaultStyle ? defaultStyle : '') : '')
                 } 
-                transition-all duration-[550ms] -mx-2 px-2 overflow-hidden`
+                transition-all duration-[550ms] -mx-2 px-2`
             }
         >
             <button
@@ -35,14 +39,34 @@ const CollapsableModalWrapper = ({defaultStyle, openedStyle, collapseId, buttonC
                 <div
                     className={`${store.collapseState == collapseId ? 'max-w-xs opacity-100 duration-[2000ms]' : 'max-w-0 opacity-0 duration-[750ms]'} flex items-center w-12 h-8 text-white transition-all`}
                 >
-                    <div className="bg-white/10 rounded-full p-1 text-white/75 w-min text-2xl">
+                    <div 
+                        className="rounded-full p-1 w-min text-2xl"
+                        style={{
+                            backgroundColor: swapTheme.tokenBox,
+                            borderRadius: swapTheme.secondaryBorderRadius,
+                            borderColor: swapTheme.accentBorderColor,
+                            borderWidth: swapTheme.accentBorderWidth,
+                            boxShadow: swapTheme.accentShadow,
+                            color: swapTheme.secondaryText
+                        }}
+                    >
                         <BsArrowLeftShort />
                     </div>
                 </div>
-                {buttonContent}
+                <div
+                    className="w-full outline"
+                    style={{
+                        borderRadius: swapTheme.secondaryBorderRadius,
+                        outlineColor: swapTheme.accentBorderColor,
+                        outlineWidth: swapTheme.accentBorderWidth,
+                        boxShadow: swapTheme.accentShadow
+                    }}
+                >
+                    {buttonContent}
+                </div>
             </button>
             <div
-                className={`${store.collapseState == collapseId ? ((customModalHeight ? customModalHeight : 'max-h-96') + ' opacity-100 duration-[550ms]') : 'max-h-0 invisible opacity-0 duration-[500ms]'} w-full transition-all`}
+                className={`${store.collapseState == collapseId ? ((customModalHeight ? customModalHeight : 'max-h-96') + ' opacity-100 duration-[550ms]') : 'max-h-0 invisible opacity-0 duration-[500ms]'} w-full transition-all overflow-hidden`}
             >
                 {modal}
             </div>

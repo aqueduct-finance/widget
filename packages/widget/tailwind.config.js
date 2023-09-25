@@ -44,6 +44,7 @@ module.exports = {
             "redhat-mono": ['"Red Hat Mono"', "monospace"],
         },
         animation: {
+            "spin-fast": "spin 1s linear infinite",
             "spin-slow": "spin 2.5s linear infinite",
             "fade-in": "fade-in 300ms ease-in-out",
         },

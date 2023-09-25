@@ -69,7 +69,7 @@ const TransactionFailed = ({
                     fontSize: swapTheme.swapButtonFontSize,
                     padding: swapTheme.swapButtonPadding,
                     fontWeight: swapTheme.primaryFontWeight,
-                    borderRadius: swapTheme.itemBorderRadius,
+                    borderRadius: swapTheme.swapButtonRadius,
                     transitionDuration: swapTheme.primaryDuration
                 }}>
                 Dismiss

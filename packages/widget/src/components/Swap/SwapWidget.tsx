@@ -138,7 +138,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                             options={flowrates}
                         />
                     }        
-                    customModalHeight='max-h-[30rem]'        
+                    customModalHeight='max-h-[30rem]'   
+                    theme={theme}     
                 />
 
                 {
@@ -157,7 +158,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                                 theme={swapTheme}
                             />
                         }        
-                        customModalHeight='max-h-[36rem]'        
+                        customModalHeight='max-h-[36rem]'     
+                        theme={theme}    
                     />
                 }
 
@@ -180,7 +182,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                                 outbound={true}
                             />
                         </div>
-                    }                
+                    }     
+                    theme={theme}            
                 />
                 
                 <CollapsableWrapper
@@ -211,7 +214,8 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                                 outbound={false}
                             />
                         </div>
-                    }                
+                    }  
+                    theme={theme}               
                 />
                 <CollapsableWrapper>
                     {!isLoading && isConnected ? (
@@ -247,7 +251,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                     />
                 </ReverseCollapsableWrapper>
                 <ReverseCollapsableWrapper
-                    collapseId={CollapseState.SWAP_SUCCESS}
+                    collapseId={CollapseState.SWAP_FAILURE}
                     expectedMaxHeight='max-h-[35rem]'
                 >
                     <TransactionSuccess 
@@ -255,7 +259,7 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                     />
                 </ReverseCollapsableWrapper>
                 <ReverseCollapsableWrapper
-                    collapseId={CollapseState.SWAP_FAILURE}
+                    collapseId={CollapseState.SWAP_SUCCESS}
                     expectedMaxHeight='max-h-[35rem]'
                 >
                     <TransactionFailed 

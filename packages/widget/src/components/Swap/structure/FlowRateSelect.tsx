@@ -24,9 +24,9 @@ const FlowRateSelect = ({
                 fontWeight: swapTheme.accentFontWeight,
             }}
         >
-            <h1 className="text-xl opacity-75"
+            <h1 className="text-xl"
                 style={{
-                    color: swapTheme.TitleColor
+                    color: swapTheme.secondaryText
                 }}>{dropdownValue.label}
             </h1>
         </div>

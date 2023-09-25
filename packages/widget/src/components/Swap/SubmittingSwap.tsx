@@ -17,12 +17,17 @@ const SubmittingSwap = ({
       <div className="w-full flex items-center justify-center h-40">
         {/*<GridCircleLoader swapTheme={swapTheme} />*/}
         <div
-            className="h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"
-            style={{borderLeftColor: swapTheme.swapButton, borderTopColor: swapTheme.swapButton, borderBottomColor: swapTheme.swapButton}}
+            className="h-20 w-20 animate-spin-fast rounded-full border-4 border-solid border-current border-r-transparent"
+            style={{borderLeftColor: swapTheme.brandColor, borderTopColor: swapTheme.brandColor, borderBottomColor: swapTheme.brandColor}}
             role="status"
         />
       </div>
-      <div className="w-full text-white text-2xl flex justify-center items-center font-semibold">
+      <div 
+        className="w-full text-2xl flex justify-center items-center font-semibold"
+        style={{
+          color: swapTheme.primaryText
+        }}
+      >
         <h1>Submitting transaction</h1>
       </div>
     </div>

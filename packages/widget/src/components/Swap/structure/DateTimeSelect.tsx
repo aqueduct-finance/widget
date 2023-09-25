@@ -16,13 +16,14 @@ import { defaultTheme } from '../../../theme/theme';
 
 const getDayClassName = (
     className: string,
+    theme: Theme,
     { selected, disabled, inCurrentMonth, now }: DPDay
 ) => {
-    if (now) className += ' outline outline-white/50 outline-[1px]';
+    if (now) className += ' outline outline-[1px]';
 
     if (disabled) return className + ' opacity-10 cursor-not-allowed';
 
-    if (selected) return className + ' bg-aqueductBlue/75 ring ring-inset ring-aqueductBlue text-white opacity-100';
+    if (selected) return className + ' ring ring-inset text-white opacity-100';
 
     if (!inCurrentMonth) return className + ' opacity-30';
     
@@ -34,7 +35,7 @@ const getTimesClassName = (
     { selected, disabled }: DPTime
 ) => {
     if (disabled) return className + ' opacity-25 cursor-not-allowed';
-    if (selected) return className + ' text-white opacity-100';
+    if (selected) return className + ' opacity-100';
     return className + ' opacity-20';
 }
 
@@ -57,9 +58,13 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar, theme
     return (
         <div className='space-y-2'>
             <div 
-                className='bg-white/5 pt-8 p-4 text-white'
+                className='pt-8 p-4'
                 style={{
-                    borderRadius: swapTheme.secondaryBorderRadius
+                    backgroundColor: swapTheme.accentBackgroundColor,
+                    borderRadius: swapTheme.secondaryBorderRadius,
+                    borderWidth: swapTheme.accentBorderWidth,
+                    borderColor: swapTheme.accentBorderColor,
+                    color: swapTheme.primaryText
                 }}
             >
                 <div className='flex grow items-center justify-center pb-8'>
@@ -77,28 +82,36 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar, theme
                         </p>
                     ))}
                 </div>
-                <main className="grid grid-cols-7 gap-x-1 gap-y-1">
+                <div className="grid grid-cols-7 gap-x-1 gap-y-1">
                     {days.map((d) => (
                         <button 
                             key={d.$date.toString()} 
-                            className={getDayClassName("py-2 px-2 text-sm", d)}
+                            className={getDayClassName("py-2 px-2 text-sm", swapTheme, d)}
                             style={{
-                                borderRadius: swapTheme.accentBorderRadius
+                                borderRadius: swapTheme.accentBorderRadius,
+                                backgroundColor: d.selected ? swapTheme.lightBrandColor : 'transparent',
+                                "--tw-ring-color": swapTheme.brandColor,
+                                outlineColor: swapTheme.accentBorderColor
                             }}
                             {...dayButton(d)}
                         >
                             {d.day}
                         </button>
                     ))}
-                </main>
+                </div>
             </div>
             <div 
-                className='relative bg-white/5 2pt-8 px-6 py-3 text-white'
+                className='relative px-6 py-3'
                 style={{
                     borderTopLeftRadius: swapTheme.secondaryBorderRadius,
                     borderTopRightRadius: swapTheme.secondaryBorderRadius,
                     borderBottomLeftRadius: swapTheme.timeSelectBottomBorderRadius,
-                    borderBottomRightRadius: swapTheme.timeSelectBottomBorderRadius
+                    borderBottomRightRadius: swapTheme.timeSelectBottomBorderRadius,
+                    backgroundColor: swapTheme.accentBackgroundColor,
+                    borderRadius: swapTheme.secondaryBorderRadius,
+                    borderWidth: swapTheme.accentBorderWidth,
+                    borderColor: swapTheme.accentBorderColor,
+                    color: swapTheme.primaryText
                 }}
             >
                 <div className='flex space-x-4 fade-edges'>
@@ -112,6 +125,9 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar, theme
                                     <button
                                         className={getTimesClassName("snap-center text-3xl font-medium monospace-font", t)} {...timeButton(t)}
                                         key={t.$date.toString()}
+                                        style={{
+                                            color: t.selected ? swapTheme.primaryText : ''
+                                        }}
                                     >
                                         {t.$date.getHours()}
                                     </button>
@@ -128,6 +144,9 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar, theme
                                 <button 
                                     className={getTimesClassName("snap-center text-3xl font-medium monospace-font", t)} {...timeButton(t)}
                                     key={t.$date.toString()}
+                                    style={{
+                                        color: t.selected ? swapTheme.primaryText : ''
+                                    }}
                                 >
                                     {t.$date.getMinutes() < 10 ? ('0' + t.$date.getMinutes()) : t.$date.getMinutes()}
                                 </button>

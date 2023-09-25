@@ -70,6 +70,21 @@ export interface Theme {
     errorColor?: string;
     successColor?: string;
     embeddedLink?: string;
+
+    accentBorderColor?: string;
+    accentBorderWidth?: string;
+
+    accentShadow?: string;
+
+    swapButtonBorderColor?: string;
+    swapButtonBorderWidth?: string;
+
+    swapButtonShadow?: string;
+
+    brandColor?: string;
+    lightBrandColor?: string;
+
+    accentBackgroundColor?: string;
 }
 
 export interface Animation {

@@ -75,8 +75,8 @@ export const darkTheme: Theme = {
     plusBorder: "rgb(255 255 255 / 0.25)",
     plusColor: "rgb(255 255 255 / 0.5)",
 
-    useMaxButton: "#2A2A2A",
-    useMaxText: "#ffffff",
+    useMaxButton: "#00000010",
+    useMaxText: "#000000",
 
     itemBorderRadius: "9999px",
 
@@ -121,4 +121,19 @@ export const darkTheme: Theme = {
     errorColor: "#EF4444",
     successColor: "#49DE80",
     embeddedLink: "#3B82F6",
+
+    accentBorderColor: '#FFFFFF',
+    accentBorderWidth: '0px',
+
+    accentShadow: 'none',
+
+    swapButtonBorderColor: '#FFFFFF',
+    swapButtonBorderWidth: '0px',
+
+    swapButtonShadow: 'none',
+
+    brandColor: '#0460CE',
+    lightBrandColor: '#0460CEBF',
+
+    accentBackgroundColor: '#FFFFFF0D'
 };

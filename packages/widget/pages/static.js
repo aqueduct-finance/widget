@@ -43,7 +43,6 @@ const MyApp = ({ Component, pageProps }) => {
                     >
                         <TWAMMWidget
                             theme={theme}
-                            tokenOption={}
                         />
                     </div>
                 </div>

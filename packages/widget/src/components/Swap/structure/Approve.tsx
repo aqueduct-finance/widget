@@ -32,6 +32,8 @@ const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: Buffe
                 //borderRadius: swapTheme.primaryBorderRadius
                 backgroundColor: swapTheme.streamLengthBox,
                 color: swapTheme.accentText,
+                borderWidth: swapTheme.accentBorderWidth,
+                borderColor: swapTheme.accentBorderColor
             }}
         >
             {
@@ -59,12 +61,12 @@ const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: Buffe
                     Yes, I understand.
                 </p>
                 <button
-                    className="w-[25px] h-[25px] border-[1px] focus:outline-none ease-in-out"
+                    className="w-[25px] h-[25px] border-[2px] focus:outline-none ease-in-out"
                     style={{
                         backgroundColor: isBufferAccepted ? "white" : "transparent",
-                        borderColor: "white",
                         borderRadius: swapTheme.checkBorderRadius,
-                        transitionDuration: swapTheme.primaryDuration
+                        transitionDuration: swapTheme.primaryDuration,
+                        borderColor: swapTheme.accentBorderColor
                     }}
                     onClick={() => {
                         setIsBufferAccepted(!isBufferAccepted)
@@ -95,7 +97,7 @@ const Approve = ({
         { title: "Spending", data: store.getSwapAmountAsLocaleString() + " " + store.outboundToken?.symbol + (store.flowrateUnit.sublabel != 'once' ? (" /" + store.flowrateUnit.sublabel) : '') },
         { title: "Receiving", data: store.inboundToken?.symbol },
         { title: "Flowrate", data: parseFloat(store.getEffectiveFlowRate()).toFixed(8) + " /s" },
-        { title: "Wrapping", data: toLocale(store.getAmountNeededToWrap()) + ' ' + store.outboundToken?.underlyingToken.symbol },
+        { title: "Wrapping", data: toLocale(store.getAmountNeededToWrap()) + ' ' + store.outboundToken?.underlyingToken?.symbol },
         /*{ title: "Start Date", data: startDate },
         { title: "Start Time", data: startTime },
         { title: "End Date", data: endDate },
@@ -190,7 +192,7 @@ const Approve = ({
                 <div className="w-full flex flex-col 2flex-row 2items-center justify-between text-2xl"
                     style={{
                         color: swapTheme.TitleColor,
-                        fontWeight: swapTheme.accentFontWeight
+                        fontWeight: swapTheme.accentFontWeight,
                     }}
                 >
                     <button 
@@ -202,7 +204,8 @@ const Approve = ({
                         style={{
                             backgroundColor: swapTheme.streamLengthBox,
                             color: swapTheme.accentText,
-
+                            borderWidth: swapTheme.accentBorderWidth,
+                            borderColor: swapTheme.accentBorderColor
                         }}
                     >
                         <FiChevronLeft />
@@ -216,6 +219,8 @@ const Approve = ({
                             //borderRadius: swapTheme.primaryBorderRadius
                             backgroundColor: swapTheme.streamLengthBox,
                             color: swapTheme.accentText,
+                            borderWidth: swapTheme.accentBorderWidth,
+                            borderColor: swapTheme.accentBorderColor
                         }}
                     >
                         {filteredOptions.map((option, index) => (
@@ -234,16 +239,17 @@ const Approve = ({
                     />
                 </div>
             </div>
-            <button className={`${isBufferAccepted ? '' : 'opacity-60'} w-full `}
+            <button className={`${isBufferAccepted ? '' : 'opacity-50'} w-full `}
                 onClick={handleApproveClick}
                 style={{
-                    backgroundColor: swapTheme.swapButton,
+                    background: swapTheme.swapButton,
                     color: swapTheme.swapButtonText,
                     fontSize: swapTheme.swapButtonFontSize,
                     padding: swapTheme.swapButtonPadding,
                     fontWeight: swapTheme.secondaryFontWeight,
-                    borderRadius: swapTheme.itemBorderRadius,
-                    transitionDuration: swapTheme.primaryDuration
+                    borderRadius: swapTheme.swapButtonRadius,
+                    transitionDuration: swapTheme.primaryDuration,
+                    boxShadow: swapTheme.swapButtonShadow
                 }}>
                 {/*<SwapText swapTheme={swapTheme} showAnimation={showAnimation}>Confirm Swap</SwapText>*/}
                 Confirm Swap

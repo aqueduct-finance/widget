@@ -83,7 +83,8 @@ const TransactionSuccess = ({
                     style={{
                         backgroundColor: swapTheme.streamLengthBox,
                         color: swapTheme.accentText,
-
+                        borderColor: swapTheme.accentBorderColor,
+                        borderWidth: swapTheme.accentBorderWidth
                     }}
                 >
                     <FiChevronLeft />
@@ -124,7 +125,9 @@ const TransactionSuccess = ({
                         style={{
                             backgroundColor: swapTheme.streamLengthBox,
                             color: swapTheme.accentText,
-                            borderRadius: swapTheme.secondaryBorderRadius
+                            borderRadius: swapTheme.secondaryBorderRadius,
+                            borderColor: swapTheme.accentBorderColor,
+                            borderWidth: swapTheme.accentBorderWidth
                         }}
                         onClick={importOutbound}
                     >
@@ -147,7 +150,9 @@ const TransactionSuccess = ({
                         style={{
                             backgroundColor: swapTheme.streamLengthBox,
                             color: swapTheme.accentText,
-                            borderRadius: swapTheme.secondaryBorderRadius
+                            borderRadius: swapTheme.secondaryBorderRadius,
+                            borderColor: swapTheme.accentBorderColor,
+                            borderWidth: swapTheme.accentBorderWidth
                         }}
                         onClick={importInbound}
                     >
@@ -168,13 +173,14 @@ const TransactionSuccess = ({
                 href={aqueductUrl}
                 className={`w-full ease-in-out text-center`}
                 style={{
-                    backgroundColor: swapTheme.swapButton,
+                    background: swapTheme.swapButton,
                     color: swapTheme.swapButtonText,
                     fontSize: swapTheme.swapButtonFontSize,
                     padding: swapTheme.swapButtonPadding,
                     fontWeight: swapTheme.primaryFontWeight,
                     transitionDuration: swapTheme.primaryDuration,
-                    borderRadius: swapTheme.itemBorderRadius
+                    borderRadius: swapTheme.swapButtonRadius,
+                    boxShadow: swapTheme.swapButtonShadow
                 }}
             >
                 View Position

@@ -57,12 +57,15 @@ const SwapButton = ({
         <button className={`${getButtonText() != 'Swap' ? "opacity-50" : ""} mt-4 w-full`}
             onClick={handleSwapClick}
             style={{
-                backgroundColor: swapTheme.swapButton,
+                background: swapTheme.swapButton,
                 color: swapTheme.swapButtonText,
                 fontSize: swapTheme.swapButtonFontSize,
                 padding: swapTheme.swapButtonPadding,
                 borderRadius: swapTheme.swapButtonRadius,
-                fontWeight: swapTheme.titleFontWeight
+                fontWeight: swapTheme.titleFontWeight,
+                borderWidth: swapTheme.swapButtonBorderWidth,
+                borderColor: swapTheme.swapButtonBorderColor,
+                boxShadow: swapTheme.swapButtonShadow
             }}>
             {/*<SwapText 
                 swapTheme={swapTheme} 
