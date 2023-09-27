@@ -72,7 +72,7 @@ const OutboundBox = ({
                     }}
                 >
                     {store.outboundToken
-                        ? store.outboundToken.name
+                        ? store.outboundToken.symbol
                         : "You pay with:"}
                 </p>
                 <p
