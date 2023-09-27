@@ -53,7 +53,7 @@ const InboundBox = ({
                     }}
                 >
                     {store.inboundToken
-                        ? store.inboundToken.symbol
+                        ? store.inboundToken.underlyingToken ? store.inboundToken.underlyingToken.symbol : store.inboundToken.symbol
                         : "You receive:"}
                 </p>
                 <p
