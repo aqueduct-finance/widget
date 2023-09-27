@@ -9,7 +9,7 @@ export default {
     output: {
       file: "./dist/index.es.js",
       format: "esm",
-      sourcemap: true,
+      sourcemap: false,
     },
     external: ["react", "react-dom", "styled-components"],
     plugins: [
