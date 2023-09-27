@@ -23,7 +23,7 @@ const getDayClassName = (
 
     if (disabled) return className + ' opacity-10 cursor-not-allowed';
 
-    if (selected) return className + ' ring ring-inset text-white opacity-100';
+    if (selected) return className + ' outline -outline-offset-4 text-white opacity-100';
 
     if (!inCurrentMonth) return className + ' opacity-30';
     
@@ -90,8 +90,7 @@ const DatePicker: FC<CalendarProps> = ({ prevButton, nextButton, calendar, theme
                             style={{
                                 borderRadius: swapTheme.accentBorderRadius,
                                 backgroundColor: d.selected ? swapTheme.lightBrandColor : 'transparent',
-                                "--tw-ring-color": swapTheme.brandColor,
-                                outlineColor: swapTheme.accentBorderColor
+                                outlineColor: swapTheme.brandColor
                             }}
                             {...dayButton(d)}
                         >
