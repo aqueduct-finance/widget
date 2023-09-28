@@ -9,7 +9,7 @@ import { useAccount } from "wagmi";
 import { decodeRealTimeBalanceRes } from "./helpers/decodeRealTimeBalanceRes";
 import { ethers } from "ethers";
 import { lightTheme, darkTheme } from "../../theme/defaultThemes";
-//import '../../styles/styles.module.css';
+import '../../styles/globals.css'; // comment this out when testing with hot reload
 
 interface ExportedWidgetProps {
     theme?: Theme;

@@ -18,10 +18,9 @@ export default {
             path: "./postcss.config.js",
           },
           extensions: [".css"],
-          /*inject(cssVariableName) {
+          inject(cssVariableName) {
             return `import styleInject from 'style-inject';\nstyleInject(${cssVariableName});`;
-          }*/
-          //extract: true
+          }
         }),
         typescript({ 
           useTsconfigDeclarationDir: true,

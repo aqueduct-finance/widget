@@ -61,12 +61,13 @@ const BufferMessage = ({swapTheme, isBufferAccepted, setIsBufferAccepted}: Buffe
                     Yes, I understand.
                 </p>
                 <button
-                    className="w-[25px] h-[25px] border-[2px] focus:outline-none ease-in-out"
+                    className="w-[25px] h-[25px] ease-in-out"
                     style={{
                         backgroundColor: isBufferAccepted ? "white" : "transparent",
                         borderRadius: swapTheme.checkBorderRadius,
                         transitionDuration: swapTheme.primaryDuration,
-                        borderColor: swapTheme.accentBorderColor
+                        borderColor: swapTheme.accentBorderColor,
+                        borderWidth: '2px'
                     }}
                     onClick={() => {
                         setIsBufferAccepted(!isBufferAccepted)
