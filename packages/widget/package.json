@@ -1,6 +1,6 @@
 {
     "name": "aqueduct-widget",
-    "version": "0.6.8",
+    "version": "0.7.11",
     "private": false,
     "main": "dist/index.es.js",
     "type": "module",
@@ -11,8 +11,7 @@
         ".": {
             "import": "./dist/index.es.js"
         },
-        "./types": "./dist/components/Swap/index.d.ts",
-        "./styles": "./dist/index.es.css"
+        "./types": "./dist/components/Swap/index.d.ts"
     },
     "types": "./dist/components/Swap/index.d.ts",
     "scripts": {
