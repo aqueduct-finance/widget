@@ -14,7 +14,6 @@ export type TokenTypes = {
     address: `0x${string}`;
     symbol: string;
     decimals: number;
-    chainId: number;
     underlyingToken?: TokenTypes;
     logoURI: string;
 };
