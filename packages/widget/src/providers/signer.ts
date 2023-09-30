@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { type WalletClient, useWalletClient } from 'wagmi'
+import { type WalletClient, type Chain, useWalletClient, useNetwork } from 'wagmi'
 import { providers } from 'ethers'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -14,8 +14,8 @@ type ExternalProvider = {
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-export function walletClientToSigner(walletClient: WalletClient) {
-    const { account, chain, transport } = walletClient
+export function walletClientToSigner(walletClient: WalletClient, chain: Chain) {
+    const { account, transport } = walletClient
     const network = {
         chainId: chain.id,
         name: chain.name,
@@ -28,9 +28,10 @@ export function walletClientToSigner(walletClient: WalletClient) {
 
 /** Hook to convert a viem Wallet Client to an ethers.js Signer. */
 export function useEthersSigner({ chainId }: { chainId?: number } = {}) {
-    const { data: walletClient } = useWalletClient({ chainId })
+    const { data: walletClient } = useWalletClient({ chainId });
+    const { chain } = useNetwork();  // walletClient.chain is sometimes undefined, useNetwork() seems to always have a value
     return React.useMemo(
-        () => (walletClient && walletClient.account && walletClient.chain && walletClient.transport ? walletClientToSigner(walletClient) : undefined),
-        [walletClient],
+        () => (walletClient && walletClient.account && walletClient.transport && chain ? walletClientToSigner(walletClient, chain) : undefined),
+        [walletClient, chain],
     )
 }
