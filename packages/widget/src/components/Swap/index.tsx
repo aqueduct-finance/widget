@@ -18,6 +18,7 @@ interface ExportedWidgetProps {
     chainName?: string;
     outboundToken?: string;
     inboundToken?: string;
+    onConnectWalletClick?: () => void;
 }
 
 const TWAMMWidget = ({
@@ -26,6 +27,7 @@ const TWAMMWidget = ({
     defaultTokens,
     outboundToken,
     inboundToken,
+    onConnectWalletClick
 }: ExportedWidgetProps) => {
 
     // init store
@@ -140,6 +142,7 @@ const TWAMMWidget = ({
                 theme={theme}
                 tokenOption={tokenOption}
                 defaultTokens={defaultTokens}
+                onConnectWalletClick={onConnectWalletClick}
             />
         </div>
     )

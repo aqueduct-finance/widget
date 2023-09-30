@@ -33,9 +33,10 @@ interface SwapWidgetProps {
     theme?: Theme;
     tokenOption?: TokenTypes[];
     defaultTokens?: boolean;
+    onConnectWalletClick?: () => void;
 }
 
-const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProps) => {
+const SwapWidget = ({ theme, tokenOption, defaultTokens = true, onConnectWalletClick }: SwapWidgetProps) => {
 
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -223,7 +224,10 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true }: SwapWidgetProp
                             swapTheme={swapTheme}
                         />
                     ) : (
-                        <ConnectWalletButton theme={theme} />
+                        <ConnectWalletButton 
+                            theme={theme} 
+                            onConnectWalletClick={onConnectWalletClick}
+                        />
                     )}
                 </CollapsableWrapper>
                 <ReverseCollapsableWrapper
