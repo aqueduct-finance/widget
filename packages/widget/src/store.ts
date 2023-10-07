@@ -41,6 +41,9 @@ interface StoreState {
     incrementOutboundTokenBalance: (amount: number) => void;
     incrementInboundTokenBalance: (amount: number) => void;
 
+    streamTransactionError: string | undefined;
+    setStreamTransactionError: (streamTransactionError: string) => void;
+
     // helpers
     getEffectiveFlowRateEther: () => string;
     getEffectiveFlowRate: () => string;
@@ -191,5 +194,11 @@ export const useStore = create<StoreState>()((set, get) => ({
             minimumFractionDigits: 0,
             maximumFractionDigits: 5
         });
-    }
+    },
+
+    // error handling
+
+    streamTransactionError: undefined,
+    setStreamTransactionError: (streamTransactionError: string) =>
+        set((state) => ({ ...state, streamTransactionError })),
 })); 

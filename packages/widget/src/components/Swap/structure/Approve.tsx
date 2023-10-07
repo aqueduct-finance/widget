@@ -160,13 +160,22 @@ const Approve = ({
             // magical batch call
             const superfluidCall = store.getAmountNeededToWrap() > 0 ? superfluid.batchCall([upgradeOperation, flowOperation]) : flowOperation;
             const result = await superfluidCall.exec(signer);
+            console.log('result:', result)
             const transactionReceipt = await result.wait();
             store.setLastSwapTx(transactionReceipt.transactionHash)
 
             store.setCollapseState(CollapseState.SWAP_SUCCESS);
         } catch (error) {
+            if (error.message) {
+
+                // TODO: superfluid sdk throws 
+
+                store.setStreamTransactionError(error.message);
+            } else {
+                store.setStreamTransactionError('Unknown error');
+            }
             store.setCollapseState(CollapseState.SWAP_FAILURE);
-            console.log(error)
+            console.log(error.name)
         }
     };
 
