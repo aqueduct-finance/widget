@@ -10,8 +10,21 @@ import TWAMMWidget from "../dist/index.es.js";
 import { darkTheme } from "../dist/index.es.js";
 
 const theme = {
-  ...darkTheme,
-  TitleColor: "#FFFFFF",
+    ...darkTheme,
+    bgColor: '#00000050',
+    streamLengthBox: '#ffffff14',
+    tokenBox: '#ffffff14',
+    useMaxButton: '#ffffff20',
+    textFont: "'Neue Haas Grotesk Display Pro Roman', sans-serif",
+    numberFont: "'Neue Haas Grotesk Display Pro', sans-serif",
+    primaryFontWeight: '500',
+    titleFontWeight: '500',
+    accentFontWeight: '500',
+    borderColor: '#ffffff18',
+    swapButtonRadius: '1.5rem',
+    timeSelectBottomBorderRadius: '1.5rem',
+    accentBorderWidth: '1px',
+    accentBorderColor: '#FFFFFF20'
 }
 
 const config = createConfig(
@@ -25,6 +38,25 @@ const config = createConfig(
         chains
     }),
 );
+
+const customTokens = [
+    {
+        name: 'DAI Test',
+        address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
+        symbol: 'DTST',
+        decimals: 18,
+        chainId: 80001,
+        logoURI: '/dai-logo.png'
+    },
+    {
+        name: 'USDC Test',
+        address: '0x42bb40bF79730451B11f6De1CbA222F17b87Afd7',
+        symbol: 'UTST',
+        decimals: 18,
+        chainId: 80001,
+        logoURI: '/usdc-logo.png'
+    }
+]
 
 const MyApp = ({ Component, pageProps }) => {
     return (
@@ -55,6 +87,7 @@ const WidgetWrapper = () => {
             >
                 <TWAMMWidget
                     theme={theme}
+                    tokenOption={customTokens}
                     onConnectWalletClick={() => {connectkitModal.setOpen(true)}}
                 />
             </div>
