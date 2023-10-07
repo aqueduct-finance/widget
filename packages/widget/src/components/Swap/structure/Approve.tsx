@@ -14,6 +14,8 @@ import { CollapseState } from "../../../types/CollapseState";
 import { FiChevronLeft } from "react-icons/fi";
 import { parseEther } from 'viem'
 import toLocale from "../../../utils/toLocale";
+import getCfaV1Contract from "../helpers/getCfaV1Contract";
+import { decodeGetFlowRes } from "../helpers/decodeGetFlowRes";
 
 interface BufferMessageProps {
     swapTheme: Theme;
@@ -129,15 +131,14 @@ const Approve = ({
                 provider: provider,
             });
             const sender = await signer.getAddress();
-            const swapFlowRate = store.getEffectiveFlowRateEther();//parseEther(`${parseFloat(store.getEffectiveFlowRate())}`).toString()
-            const currentFlowRate = parseFloat((
-                await superfluid.cfaV1.getFlow({
-                    superToken: token,
-                    sender: sender,
-                    receiver: pool,
-                    providerOrSigner: signer,
-                })
-            ).flowRate);
+            const swapFlowRate = store.getEffectiveFlowRateEther();
+            const cfaV1 = getCfaV1Contract();
+            const currentFlowRate = decodeGetFlowRes(
+                await cfaV1.read.getFlow([
+                    token, sender, pool
+                ])
+            ).flowRate;
+
 
             const amountNeededToWrap = parseEther(`${store.getAmountNeededToWrap()}`).toString()
             const superToken = (await superfluid.loadSuperToken(token)) as WrapperSuperToken;
@@ -160,7 +161,6 @@ const Approve = ({
             const superfluidCall = store.getAmountNeededToWrap() > 0 ? superfluid.batchCall([upgradeOperation, flowOperation]) : flowOperation;
             const result = await superfluidCall.exec(signer);
             const transactionReceipt = await result.wait();
-            console.log(transactionReceipt.transactionHash)
             store.setLastSwapTx(transactionReceipt.transactionHash)
 
             store.setCollapseState(CollapseState.SWAP_SUCCESS);

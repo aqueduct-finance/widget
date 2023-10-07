@@ -1,3 +1,5 @@
+export const cfaV1 = "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873";
+
 export const poolFactory = "";
 
 export const ETHxpfDAIxpPool = "0x1";
