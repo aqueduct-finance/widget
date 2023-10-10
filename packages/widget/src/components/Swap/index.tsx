@@ -150,4 +150,4 @@ const TWAMMWidget = ({
 
 export default TWAMMWidget;
 
-export { lightTheme, darkTheme };
+export { lightTheme, darkTheme, useStore as useWidgetStore };
