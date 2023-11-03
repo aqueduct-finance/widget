@@ -28,6 +28,7 @@ import SubmittingSwap from "./SubmittingSwap";
 import DateTimeSelectButton from "./structure/DateTimeSelectButton";
 import DateTimeSelect from "./structure/DateTimeSelect";
 import { DatePickerStateProvider } from "@rehookify/datepicker";
+import ManualWrapTokens from "./structure/ManualWrapTokens";
 
 interface SwapWidgetProps {
     theme?: Theme;
@@ -230,6 +231,14 @@ const SwapWidget = ({ theme, tokenOption, defaultTokens = true, onConnectWalletC
                         />
                     )}
                 </CollapsableWrapper>
+                <ReverseCollapsableWrapper
+                    collapseId={CollapseState.MANUAL_WRAP_TOKENS}
+                    expectedMaxHeight='max-h-[36rem]'
+                >
+                    <ManualWrapTokens 
+                        theme={swapTheme} 
+                    />
+                </ReverseCollapsableWrapper>
                 <ReverseCollapsableWrapper
                     collapseId={CollapseState.WRAP_TOKENS}
                     expectedMaxHeight='max-h-[30rem]'

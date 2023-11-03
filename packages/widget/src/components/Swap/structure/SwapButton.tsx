@@ -28,10 +28,14 @@ const SwapButton = ({
 
     const handleSwapClick = () => {
         if (getButtonText() == 'Swap') {
-            if (store.getAmountNeededToApproveForWrap() > 0) {
-                store.setCollapseState(CollapseState.WRAP_TOKENS);
+            if (!store.abstractTokenWrapping) {
+                store.setCollapseState(CollapseState.MANUAL_WRAP_TOKENS);
             } else {
-                store.setCollapseState(CollapseState.SWAP_APPROVE);
+                if (store.getAmountNeededToApproveForWrap() > 0) {
+                    store.setCollapseState(CollapseState.WRAP_TOKENS);
+                } else {
+                    store.setCollapseState(CollapseState.SWAP_APPROVE);
+                }
             }
         } else {
             setShowAnimation(true);

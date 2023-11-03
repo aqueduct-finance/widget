@@ -9,7 +9,8 @@ import { useAccount } from "wagmi";
 import { decodeRealTimeBalanceRes } from "./helpers/decodeRealTimeBalanceRes";
 import { ethers } from "ethers";
 import { lightTheme, darkTheme } from "../../theme/defaultThemes";
-//import '../../styles/globals.css'; // comment this out when testing with hot reload
+import flowrates from "../../utils/flowrates";
+import '../../styles/globals.css'; // comment this out when testing with hot reload
 
 interface ExportedWidgetProps {
     theme?: Theme;
@@ -19,6 +20,7 @@ interface ExportedWidgetProps {
     outboundToken?: string;
     inboundToken?: string;
     onConnectWalletClick?: () => void;
+    abstractTokenWrapping?: boolean;
 }
 
 const TWAMMWidget = ({
@@ -27,7 +29,8 @@ const TWAMMWidget = ({
     defaultTokens,
     outboundToken,
     inboundToken,
-    onConnectWalletClick
+    onConnectWalletClick,
+    abstractTokenWrapping
 }: ExportedWidgetProps) => {
 
     // init store
@@ -133,6 +136,15 @@ const TWAMMWidget = ({
         if (store.outboundToken) { store.setOutboundToken(store.outboundToken); }
         if (store.inboundToken) { store.setInboundToken(store.inboundToken); }
     }, [address])
+
+    // temp fix - set flowrateunit to 'per month' if abstract token wrapping is off
+    useEffect(() => {
+        store.setAbstractTokenWrapping(abstractTokenWrapping ? true : false);
+
+        if (!abstractTokenWrapping) {
+            store.setFlowrateUnit(flowrates[6]);
+        }
+    }, [])
 
     return (
         <div

@@ -9,11 +9,23 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import useErc20Contract from "../helpers/useErc20Contract";
 import { waitForTransaction } from '@wagmi/core'
 import superfluidLogo from "../../../../public/superfluid-logo.png";
+import DynamicInputBox from "./DynamicInputBox";
 import parseTokenAmount from "../../../utils/parseTokenAmount";
 
 const WrapTokensMessage = ({swapTheme}: {swapTheme: Theme}) => {
 
     const store = useStore();
+
+    const getMessage = () => {
+        // user has already approved enough tokens, so they don't need to do anything here
+        if (store.getManualAmountNeededToApproveForWrap() == 0) return 'You\'ve already approved a sufficient amount, so we\'ll automatically wrap your tokens when you start your stream';
+
+        // user hasn't approved enough tokens
+        if (store.getAmountNeededToWrap() > 0) return `You need to wrap at least ${store.getAmountNeededToWrap().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.underlyingToken?.symbol} into ${store.outboundToken?.symbol} to cover ${store.flowrateUnit.sublabel == 'once' ? 'your swap.' : '10 hours of streaming.'} To avoid this step in the future, approve the max amount`;
+        
+        // user doesn't need to wrap any tokens, but they've opted to wrap some anyways
+        return 'To avoid this step in the future, approve the max amount. Once you\'ve approved a sufficient amount, we\'ll automatically wrap your tokens when you start your stream';
+    }
 
     return (
         <div 
@@ -28,7 +40,7 @@ const WrapTokensMessage = ({swapTheme}: {swapTheme: Theme}) => {
                 <AiOutlineInfoCircle size={20} />
             </div>
             <p className="">
-                {`You need to wrap at least ${store.getAmountNeededToWrap().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5})} ${store.outboundToken?.underlyingToken?.symbol} into ${store.outboundToken?.symbol} to cover ${store.flowrateUnit.sublabel == 'once' ? 'your swap.' : '10 hours of streaming.'} To avoid this step in the future, approve the max amount.`}
+                {getMessage()}
             </p>
         </div>
     );
@@ -38,7 +50,7 @@ interface WrapTokensProps {
     theme: Theme;
 }
 
-const WrapTokens = ({
+const ManualWrapTokens = ({
     theme
 }: WrapTokensProps) => {
     const store = useStore()
@@ -49,26 +61,39 @@ const WrapTokens = ({
 
     const handleApproveClick = async () => {
         if (underlyingTokenContract && store.outboundToken) {
+            // if skipping, move to next step and return
+            if (store.manualWrapAmount == 0) {
+                store.setCollapseState(CollapseState.SWAP_APPROVE);
+                return;
+            }
+
             try {
                 // approve tokens
                 const upgradeTokenAddress = store.outboundToken.address;
-                const minAmountToWrap = store.getAmountNeededToWrap();
+                const amountToWrap = store.manualWrapAmount;
                 const parsedTokenAmount = parseTokenAmount({
                     token: store.outboundToken.underlyingToken,
-                    amount: `${minAmountToWrap}`
+                    amount: `${amountToWrap}`
                 });
                 // TODO: handle native token (eth/matic)
                 const approvedTransactionHash = await underlyingTokenContract.write.approve([upgradeTokenAddress, parsedTokenAmount]);
                 await waitForTransaction({ hash: approvedTransactionHash })
 
                 // if successful, update allowance and move to next step
-                store.setUnderlyingOutboundTokenAllowance(minAmountToWrap);
+                store.setUnderlyingOutboundTokenAllowance(amountToWrap);
                 store.setCollapseState(CollapseState.SWAP_APPROVE);
             } catch (e) {
                 console.log(e)
             }
         }
     };
+
+    const getButtonText = () => {
+        if (store.manualWrapAmount < store.getAmountNeededToWrap()) return 'Insufficient wrap amount';
+        if (store.manualWrapAmount == 0) return 'Skip this step';
+
+        return `Approve ${store.outboundToken?.symbol}`;
+    }
 
     return (
         <div className={`flex flex-col w-full items-start justify-start 2px-2 2md:px-6 2py-5 space-y-10 `}
@@ -77,7 +102,7 @@ const WrapTokens = ({
             }}
         >
             <div className="px-2 md:px-6 pt-5 space-y-3 w-full">
-                <div className="w-full flex flex-col 2flex-row 2items-center justify-between text-2xl pb-6"
+                <div className="w-full flex flex-col 2flex-row 2items-center justify-between text-2xl pb-4"
                     style={{
                         color: swapTheme.TitleColor,
                         fontWeight: swapTheme.accentFontWeight
@@ -95,7 +120,15 @@ const WrapTokens = ({
                         <FiChevronLeft />
                         <p>back</p>
                     </button>
-                    <h1>Approve Wrapper</h1>
+                    <h1>Wrap to Super Tokens</h1>
+                </div>
+                <div className="h-[104px] flex items-center justify-center monospace-font font-bold" >
+                    <DynamicInputBox
+                        swapTheme={swapTheme}
+                        paddingPercentage={0.15}
+                        setDynamicInput={store.setManualWrapAmount}
+                        dynamicInput={store.manualWrapAmount}
+                    />
                 </div>
                 <a 
                     href={"https://docs.superfluid.finance/superfluid/developers/super-tokens"}
@@ -119,7 +152,7 @@ const WrapTokens = ({
                     swapTheme={swapTheme}
                 />
             </div>
-            <button className={`w-full `}
+            <button className={`w-full disabled:opacity-50`}
                 onClick={handleApproveClick}
                 style={{
                     backgroundColor: swapTheme.swapButton,
@@ -129,13 +162,14 @@ const WrapTokens = ({
                     fontWeight: swapTheme.secondaryFontWeight,
                     borderRadius: swapTheme.swapButtonRadius,
                     transitionDuration: swapTheme.primaryDuration
-                }}>
-                {/*<SwapText swapTheme={swapTheme} showAnimation={false}>Approve {store.outboundToken?.symbol}</SwapText>*/}
-                Approve {store.outboundToken?.symbol}
+                }}
+                disabled={store.manualWrapAmount < store.getAmountNeededToWrap()}
+            >
+                {getButtonText()}
             </button>
         </div>
     )
 
 }
 
-export default WrapTokens;
+export default ManualWrapTokens;

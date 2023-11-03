@@ -24,6 +24,8 @@ interface StoreState {
     collapseState: CollapseState;
     payOnceLength: number;
     lastSwapTx: string;
+    abstractTokenWrapping: boolean;
+    manualWrapAmount: number;
     setLastSwapTx: (lastSwapTx: string) => void;
     setOutboundToken: (token: TokenTypes) => void;
     setInboundToken: (token: TokenTypes) => void;
@@ -35,6 +37,8 @@ interface StoreState {
     setFlowrateUnit: (flowrateUnit: GenericDropdownOption) => void;
     setPayOnceLength: (value: number) => void;
     setSwapAmount: (amount: number) => void;
+    setAbstractTokenWrapping: (value: boolean) => void;
+    setManualWrapAmount: (manualWrapAmount: number) => void;
 
     setCollapseState: (collapseState: CollapseState) => void;
 
@@ -52,6 +56,7 @@ interface StoreState {
     getExpectedDeposit: () => number;
     getAmountNeededToWrap: () => number;
     getAmountNeededToApproveForWrap: () => number;
+    getManualAmountNeededToApproveForWrap: () => number;
     getCombinedOutboundBalance: () => number;
     getCombinedInboundBalance: () => number;
     getSwapAmountAsString: () => string;
@@ -72,6 +77,8 @@ export const useStore = create<StoreState>()((set, get) => ({
     payOnceLength: DEFAULT_PAY_ONCE,
     collapseState: CollapseState.NONE,
     lastSwapTx: '',
+    abstractTokenWrapping: true,
+    manualWrapAmount: 0,
     setLastSwapTx: (lastSwapTx: string) => 
         set((state) => ({...state, lastSwapTx })),
     setOutboundToken: async (outboundToken: TokenTypes) => {
@@ -130,6 +137,10 @@ export const useStore = create<StoreState>()((set, get) => ({
         set((state) => ({ ...state, collapseState })),
     setSwapAmount: (swapAmount: number) =>
         set((state) => ({ ...state, swapAmount })),
+    setAbstractTokenWrapping: (abstractTokenWrapping: boolean) =>
+        set((state) => ({ ...state, abstractTokenWrapping })),
+    setManualWrapAmount: (manualWrapAmount: number) =>
+        set((state) => ({ ...state, manualWrapAmount })),
 
     incrementOutboundTokenBalance: (amount: number) =>
         set((state) => ({ ...state, outboundTokenBalance: get().outboundTokenBalance + amount })),
@@ -174,6 +185,13 @@ export const useStore = create<StoreState>()((set, get) => ({
     },
     getAmountNeededToApproveForWrap: () => {
         const amountNeededToWrap = get().getAmountNeededToWrap();
+        const amountAlreadyApproved = get().underlyingOutboundTokenWrapperAllowance;
+        const amountNeeded = amountNeededToWrap - amountAlreadyApproved;
+
+        return amountNeeded > 0 ? amountNeeded : 0;
+    },
+    getManualAmountNeededToApproveForWrap: () => {
+        const amountNeededToWrap = get().manualWrapAmount;
         const amountAlreadyApproved = get().underlyingOutboundTokenWrapperAllowance;
         const amountNeeded = amountNeededToWrap - amountAlreadyApproved;
 

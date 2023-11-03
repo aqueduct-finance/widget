@@ -46,12 +46,14 @@ interface FlowRateRowProps {
     options: GenericDropdownOption[];
     setDropdownValue: ((value: GenericDropdownOption) => void);
     theme?: Theme;
+    abstractTokenWrapping?: boolean;
 }
 
 const FlowRateRow = ({
     options,
     setDropdownValue,
-    theme
+    theme,
+    abstractTokenWrapping
 }: FlowRateRowProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
 
@@ -86,29 +88,32 @@ const FlowRateRow = ({
                     className="2opacity-75 2group-hover:opacity-100 2transition-all 2duration-300"
                 />
             </a>
-            <div 
-                className="p-3 space-y-2 rounded-[1.25rem] mt-6"
-                style={{
-                    borderWidth: swapTheme.accentBorderWidth,
-                    borderColor: swapTheme.accentBorderColor
-                }}
-            >
-                <p 
-                    className="opacity-60 text-xs p-2"
+            {
+                store.abstractTokenWrapping &&
+                <div 
+                    className="p-3 space-y-2 rounded-[1.25rem] mt-6"
                     style={{
-                        color: swapTheme.secondaryText,
+                        borderWidth: swapTheme.accentBorderWidth,
+                        borderColor: swapTheme.accentBorderColor
                     }}
                 >
-                    For beginners - automatically wrap your tokens and calculate your flowrate based the selected duration
-                </p>
-                <OptionButton 
-                    key={firstOption.sublabel}
-                    option={firstOption} 
-                    setDropdownValue={setDropdownValue}
-                    theme={theme}
-                    isSelected={store.flowrateUnit.label === firstOption.label}
-                />
-            </div>
+                    <p 
+                        className="opacity-60 text-xs p-2"
+                        style={{
+                            color: swapTheme.secondaryText,
+                        }}
+                    >
+                        For beginners - automatically wrap your tokens and calculate your flowrate based the selected duration
+                    </p>
+                    <OptionButton 
+                        key={firstOption.sublabel}
+                        option={firstOption} 
+                        setDropdownValue={setDropdownValue}
+                        theme={theme}
+                        isSelected={store.flowrateUnit.label === firstOption.label}
+                    />
+                </div>
+            }
             <div 
                 className="p-3 space-y-2 rounded-[1.25rem] mt-4"
                 style={{
@@ -122,7 +127,11 @@ const FlowRateRow = ({
                         color: swapTheme.secondaryText,
                     }}
                 >
-                    For advanced users - manually set your flowrate
+                    {
+                        abstractTokenWrapping ?
+                        'For advanced users - manually set your flowrate' :
+                        'Choose a flowrate denomination:'
+                    }
                 </p>
                 <div
                     //theme={swapTheme}

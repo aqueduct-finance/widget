@@ -12,10 +12,10 @@ import { Framework, WrapperSuperToken } from "@superfluid-finance/sdk-core";
 import { mumbaiChainId } from "../../../utils/constants";
 import { CollapseState } from "../../../types/CollapseState";
 import { FiChevronLeft } from "react-icons/fi";
-import { parseEther } from 'viem'
 import toLocale from "../../../utils/toLocale";
 import getCfaV1Contract from "../helpers/getCfaV1Contract";
 import { decodeGetFlowRes } from "../helpers/decodeGetFlowRes";
+import parseTokenAmount from "../../../utils/parseTokenAmount";
 
 interface BufferMessageProps {
     swapTheme: Theme;
@@ -100,7 +100,7 @@ const Approve = ({
         { title: "Spending", data: store.getSwapAmountAsLocaleString() + " " + store.outboundToken?.symbol + (store.flowrateUnit.sublabel != 'once' ? (" /" + store.flowrateUnit.sublabel) : '') },
         { title: "Receiving", data: store.inboundToken?.symbol },
         { title: "Flowrate", data: parseFloat(store.getEffectiveFlowRate()).toFixed(8) + " /s" },
-        { title: "Wrapping", data: toLocale(store.getAmountNeededToWrap()) + ' ' + store.outboundToken?.underlyingToken?.symbol },
+        { title: "Wrapping", data: toLocale(store.abstractTokenWrapping ? store.getAmountNeededToWrap() : (store.manualWrapAmount == 0 ? 0 : store.manualWrapAmount)) + ' ' + store.outboundToken?.underlyingToken?.symbol },
         /*{ title: "Start Date", data: startDate },
         { title: "Start Time", data: startTime },
         { title: "End Date", data: endDate },
@@ -118,6 +118,8 @@ const Approve = ({
     );
 
     const swap = async () => {
+        if (!store.outboundToken || !store.inboundToken) { return; }
+
         const pool = getPoolAddress(
             store.inboundToken?.address,
             store.outboundToken?.address
@@ -139,10 +141,14 @@ const Approve = ({
                 ])
             ).flowRate;
 
-
-            const amountNeededToWrap = parseEther(`${store.getAmountNeededToWrap()}`).toString()
+            // TODO: handle native token (eth/matic)
+            const amountNeededToWrap = store.abstractTokenWrapping ? store.getAmountNeededToWrap() : store.manualWrapAmount;
+            const parsedTokenAmount = parseTokenAmount({
+                token: store.outboundToken.underlyingToken,
+                amount: `${amountNeededToWrap}`
+            })
             const superToken = (await superfluid.loadSuperToken(token)) as WrapperSuperToken;
-            const upgradeOperation = superToken.upgrade({ amount: amountNeededToWrap });
+            const upgradeOperation = superToken.upgrade({ amount: parsedTokenAmount.toString() });
             const flowOperation = currentFlowRate > 0 ? 
                 superfluid.cfaV1.updateFlow({
                     receiver: pool,
@@ -193,7 +199,7 @@ const Approve = ({
     };
 
     return (
-        <div className={`flex flex-col w-full items-start justify-start 2px-2 2md:px-6 2py-5 space-y-8 `}
+        <div className={`flex flex-col w-full items-start justify-start 2px-2 2md:px-6 2py-5 space-y-8 text-white `}
             style={{
                 transitionDuration: swapTheme.primaryDuration,
             }}
@@ -208,7 +214,12 @@ const Approve = ({
                     <button 
                         className="flex items-center justify-center space-x-1 text-xs w-min pr-4 pl-3 py-2 rounded-full -ml-2 mb-2 hover:scale-105 duration-300 transition-all"
                         onClick={() => {
-                            store.setCollapseState(CollapseState.NONE)
+                            if (!store.abstractTokenWrapping) {
+                                store.setCollapseState(CollapseState.MANUAL_WRAP_TOKENS);
+                            } else {
+                                store.setCollapseState(CollapseState.NONE);
+                            }
+
                             setIsBufferAccepted(false);
                         }}
                         style={{
