@@ -120,7 +120,7 @@ const Approve = ({
     const swap = async () => {
         if (!store.outboundToken || !store.inboundToken) { return; }
 
-        const pool = getPoolAddress(
+        const pool = await getPoolAddress(
             store.inboundToken?.address,
             store.outboundToken?.address
         );

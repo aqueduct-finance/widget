@@ -46,15 +46,19 @@ const SwapButton = ({
     };
 
     useEffect(() => {
-        try {
-            getPoolAddress(
-                store.inboundToken?.address,
-                store.outboundToken?.address
-            );
-            setPoolExists(true)
-        } catch (err) {
-            setPoolExists(false)
+        const getPool = async () => {
+            try {
+                await getPoolAddress(
+                    store.inboundToken?.address,
+                    store.outboundToken?.address
+                );
+                setPoolExists(true)
+            } catch (err) {
+                setPoolExists(false)
+            }
         }
+
+        getPool();
     }, [store.inboundToken, store.outboundToken])
 
     return (
