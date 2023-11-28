@@ -2,7 +2,7 @@ import { getContract } from "viem";
 import { usePublicClient } from "wagmi";
 
 const useSuperToken = (tokenAddress: string | undefined) => {
-    const publicClient = usePublicClient({ chainId: 80001 });
+    const publicClient = usePublicClient();
 
     if (!tokenAddress) { return }
 

@@ -1,32 +1,38 @@
-export const cfaV1 = "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873";
-
-export const aqueductFactory = "0x6FF6508E881D677D5e40e7C1619008F9ff46A5F8";
-
-export const ETHxpfDAIxpPool = "0x1";
-
-export const fDAIxpETHxpPool = "0x2";
-
-export const fDAIxfUSDCxPool = "0x0794c89b0767d480965574Af38052aab32496E00";
-
-export const fDAI = "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7";
-
-export const fUSDC = "0xbe49ac1EadAc65dccf204D4Df81d650B50122aB2";
-
-export const ETHxp = "0x1";
-
-export const fDAIx = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
-
-export const fUSDCx = "0x42bb40bF79730451B11f6De1CbA222F17b87Afd7";
-
-export const fTokenDistributor = "0x422230026b1f13487Ce8e52Ee5da8db815F5F95C";
-
-export const deleteFlowResolverTaskCreator =
-    "0x84CB8098e82dd16B21866f69A2406E60FE64F98b";
-
-export const streamScheduler = "0xF18825d412C061aEfEFB4dF46a1c077636dA50bf";
+import getChainId from "../components/Swap/helpers/getChainId";
 
 export const goerliChainId = 5;
 
 export const mumbaiChainId = 80001;
 
 export const DEFAULT_PAY_ONCE = 3600 * 24;
+
+interface Addresses {
+    cfaV1: string;
+    aqueductFactory: string;
+}
+
+interface Constants {
+    [key: string]: Addresses;
+}
+
+export const constants: Constants = {
+    5: { // goerli
+        cfaV1: "",
+        aqueductFactory: ""
+    },
+    80001: { // mumbai
+        cfaV1: "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873",
+        aqueductFactory: "0x6FF6508E881D677D5e40e7C1619008F9ff46A5F8"
+    }
+};
+
+export function getAddresses(chainId: number): Addresses {
+    return constants[chainId];
+}
+
+export function getDefaultAddresses(): Addresses | undefined {
+    const chainId = getChainId();
+    if (!chainId) { return; }
+
+    return getAddresses(chainId);
+}

@@ -1,12 +1,13 @@
 import { getContract } from "viem";
 import { getPublicClient } from '@wagmi/core'
-import { cfaV1 } from "../../../utils/constants";
+import { getDefaultAddresses } from "../../../utils/constants";
 
 const getCfaV1Contract = () => {
     
-    const publicClient = getPublicClient({ chainId: 80001 });   
+    const publicClient = getPublicClient();   
 
-    const address = cfaV1;
+    const address = getDefaultAddresses()?.cfaV1;
+    if (!address) { return; }
 
     const abi = [
         {

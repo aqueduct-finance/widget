@@ -3,19 +3,18 @@ import { defaultTheme } from "../../../theme/theme";
 import React, { useState } from "react";
 import ApproveRow from "./ApproveRow";
 import { BsCheckLg } from "react-icons/bs";
-//import { SwapText } from "../../../theme/animation";
 import { useStore } from "../../../store";
 import { useEthersProvider } from "../../../providers/provider";
 import { useEthersSigner } from "../../../providers/signer";
 import getPoolAddress from "../helpers/getPool";
 import { Framework, WrapperSuperToken } from "@superfluid-finance/sdk-core";
-import { mumbaiChainId } from "../../../utils/constants";
 import { CollapseState } from "../../../types/CollapseState";
 import { FiChevronLeft } from "react-icons/fi";
 import toLocale from "../../../utils/toLocale";
 import getCfaV1Contract from "../helpers/getCfaV1Contract";
 import { decodeGetFlowRes } from "../helpers/decodeGetFlowRes";
 import parseTokenAmount from "../../../utils/parseTokenAmount";
+import getChainId from "../helpers/getChainId";
 
 interface BufferMessageProps {
     swapTheme: Theme;
@@ -128,8 +127,11 @@ const Approve = ({
         const token = store.outboundToken.address;
 
         try {
+            const chainId = getChainId();
+            if (!chainId) { return; }
+
             const superfluid = await Framework.create({
-                chainId: mumbaiChainId,
+                chainId: chainId,
                 provider: provider,
             });
             const sender = await signer.getAddress();

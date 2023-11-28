@@ -3,7 +3,7 @@ import { getPublicClient } from '@wagmi/core'
 
 const getErc20Contract = (tokenAddress: string | undefined) => {
     
-    const publicClient = getPublicClient({ chainId: 80001 });   
+    const publicClient = getPublicClient();   
 
     if (!tokenAddress) { return }
 

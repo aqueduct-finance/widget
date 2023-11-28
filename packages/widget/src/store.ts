@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { GenericDropdownOption } from "./types/GenericDropdownOption";
-import Token from "./types/Token";
-import { TokenOption, TokenTypes } from "./types/TokenOption";
+import { TokenTypes } from "./types/TokenOption";
 import flowrates from "./utils/flowrates";
 import { DEFAULT_PAY_ONCE } from "./utils/constants";
 import { CollapseState } from "./types/CollapseState";
@@ -32,8 +31,8 @@ interface StoreState {
     setOutboundTokenBalance: (outboundTokenBalance: number) => void;
     setUnderlyingOutboundTokenAllowance: (underlyingOutboundTokenAllowance: number) => void;
     setInboundTokenBalance: (outboundTokenBalance: number) => void;
-    setUpgradeDowngradeToken: (token: TokenOption) => void;
-    setSelectedToken: (token: Token) => void;
+    setUpgradeDowngradeToken: (token: TokenTypes) => void;
+    setSelectedToken: (token: TokenTypes) => void;
     setFlowrateUnit: (flowrateUnit: GenericDropdownOption) => void;
     setPayOnceLength: (value: number) => void;
     setSwapAmount: (amount: number) => void;
@@ -66,8 +65,8 @@ interface StoreState {
 // eslint-disable-next-line import/prefer-default-export
 export const useStore = create<StoreState>()((set, get) => ({
     swapAmount: 0,
-    outboundToken: undefined, // tokens.find((t) => t.value === Token.fDAIxp)!,
-    inboundToken: undefined, // tokens.find((t) => t.value === Token.fUSDCxp)!,
+    outboundToken: undefined, 
+    inboundToken: undefined,
     outboundTokenBalance: 0,
     underlyingOutboundTokenBalance: 0,
     underlyingOutboundTokenWrapperAllowance: 0,
@@ -125,9 +124,9 @@ export const useStore = create<StoreState>()((set, get) => ({
         set((state) => ({ ...state, inboundTokenBalance })),
     setUnderlyingInboundTokenBalance: (underlyingInboundTokenBalance: number) =>
         set((state) => ({ ...state, underlyingInboundTokenBalance })),
-    setUpgradeDowngradeToken: (upgradeDowngradeToken: TokenOption) =>
+    setUpgradeDowngradeToken: (upgradeDowngradeToken: TokenTypes) =>
         set((state) => ({ ...state, upgradeDowngradeToken })),
-    setSelectedToken: (selectedToken: Token) =>
+    setSelectedToken: (selectedToken: TokenTypes) =>
         set((state) => ({ ...state, selectedToken })),
     setFlowrateUnit: (flowrateUnit: GenericDropdownOption) =>
         set((state) => ({ ...state, flowrateUnit })),

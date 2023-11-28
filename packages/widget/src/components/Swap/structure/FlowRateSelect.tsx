@@ -1,11 +1,10 @@
 import React from "react";
 import { GenericDropdownOption } from "../../../types/GenericDropdownOption";
-import { TokenOption } from "../../../types/TokenOption";
 import { defaultTheme } from "../../../theme/theme";
 import { Theme } from "../../../theme";
 
 interface SelectProps {
-    dropdownValue: GenericDropdownOption | TokenOption;
+    dropdownValue: GenericDropdownOption;
     theme?: Theme;
 }
 

@@ -1,9 +1,14 @@
 import { WalletClient, getContract } from "viem";
 import { usePublicClient, useWalletClient } from "wagmi";
+import getChainId from "./getChainId";
 
 const useErc20Contract = (tokenAddress: string | undefined) => {
-    const publicClient = usePublicClient({ chainId: 80001 });
-    const { data: walletClientData } = useWalletClient({ chainId: 80001 });
+    const publicClient = usePublicClient();
+
+    const chainId = getChainId();
+    if (!chainId) { return; }
+
+    const { data: walletClientData } = useWalletClient({ chainId: chainId });
     const walletClient = walletClientData as WalletClient;
 
     if (!tokenAddress) { return }
