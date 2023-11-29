@@ -10,7 +10,7 @@ import { decodeRealTimeBalanceRes } from "./helpers/decodeRealTimeBalanceRes";
 import { ethers } from "ethers";
 import { lightTheme, darkTheme } from "../../theme/defaultThemes";
 import flowrates from "../../utils/flowrates";
-import '../../styles/globals.css'; // comment this out when testing with hot reload
+//import '../../styles/globals.css'; // comment this out when testing with hot reload
 
 interface ExportedWidgetProps {
     theme?: Theme;

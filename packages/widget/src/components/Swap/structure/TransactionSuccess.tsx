@@ -5,6 +5,7 @@ import { Theme } from '../../../theme';
 import { useAccount } from 'wagmi';
 import { CollapseState } from '../../../types/CollapseState';
 import { FiChevronLeft } from 'react-icons/fi';
+import { getDefaultAddresses } from '../../../utils/constants';
 
 interface TransactionSuccessProps {
     swapTheme: Theme;
@@ -63,11 +64,9 @@ const TransactionSuccess = ({
         }
     }
 
-    const etherScanBaseUrl = 'https://mumbai.polygonscan.com/tx';
-
-    const userTX = `${etherScanBaseUrl}/${tx}`
-
-    const aqueductUrl = `https://demo.aqueduct.fi/pair/mumbai/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`
+    const addresses = getDefaultAddresses();
+    const userTX = `${addresses?.explorerUrl}/${tx}`
+    const aqueductUrl = `${addresses?.positionViewerUrl}/${address}/${store.outboundToken?.address}/${store.inboundToken?.address}`
 
     return (
         <div
