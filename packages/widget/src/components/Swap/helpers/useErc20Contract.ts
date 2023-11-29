@@ -6,9 +6,9 @@ const useErc20Contract = (tokenAddress: string | undefined) => {
     const publicClient = usePublicClient();
 
     const chainId = getChainId();
-    if (!chainId) { return; }
-
     const { data: walletClientData } = useWalletClient({ chainId: chainId });
+    if (!walletClientData) { return; }
+
     const walletClient = walletClientData as WalletClient;
 
     if (!tokenAddress) { return }
