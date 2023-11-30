@@ -15,9 +15,7 @@ interface TokenDisplayProps {
 
 const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, outbound }: TokenDisplayProps) => {
     const swapTheme: Theme = { ...defaultTheme, ...theme };
-    const [isHover, setIsHover] = useState(tokenOption.map(() => false));
     const [searchQuery, setSearchQuery] = useState("");
-    const [isInputHover, setIsInputHover] = useState(false);
 
     const filteredTokens = tokenOption.filter(
         (token) =>
@@ -27,50 +25,28 @@ const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, o
 
     const tokensToRender = searchQuery ? filteredTokens : tokenOption;
 
-    const handleMouseEnter = (index: number) => {
-        setIsHover((prevStates) =>
-            prevStates.map((state, i) => (i === index ? true : state))
-        );
-    };
-
-    const handleMouseLeave = (index) => {
-        setIsHover((prevStates) =>
-            prevStates.map((state, i) => (i === index ? false : state))
-        );
-    };
-
     return (
         <div>
             <div className="w-full flex flex-row items-center justify-between">
-                <div className="w-full h-14 items-center flex flex-row space-x-2 ease-in-out"
+                <div 
+                    className="w-full h-12 items-center flex flex-row space-x-3 ease-in-out outline mt-[0.1rem] mx-[0.1rem]  focus-within:ring-white/25 focus-within:ring-1"
                     style={{
-                        backgroundColor: swapTheme.streamLengthBox,
-                        borderColor: isInputHover
-                            ? "transparent"
-                            : swapTheme.borderColor,
-                        borderWidth: swapTheme.primaryBorderWidth,
-                        borderRadius: swapTheme.accentBorderRadius,
-                        transitionDuration: swapTheme.primaryDuration,
-                    }}
-                    onMouseEnter={() => {
-                        setIsInputHover(true);
-                    }}
-                    onMouseLeave={() => {
-                        setIsInputHover(false);
+                        backgroundColor: swapTheme.tokenBox,
+                        borderRadius: swapTheme.secondaryBorderRadius,
+                        outlineColor: swapTheme.accentBorderColor,
+                        outlineWidth: swapTheme.accentBorderWidth,
                     }}
                 >
                     <FiSearch
-                        className="ml-2 h-6 w-6 cursor-text"
+                        className="ml-4 h-5 w-5 cursor-text"
                         style={{
-                            color: swapTheme.primaryText,
+                            color: swapTheme.accentText
                         }}
                     />
                     <input
-                        className="w-full h-full focus:outline-none border-transparent"
+                        className="w-full h-full focus:outline-none border-transparent bg-transparent text-sm"
                         style={{
-                            backgroundColor: swapTheme.streamLengthBox,
                             color: swapTheme.primaryText,
-                            borderRadius: swapTheme.accentBorderRadius,
                         }}
                         type="text"
                         placeholder="Search tokens..."
@@ -79,23 +55,14 @@ const TokenDisplay = ({ tokenOption, theme, setOutboundToken, setInboundToken, o
                     />
                 </div>
             </div>
-            <div
-                className="w-full space-y-0 py-4"
-                style={{
-                    backgroundColor: "transparent",
-                }}
-            >
-                {tokensToRender.map((item, index) => (
+            <div className="w-full space-y-2 py-4">
+                {tokensToRender.map((item) => (
                     <TokenRow
                         item={item}
-                        index={index}
-                        isHover={isHover}
                         swapTheme={swapTheme}
                         setOutboundToken={setOutboundToken}
                         setInboundToken={setInboundToken}
                         outbound={outbound}
-                        handleMouseEnter={handleMouseEnter}
-                        handleMouseLeave={handleMouseLeave}
                         key={item.name}
                     />
                 ))}
